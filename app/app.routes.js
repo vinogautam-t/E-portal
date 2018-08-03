@@ -9,10 +9,10 @@ function routes($stateProvider, $urlRouterProvider) {
 
     var states = [
         {
-            name: 'login',
-            url: '/',
-            templateUrl: 'app/login/login.html',
-            controller: 'loginController as vm'
+            name: 'dashboard',
+            url: '/dashboard',
+            templateUrl: 'app/dashboard/dashboard.html',
+            controller: 'dashboardController as vm'
         }
     ];
 
