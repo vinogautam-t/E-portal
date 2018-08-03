@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html id='html' ng-app='app' xmlns="http://www.w3.org/1999/xhtml" class="no-js">
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="description" content="E-Portal Members Site">
+      <meta name="keywords" content="E-Portal Members Site">
+      <title>E-Portal</title>
+      <!-- CSS SCRIPTS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="https://unpkg.com/ionicons@4.1.1/dist/css/ionicons.min.css">
+      <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="css/toastr.min.css">
+
+      <!-- END CSS SCRIPTS -->
+
+      <!-- Lib js Scripts -->
+
+      
+      <script src='js/lib/jquery.min.js'></script>
+      <script type="text/javascript" src="js/lib/tooltipster.bundle.min.js"></script>
+      <script src='js/lib/angular.min.js'></script>
+      <script src='js/lib/angular-ui-router.min.js'></script>
+      <script src='js/lib/ui-bootstrap-tpls-2.5.0.js'></script>
+      <script type="text/javascript" src="js/lib/angular-sanitize.min.js"></script>
+      <script type="text/javascript" src="js/lib/tv4.min.js"></script>
+      <script src="//cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
+      <script src='js/lib/toastr.min.js'></script>
+      <!-- Lib js Scripts Ends -->
+    </head>
+    <body id='body' ng-controller="indexController as vm">
+
+        <ui-view id='views'>
+        </ui-view>
+
+        <script src="app/app.module.js"></script>
+        <script src="app/app.routes.js"></script>
+        <script src="app/app.config.js"></script>
+        <script src='app/index.controller.js'></script>
+        <script src='app/login/login.controller.js'></script>
+    </body>
+</html>

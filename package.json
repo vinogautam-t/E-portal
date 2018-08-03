@@ -1,0 +1,34 @@
+{
+  "name": "fi-admin-app",
+  "version": "1.0.0",
+  "description": "financial insiders - Agent admin app",
+  "main": "index.js",
+  "scripts": {
+    "lite": "lite-server --port 10001",
+    "start": "npm run lite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/financialinsiders/fi-admin-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/financialinsiders/fi-admin-app/issues"
+  },
+  "homepage": "https://github.com/financialinsiders/fi-admin-app#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-jshint": "^1.12.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-uglify": "^2.1.2",
+    "gulp-util": "3.0.8",
+    "lite-server": "2.3.0"
+  },
+  "dependencies": {
+    "angular-datatables": "^0.6.2"
+  }
+}
