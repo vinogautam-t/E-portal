@@ -33,30 +33,42 @@
       <script src='js/lib/toastr.min.js'></script>
       <!-- Lib js Scripts Ends -->
     </head>
-    <body id='body' ng-controller="indexController as vm">
-
-        
-        <ui-view ng-if='!isLogin' id='views'>
-        </ui-view>
-
+    <body id='body' onresize='screenResize()' ng-controller="indexController as vm">
+        <input type='hidden' id='isNavOpen' value='false'>
+        <div class='main-app' ng-if='!isLogin'>
+          <nav> 
+            <h3>E-portal</h3>
+          </nav>
+          <div class="main-app-container row">
+            <span id='menu-btn' ng-click='openNav()'> <i class='fa fa-bars'></i></span>
+            <aside id='side-nav'>
+              <span class='nav-close-btn' ng-click='closeNav()'><i class='fa fa-times'></i></span>
+              <!-- <ul>
+                <li>menu</li>
+              </ul> -->
+            </aside>
+            <ui-view id='views'></ui-view>
+          </div>
+        </div>
+          
         <div ng-if='isLogin'>
           <div class="login-wrapper">
             <div class="login-container">
               <h1>{{moduleTitle}}</h1>
               
               <form ng-if='moduleTitle == "Welcome Back"' name='loginForm' class="loginform">
-                <input type="text" required name='username' ng-model='loginInfo.name' placeholder="Username">
-                <input type="password" required name='password' ng-model='loginInfo.password' placeholder="Password">
+                <input autocomplete="off" type="text" required name='username' ng-model='loginInfo.name' placeholder="Username">
+                <input autocomplete="off" type="password" required name='password' ng-model='loginInfo.password' placeholder="Password">
                 <a class='form-submit' ng-disabled='{{loginForm.$invalid}}' href='javascript:void(0);' ng-keydown="loginKeydown($event)" ng-click='login()'>Login</a>
               </form>
               <form ng-if='moduleTitle == "Register New User"' name='registerForm' class="registerform">
-                <input type="email" required name='Email' ng-model='registerInfo.email' placeholder="Email-id">
-                <input type="text" required name='username' ng-model='registerInfo.name' placeholder="Username">
-                <input type="password" required name='password' ng-model='registerInfo.password' placeholder="Password">
+                <input autocomplete="off" type="email" required name='Email' ng-model='registerInfo.email' placeholder="Email-id">
+                <input autocomplete="off" type="text" required name='username' ng-model='registerInfo.name' placeholder="Username">
+                <input autocomplete="off" type="password" required name='password' ng-model='registerInfo.password' placeholder="Password">
                 <a class='form-submit' ng-disabled='{{registerForm.$invalid}}' href='javascript:void(0);' ng-keydown="registerKeydown($event)" ng-click='register()'>Register</a>
               </form>
               <form ng-if='moduleTitle == "Forgot Password"' name='fpForm' class="fpform">
-                <input type="email" required name='Email' ng-model='registerInfo.email' placeholder="Email-id">
+                <input autocomplete="off" type="email" required name='Email' ng-model='registerInfo.email' placeholder="Email-id">
                 <a class='form-submit' ng-disabled='{{fpForm.$invalid}}' href='javascript:void(0);' ng-keydown="fpKeydown($event)" ng-click='fp()'>send</a>
               </form>
               <div class='login-opt'>
@@ -89,5 +101,6 @@
         <script src="app/app.config.js"></script>
         <script src='app/index.controller.js'></script>
         <script src='app/dashboard/dashboard.controller.js'></script>
+        <script src='app/section/section.controller.js'></script>
     </body>
 </html>

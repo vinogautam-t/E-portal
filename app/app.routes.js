@@ -13,6 +13,12 @@ function routes($stateProvider, $urlRouterProvider) {
             url: '/dashboard',
             templateUrl: 'app/dashboard/dashboard.html',
             controller: 'dashboardController as vm'
+        },
+        {
+            name: 'section',
+            url: '/section',
+            templateUrl: 'app/section/section.html',
+            controller: 'sectionController as vm'
         }
     ];
 
