@@ -29,6 +29,10 @@ body {
     font-weight: 300;
   }
 
+  h3 {
+    color: #2CB5E8;
+  }
+
   nav {
     position: relative;
     display: inline-block;
@@ -38,11 +42,17 @@ body {
     padding: 5px;
   }
 
+  nav h3{
+    color: white !important;
+  }
+
   .main-app-container {
     position: relative;
     display: block;
     height: 100%;
     min-height: 100%;
+    display: inline-flex;
+    width: 100%;
   }
   #menu-btn {
     color: #2CB5E8;
@@ -64,7 +74,7 @@ body {
     display: none;
   }
 
-  .main-app-container aside {
+  .main-app-container #side-nav {
     background: #e2dcdc61;
     position: relative;
     height: calc(100vh - 68px);
@@ -73,12 +83,23 @@ body {
   }
 
   .main-app-container #views {
+    position: relative;
     height: calc(100vh - 68px);
     width: calc(100% - 270px);
   }
 
   .view-container {
     overflow-y: scroll;  
+    height: 100%;
+  }
+
+  .view-header {
+    margin: 5px;
+    padding: 0 5px;
+  }
+
+  .view-body {
+    padding: 10px;
   }
 
   .login-wrapper {
@@ -267,6 +288,11 @@ body {
     height: 160px;
     animation-delay: 11s;
   }
+  
+  .mar-top-15{
+    margin-top: 15px;
+  }
+
   @-webkit-keyframes square {
     0% {
       transform: translateY(0);
@@ -289,11 +315,12 @@ body {
       width: 100%;
     }
 
-    .main-app-container aside {
-      width: 270px;
+    .main-app-container #side-nav {
+      width: 370px;
       left: -260px;
       z-index: 10;
       transition: 0.5s;
+      margin: 0;
     }
 
     #menu-btn {

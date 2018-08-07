@@ -20,7 +20,7 @@ function indexController($rootScope, $scope, $state, $location, $uibModal, $stat
 
     $scope.login = function(){
         if($scope.loginInfo != undefined && $scope.loginInfo.name != '' && $scope.loginInfo.password != ''){
-            $state.go('section');
+            $state.go('dashboard');
             setTimeout(function(){ 
                 location.reload();
             }, 800);
@@ -55,14 +55,14 @@ function indexController($rootScope, $scope, $state, $location, $uibModal, $stat
 
 function screenResize(){
     //var width = document.getElementById("body").outerWidth;
-    if(window.innerWidth < 768 ){
-         console.log(document.getElementById('isNavOpen').value);
-        if(document.getElementById('isNavOpen').value == 'false'){
-            document.getElementById("menu-btn").style.display = 'block';
-         }else{
-            document.getElementById("menu-btn").style.display = 'none';
-         }
-    }else{
-        document.getElementById("menu-btn").style.display = 'none';
-    }
+    // if(window.innerWidth < 768 ){
+    //      console.log(document.getElementById('isNavOpen').value);
+    //     if(document.getElementById('isNavOpen').value == 'false'){
+    //         document.getElementById("menu-btn").style.display = 'block';
+    //      }else{
+    //         document.getElementById("menu-btn").style.display = 'none';
+    //      }
+    // }else{
+    //     document.getElementById("menu-btn").style.display = 'none';
+    // }
 }

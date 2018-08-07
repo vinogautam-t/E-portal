@@ -15,6 +15,7 @@
       <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
       <link rel="stylesheet" type="text/css" href="css/toastr.min.css">
       <link rel="stylesheet" type="text/css" href="css/theme.css">
+      <link rel="stylesheet" type="text/css" href="css/img-upload.css">
       <link rel="stylesheet" type="text/css" href="css/login.css">
 
       <!-- END CSS SCRIPTS -->
@@ -41,12 +42,12 @@
           </nav>
           <div class="main-app-container row">
             <span id='menu-btn' ng-click='openNav()'> <i class='fa fa-bars'></i></span>
-            <aside id='side-nav'>
+            <div id='side-nav'>
               <span class='nav-close-btn' ng-click='closeNav()'><i class='fa fa-times'></i></span>
               <!-- <ul>
                 <li>menu</li>
               </ul> -->
-            </aside>
+            </div>
             <ui-view id='views'></ui-view>
           </div>
         </div>
