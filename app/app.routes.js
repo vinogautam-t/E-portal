@@ -5,9 +5,15 @@ function routes($stateProvider, $urlRouterProvider) {
 
     // default route
     $urlRouterProvider
-        .when('', '/');
+        .when('', '/login');
 
     var states = [
+        {
+            name: 'login',
+            url: '/login',
+            templateUrl: 'app/login/login.html',
+            controller: 'loginController as vm'
+        },
         {
             name: 'dashboard',
             url: '/dashboard',
