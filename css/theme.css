@@ -28,12 +28,142 @@ body {
     padding: 0;
     font-weight: 300;
   }
+  body{ background: #f7f7f7; font-family: 'Roboto', sans-serif;}
+.navbar-inverse {
+    background-color: #5b845b;
+    border-color: #5b845b;
+    border-radius: 0;
+}
+.navbar-inverse .navbar-nav>li>a{color:#fff;}
+.notify{ background: #fff; box-shadow: 0 4px 18px 0 #ccc; }
+.notify h3{ background: #5b845b; border-radius: 0 0px 15px 15px; color:#fff; margin:0 0 10px; text-align: center; font-size: 18px; padding:7px 0;}
+.notify .value-ct{ padding:0 10px 4px; }
+.value-ct .no-of-re{ font-size:70px; border-right:1px solid #5b845b; background-color: transparent; color:#5b845b; padding-right:18px; 
+float: left; font-weight: bold; padding-top: 0px;}
+.value-ct ul{ padding: 0; }
+.chart{ float: left; }
+.chart img{ padding: 0 22px 10px;}
+.value-ct ul li{ float: left; padding:0 4px; list-style-type: none; font-size: 12px; }  
+.value-ct ul li span{ width: 16px; height: 11px;  display: inline-block;}
+.value-ct ul li .ne-fl{background: #93b193;}
+.value-ct ul li .in-prs{background: #60c060;}
+.value-ct ul li .cplt{background: #245938;}
+.file-upload{background: #fff; display: inline-block;  width: 100%; margin-top: 30px; margin-bottom: 10px;}
+.file-upload h3{border-top:2px solid #5b845b; background:#e7f2e7; padding:10px; font-size:18px; margin-top:0;} 
+.lab-tx{ text-align:right; margin-top:10px; }
+.form-control{ background: #f7f7f7; border-radius:0; margin-bottom:8px; border-color:transparent;}
+.btn-success{background:#5b845b; border-color:#5b845b; padding:7px 26px}
+.mr-tp{margin-top:10px;}
+.carousel-control.left,.carousel-control.right{ background-image: none; }
+.scan-pages{border:1px solid #ededed; box-shadow: 0 0 10px 0 #ccc inset; padding:6px;}
+.section-tab{border-top:2px solid #5b845b; background:#e7f2e7; font-size:18px; margin-top:0;}
+.section-tab li{font-size: 14px;}
+.section-tab li a{ padding: 7px 10px; color:#666;}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{background-color:#f69306; color:#fff; border-radius: 0;}
+.d-icon img{width:24px;}
+table tr th{color:#5b845b;}
+.modal-header{ background:#5b845b; padding: 10px 15px; }
+.modal-title{ color:#fff; }
+.close{color:#fff;}
+@media (min-width: 768px){.modal-dialog {width: 900px;}}
+.radio-btn {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio-btn input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #abadab;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-btn:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-btn input:checked ~ .checkmark {
+    background-color: #5b845b;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-btn input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-btn .checkmark:after {
+ 	 top: 5px;
+    left: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: white;
+}
+/* .login{ background:#f7f7f7; margin-top: 100px;}
+.login-form{  background: #fff; display: inline-block; padding: 30px; border-radius: 3px; box-shadow: 0 0 12px 0 #93b193 inset;} 
+.login-form h3{ text-align: center;  border-bottom: 1px solid #ededed; padding-bottom: 12px;    margin-top: 0; } */
+.m-top{margin-top:10px}
+.admin-section tr td a{ padding-left:10px; color:#666; }
+.admin-section tr td a:hover{ color:#5b845b; }
+
+ 
+
+  #loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(209, 223, 230, 0.4);
+    z-index: 9999;
+    display: none;
+  }
+  #loading-screen .loadin-icn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-image: url(/img/loader.svg);
+    background-repeat: no-repeat;
+    height: 50px;
+    display: block;
+    width: 50px;
+  }
 
   h3 {
     color: #2CB5E8;
   }
 
-  nav {
+  /* nav {
     position: relative;
     display: inline-block;
     background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);;
@@ -44,7 +174,7 @@ body {
 
   nav h3{
     color: white !important;
-  }
+  } */
 
   .main-app-container {
     position: relative;
@@ -103,11 +233,11 @@ body {
   }
 
   .login-wrapper {
-    background: #50a3a2;
-    background: -webkit-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%);
-    background: -moz-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%);
-    background: -o-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%);
-    background: linear-gradient(to bottom right,#50a3a2 0%,#53e3a6 100%);
+    background: #5b845a;
+    background: -webkit-linear-gradient(top left,#5b845a 0%,#53e3a6 100%);
+    background: -moz-linear-gradient(top left,#5b845a 0%,#53e3a6 100%);
+    background: -o-linear-gradient(top left,#5b845a 0%,#53e3a6 100%);
+    background: linear-gradient(to bottom right,#5b845a 0%,#53e3a6 100%);
     color: white;
     position: absolute;
     top: 0;
@@ -148,7 +278,7 @@ body {
   }
 
   .login-container {
-    max-width: 600px;
+    max-width: 400px;
     margin: 0 auto;
     padding: 80px 0;
     height: 450px;
@@ -164,12 +294,33 @@ body {
     transition-timing-function: ease-in-put;
     font-weight: 200;
   }
+
+  .user-login{
+    font-size: 36px;
+  }
+
+  .user-key{
+    font-size: 16px;
+    transform: rotate(-132deg);
+    left: -8px;
+    position: relative;
+    top: -12px;
+  }
+
+  .login-body{
+    padding: 30px;
+    height: auto;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    margin: 0 30px;
+  }
+
   form {
     padding: 20px 0;
     position: relative;
     z-index: 2;
   }
-  form input {
+  .login-body form input {
     display: block;
     appearance: none;
     outline: 0;
@@ -185,15 +336,15 @@ body {
     transition-duration: 0.25s;
     font-weight: 300;
   }
-  form input:hover {
+  .login-body form input:hover {
     background-color: rgba(255,255,255,0.4);
   }
-  form input:focus {
+  .login-body form input:focus {
     background-color: white;
     width: 300px;
     color: #53e3a6;
   }
-  form button {
+  .login-body form button {
     appearance: none;
     outline: 0;
     background-color: white;
@@ -206,7 +357,7 @@ body {
     font-size: 18px;
     transition-duration: 0.25s;
   }
-  form button:hover {
+  .login-body form button:hover {
     background-color: #f5f7f9;
   }
   .bg-bubbles {

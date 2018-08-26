@@ -3,6 +3,7 @@ ePortalApp
         //$locationProvider.html5Mode(true);
         $httpProvider.defaults.headers.post = { 'Content-Type': 'application/json' }
     })
+    .value('APIURL', 'https://e-portal-api-vinogautam.c9users.io')
 
     ePortalApp
     .directive('dynamic', function ($compile) {

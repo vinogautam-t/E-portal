@@ -1,102 +1,81 @@
-ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$timeout', '$rootScope', '$stateParams', '$uibModal',
-    function ($scope, $window, $http, $timeout, $rootScope, $stateParams, $uibModal) {
+ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$timeout', '$rootScope', '$stateParams', '$uibModal', 'ApiService',
+    function ($scope, $window, $http, $timeout, $rootScope, $stateParams, $uibModal, ApiService) {
         
-    }
-]);
 
-			
-ePortalApp.directive("imgUpload",function($http,$compile){
-    return {
-        restrict : 'AE',
-        scope : {
-            url : "@",
-            method : "@"
-        },
-        template : 	'<input class="fileUpload" type="file" multiple />'+
-                    '<div class="dropzone">'+
-                        '<p class="msg">Click or Drag and Drop files to upload</p>'+
-                    '</div>'+
-                    '<div class="row preview clearfix">'+
-                        '<div class="col-xs-6 previewData" ng-repeat="data in previewData track by $index">'+
-                            '<img src={{data.src}}></img>'+
-                            '<div class="previewDetails">'+
-                                '<div class="detail"><b>Name : </b>{{data.name}}</div>'+
-                                '<div class="detail"><b>Type : </b>{{data.type}}</div>'+
-                                '<div class="detail"><b>Size : </b> {{data.size}}</div>'+
-                            '</div>'+
-                            '<div class="previewControls">'+
-                                '<span ng-click="upload(data)" class="circle upload">'+
-                                    '<i class="fa fa-check"></i>'+
-                                '</span>'+
-                                '<span ng-click="remove(data)" class="circle remove">'+
-                                    '<i class="fa fa-close"></i>'+
-                                '</span>'+
-                            '</div>'+
-                        '</div>'+	
-                    '</div>',
-        link : function(scope,elem,attrs){
-            var formData = new FormData();
-            scope.previewData = [];	
-
-            function previewFile(file){
-                var reader = new FileReader();
-                var obj = new FormData().append('file',file);			
-                reader.onload=function(data){
-                    var src = data.target.result;
-                    var size = ((file.size/(1024*1024)) > 1)? (file.size/(1024*1024)) + ' mB' : (file.size/		1024)+' kB';
-                    scope.$apply(function(){
-                        scope.previewData.push({'name':file.name,'size':size,'type':file.type,
-                                                'src':src,'data':obj});
-                    });								
-                    console.log(scope.previewData);
-                }
-                reader.readAsDataURL(file);
-            }
-
-            function uploadFile(e,type){
-                e.preventDefault();			
-                var files = "";
-                if(type == "formControl"){
-                    files = e.target.files;
-                } else if(type === "drop"){
-                    files = e.originalEvent.dataTransfer.files;
-                }			
-                for(var i=0;i<files.length;i++){
-                    var file = files[i];
-                    if(file.type.indexOf("image") !== -1){
-                        previewFile(file);								
-                    } else {
-                        alert(file.name + " is not supported");
+        $scope.getSection = function(){
+            ApiService.startLoader();
+            ApiService.getSections().then(function(response){
+                ApiService.stopLoader();
+                if(response.status == 200){
+                    if(response.data.status == 'success'){
+                        $scope.sectionList = [];
+                        response.data.data.forEach(function(row){
+                            if(row.type == 'section'){
+                                $scope.sectionList.push(row.name);
+                            }
+                        });
                     }
                 }
-            }	
-            elem.find('.fileUpload').bind('change',function(e){
-                uploadFile(e,'formControl');
             });
-
-            elem.find('.dropzone').bind("click",function(e){
-                $compile(elem.find('.fileUpload'))(scope).trigger('click');
-            });
-
-            elem.find('.dropzone').bind("dragover",function(e){
-                e.preventDefault();
-            });
-
-            elem.find('.dropzone').bind("drop",function(e){
-                uploadFile(e,'drop');																		
-            });
-            scope.upload=function(obj){
-                $http({method:scope.method,url:scope.url,data: obj.data,
-                    headers: {'Content-Type': undefined},transformRequest: angular.identity
-                }).success(function(data){
-
-                });
-            }
-
-            scope.remove=function(data){
-                var index= scope.previewData.indexOf(data);
-                scope.previewData.splice(index,1);
-            }
         }
+        $scope.getSection();
+
+        $scope.previewData = [];
+        $scope.showCarousel = false;
+        $scope.dateOptions = {
+            dateDisabled: 'disabled',
+            formatYear: 'yy',
+            maxDate: new Date(2020, 5, 22),
+            minDate: new Date(),
+            startingDay: 1
+          };
+        $scope.datePopup = {'opened' : false};
+          
+        $scope.opendatePicker = function() {
+            $scope.datePopup.opened = true;
+        };
+
+        function previewFile(file, i){
+            // var obj = new FormData().append('file',file);
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = readSuccess;                                            
+            function readSuccess(evt) {    
+                $scope.previewData.push({'index': i, 'name':file.name, 'src':evt.target.result});                        
+            };
+            $scope.showCarousel = true;
+        }
+
+        document.getElementById('files').onchange = function(e) {
+            e.preventDefault();			
+            var files = "";
+            if(e.type == "change"){
+                files = e.target.files;
+            } else if(e.type === "drop"){
+                files = e.originalEvent.dataTransfer.files;
+            }			
+            for(var i=0;i<files.length;i++){
+                var file = files[i];
+                if(file.type.indexOf("image") !== -1){
+                    previewFile(file, i);								
+                } else {
+                    alert(file.name + " is not supported");
+                }
+            }
+        };
+
+        $scope.Upload = function(e){
+            $scope.fileUpload.files = $scope.previewData
+            ApiService.startLoader();
+            ApiService.createFiles($scope.fileUpload).then(function(response){
+                ApiService.stopLoader();
+                $scope.previewData = [];
+                $scope.fileUpload = {};
+                $scope.showCarousel = false;
+                document.getElementById("files").value = "";
+                toastr.success("Records successfully inserted.");
+            });
+        }
+
     }
-});
+]);

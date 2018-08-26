@@ -1,11 +1,154 @@
 <div class='view-container'>
-    <div class='view-header'>
-        <h3 class=''>Dashboard </h3>
+        <div class="row">
+            <div class="col-sm-3">
+              <div class="notify">
+              <h3>Today</h3>
+              <div class="value-ct row">
+              <div class="col-sm-12">
+              <span class="no-of-re">10</span>
+              <div class="chart"><img src="/img/chart.png"></div>
+              </div>
+              <div class="col-sm-12">
+              <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
+              </div>
+              </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="notify">
+              <h3>Week</h3>
+              <div class="value-ct row">
+              <div class="col-sm-12">
+              <span class="no-of-re">10</span>
+              <div class="chart"><img src="/img/chart.png"></div>
+              </div>
+              <div class="col-sm-12">
+              <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
+              </div>
+              </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="notify">
+              <h3>Month</h3>
+              <div class="value-ct row">
+              <div class="col-sm-12">
+              <span class="no-of-re">10</span>
+              <div class="chart"><img src="/img/chart.png"></div>
+              </div>
+              <div class="col-sm-12">
+              <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
+              </div>
+              </div>
+              </div>
+            </div>
+           <div class="col-sm-3">
+              <div class="notify">
+              <h3>Today</h3>
+              <div class="value-ct row">
+              <div class="col-sm-12">
+              <span class="no-of-re">10</span>
+              <div class="chart"><img src="/img/chart.png"></div>
+              </div>
+              <div class="col-sm-12">
+              <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
+              </div>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+            <div class="file-upload">
+               <h3>New Record Insert</h3>
+                <div class="col-sm-8">
+                    <form name='fileUploadForm' enctype="multipart/form-data">
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">New File id :</label>
+                            <div class="col-sm-6">
+                            <input type="text" autocomplete="off" required name='fileId' ng-model='fileUpload.file_no' class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">Date :</label>
+                            <div class="col-sm-6">
+                            <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='date' ng-model='fileUpload.created_by' class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">Description :</label>
+                            <div class="col-sm-6">
+                            <input type="text" autocomplete="off" required name='desc' ng-model='fileUpload.title' class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">upload Scan copy:</label>
+                            <div class="col-sm-6">
+                            <input type="file" name="fileUpload.files" multiple="true" accept="image/*" id='files' required class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">Section :</label>
+                            <div class="col-sm-6">
+                            <select class="form-control" required ng-model="fileUpload.section" ng-options="section for section in sectionList">
+                            </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-10 text-right">
+                            <button class="btn btn-success" ng-disabled='fileUploadForm.$invalid' ng-click='Upload(fileUploadForm)'>Submit</button>
+                        </div>
+                    </form>    
+                </div>
+               
+             </div>
+             
+            <div class="col-sm-3">
+                <div ng-if='!showCarousel' id='myCarousel'>
+                  <i style='font-size: 220px;' class='fa fa-image'></i>
+                </div>
+                <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                  <div uib-slide ng-repeat="slide in previewData track by slide.index" index="slide.index">
+                    <img width='300' ng-src="{{slide.src}}" style="margin:auto;">
+                    <div class="carousel-caption">
+                      <p>{{slide.name}}</p>
+                    </div>
+                  </div>
+                </div>
+              <!-- <div id="myCarousel" class="carousel slide scan-pages" data-ride="carousel">
+                
+                <div class="carousel-inner">
+                  <div class="item active">
+                    <img src="/img/pdf.png" alt="Los Angeles" style="width:100%;">
+                    </div>
+                  <div class="item">
+                    <img src="/img/pdf.png" alt="Chicago" style="width:100%;">       
+                  </div>    
+                </div>
+            
+                
+                <a class="left carousel-control" href="javascript:void(0)" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="javascript:void(0)" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div> -->
+            </div>
+            
+            </div>
+            </div>
+        <!-- <div class='view-body'>
+                <h2>Image upload</h2>
+                <div>
+                    <div img-upload method="POST"></div>
+                </div>	
+        </div> -->
     </div>
-    <div class='view-body'>
-			<h2>Image upload</h2>
-			<div>
-				<div img-upload method="POST" url="webfreaks.in/dummyService"></div>
-			</div>	
-    </div>
-</div>
