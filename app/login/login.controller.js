@@ -19,7 +19,7 @@ ePortalApp.controller('loginController', ['$scope', '$window', '$http', '$timeou
                         localStorage.setItem('userInfo', JSON.stringify(res.data));
                         $state.go('dashboard');
                     }else{
-                        toastr.warning("Login failed, Please try after sometime.");
+                        toastr.warning(res.msg);
                     }
                 }).catch(function(e){
                     toastr.warning("Login failed, Please try after sometime.");
