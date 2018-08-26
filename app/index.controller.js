@@ -25,6 +25,11 @@ function indexController($rootScope, $scope, $state, $location, $uibModal, $stat
         document.getElementById('isNavOpen').value = 'false';
     }
 
+    $scope.logout = function(){
+        localStorage.removeItem('userInfo');
+        $state.go('login');
+    }
+
 }
 
 function screenResize(){

@@ -8,6 +8,10 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
     apiService.stopLoader = function(){
         document.getElementById("loading-screen").style.display = 'none';
     }
+
+    apiService.getUserInfo = function(){
+        return JSON.parse(localStorage.getItem('userInfo'));
+    }
     
     apiService.login = function (data) {
         return httpService
