@@ -1,0 +1,79 @@
+<div>
+    <section class="admin">
+        <div class="container">
+            <div class="row">
+                <div class="file-upload">
+                    <h3>{{saveBtnAction}} User</h3>
+                    <div class="col-sm-8">
+                        <form ng-submit="submitForm(userForm.$valid)">
+                            <div class="row">
+                                <label class="lab-tx col-sm-4">First Name :</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="user.firstName">
+                                </div>
+                            </div>
+                            <!-- row -->
+                            <div class="row">
+                                <label class="lab-tx col-sm-4">Last Name :</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="user.lastName">
+                                </div>
+                            </div>
+                            <!-- row -->
+                            <div class="row">
+                                <label class="lab-tx col-sm-4">Email :</label>
+                                <div class="col-sm-6">
+                                    <input type="email" class="form-control" ng-model="user.email" ng-pattern="eml_add">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="lab-tx col-sm-4">Password :</label>
+                                <div class="col-sm-6">
+                                    <input type="password" class="form-control" ng-model="user.password">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="lab-tx col-sm-4">Phone Number:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="user.phoneNo" ng-pattern="ph_numbr">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="lab-tx col-sm-4">Role:</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="user.role">
+                                        <option ng-repeat="role in roleList" value="{{role.id}}">{{role.value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="user.role && user.role === 'dr'">
+                                <label class="lab-tx col-sm-4">PR Section:</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="user.roleAccess">
+                                        <option ng-repeat="section in sectionList" value="{{section.id}}">{{section.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="user.role && user.role === 'csr'">
+                                <label class="lab-tx col-sm-4">CSR Section:</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline" ng-repeat="section in sectionList">
+                                        <input type="checkbox" class="form-check-input" id="{{section.id}}">
+                                        <label class="form-check-label" for="{{section.id}}">{{section.name}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- row -->
+                            <div class="row">
+                                <div class="col-sm-10 text-right">
+                                    <button class="btn btn-success">{{saveBtnAction}}</button>
+                                    <button class="btn btn-success" ui-sref="listUser">Back</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
