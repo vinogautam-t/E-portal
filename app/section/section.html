@@ -4,17 +4,74 @@
         <button class='mar-top-15 pull-right btn btn-primary' ng-click='addSection()'>Add Section</button>
     </div>
     <div class='view-body'>
-        
+        <div class='view-body'>
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>type</th>
+                                <th>Status</th>
+                                <th colspan="2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in sectionList  | filter:q as results track by data.id | filter:search_query">
+                                <td>{{data.name}}</td>
+                                <td>{{data.type}}</td>
+                                <td>{{(data.status === '1') ? 'Actve' : 'Not active'}}</td>
+                                <td>
+                                    <button class="btn btn-warning" ng-click="editSection(data)" title="Edit">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger" ng-click="deleteSection(data.id, $index)" title="Delete">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 <script type="text/ng-template" id="sectionModal.html">
     <div class="modal-header">
         <h3 class="col-xs-8 modal-title" id="modal-title">{{info.title}}</h3>
-        <span class='pull-right close-btn'><i class='fa fa-times'></i></span>
+        <span class='pull-right close-btn'><i class='fa fa-times' ng-click="cancel()"></i></span>
     </div>
     <div class="modal-body" id="modal-body">
         <form name='sections'>
-
+                <div class="row">
+                        <label class="lab-tx col-sm-4">Name :</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="name">
+                        </div>
+                    </div>
+                    <!-- row -->
+                    <div class="row">
+                            <label class="lab-tx col-sm-4">Type:</label>
+                            <div class="col-sm-6">
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input" id="section" value="section" ng-model="type">
+                                    <label class="form-check-label" for="section">Section</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" id="recordroom" value="recordroom"  ng-model="type">
+                                        <label class="form-check-label" for="recordroom">Recordroom</label>
+                                    </div>
+                            </div>
+                        </div>
         </form>
     </div>
+    <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="save()">{{saveBtnAction}}</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
 </script>
