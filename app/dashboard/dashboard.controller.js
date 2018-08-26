@@ -68,7 +68,15 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                 });
             }
         }else if($scope.userInfo.userrole == "pr"){
-
+            $scope.fileList = {'approved': [], 'new': [], 'pending': []};
+            $scope.getFiles = function(){
+                ApiService.getFiles().then(function(response){
+                    if(response.data.status == 'success'){
+                        $scope.fileList = response.data.data;
+                    }
+                });
+            }
+            $scope.getFiles();
         }
         
 

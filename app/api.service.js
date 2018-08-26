@@ -28,5 +28,11 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         .post(APIURL+'?action=create_file', data);
     }
 
+    apiService.getFiles = function(){
+        var usr = this.getUserInfo();
+        return httpService
+        .get(APIURL+'?action=dashboard_files&id='+usr.id);
+    }
+
     return apiService;
 });
