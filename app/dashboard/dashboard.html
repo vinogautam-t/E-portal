@@ -58,98 +58,100 @@
       </div>
   </div>
 
-  <!-- <div class='row' style='margin:10px; padding: 10px;' ng-if='userInfo.userrole == "pr"'>
-    <div id="home">
-      <table class="table">
-          <thead>
-            <tr>
-              <th>File No</th>
-              <th>Date</th>
-              <th>Description</th>
-              <th class="text-center">File Document</th>
-              <th class="text-center">Create Note Sheet</th>
-            </tr>
-          </thead>
-      </table>
+  <div style='padding: 10px;' ng-if='userInfo.userrole == "csr" || userInfo.userrole == "dr"' class="row">
+    <div class="col-sm-12">
+        <div class="file-upload">
+            <div class='table-container' ng-repeat='s in sections'>
+                <div class='table-header'>
+                    <h4>Section ({{s}})</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id No</th>
+                                <th>File Date</th>
+                                <th>Note Sheet</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='row in csrFileList[s] track by row.id'>
+                                <td>{{row.file_no}}</td>
+                                <td>{{row.created_on}}</td>
+                                <td>{{row.file_details[0].notes}}</td>
+                                <td>{{row.status}}</td>
+                                <td><a href='javascript:void(0)' ng-click="viewRow()">View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-  </div> -->
+    </div>
   <div style='padding: 10px;' ng-if='userInfo.userrole == "pr"' class="row">
     <div class="col-sm-12">
       <div class="file-upload">
           <uib-tabset active="activeJustified" justified="true">
               <uib-tab index="0" heading="New Records">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>File No</th>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th class="text-center">File Document</th>
-                            <th class="text-center">Create Note Sheet</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat='list in fileList.new'>
-                        <td>{{list.file_no}}</td>
-                        <td>{{ list.created_on}}</td>
-                        <td>{{list.title}}</td>
-                        <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
-                        <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
-                      </tr>
-                      <tr ng-if='fileList.new.length < 1'>
-                        <td colspan='5' style='text-align: center;'>No Records to display...</td>
-                      </tr>
-                        <!-- <tr>
-                            <td>10003</td>
-                            <td>16/08/2018</td>
-                            <td>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</td>
-                            <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
-                            <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
-                        </tr>
-                        <tr>
-                            <td>10002</td>
-                            <td>16/08/2018</td>
-                            <td>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</td>
-                            <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
-                            <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
-                        </tr>
-                        <tr>
-                            <td>10001</td>
-                            <td>16/08/2018</td>
-                            <td>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</td>
-                            <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
-                            <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
-                        </tr> -->
-                    </tbody>
-                </table>
-              </uib-tab>
-              <uib-tab index="1" heading="Approved Records">
-                  <table class="table">
-                      <thead>
-                          <tr>
-                              <th>File No</th>
-                              <th>Date</th>
-                              <th>Description</th>
-                              <th class="text-center">Status</th>
-                              <th class="text-center">Upload Order Copy</th>
-                              <th class="text-center">Action</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr ng-repeat='list in fileList.approved'>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>File No</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th class="text-center">File Document</th>
+                                <th class="text-center">Create Note Sheet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat='list in fileList.new'>
                             <td>{{list.file_no}}</td>
                             <td>{{ list.created_on}}</td>
                             <td>{{list.title}}</td>
-                            <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
-                            <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
-                          </tr>
-                          <tr ng-if='fileList.approved.length < 1'>
-                            <td colspan='6' style='text-align: center;'>No Records to display...</td>
-                          </tr>
-                      </tbody>
-                  </table>
+                            <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="/img/file-doc.png"></a></td>
+                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="/img/create.png"></a></td>
+                        </tr>
+                        <tr ng-if='fileList.new.length < 1'>
+                            <td colspan='5' style='text-align: center;'>No Records to display...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </uib-tab>
+              <uib-tab index="1" heading="Approved Records">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>File No</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Upload Order Copy</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='list in fileList.approved'>
+                                <td>{{list.file_no}}</td>
+                                <td>{{ list.created_on}}</td>
+                                <td>{{list.title}}</td>
+                                <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
+                                <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
+                            </tr>
+                            <tr ng-if='fileList.approved.length < 1'>
+                                <td colspan='6' style='text-align: center;'>No Records to display...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
               </uib-tab>
               <uib-tab index="2" heading="Pending Records">
+                <div class="table-responsive">
                   <table class="table">
                       <thead>
                           <tr>
@@ -174,6 +176,7 @@
                           </tr>
                       </tbody>
                   </table>
+                </div>
               </uib-tab>
           </uib-tabset>
           <hr/>
@@ -218,7 +221,7 @@
                       <div class="row">
                           <label class="lab-tx col-sm-4">Section :</label>
                           <div class="col-sm-6">
-                          <select class="form-control" required ng-model="fileUpload.section" ng-options="section for section in sectionList">
+                          <select class="form-control" required ng-model="fileUpload.section" ng-options="section.id as section.name for section in sectionList">
                           </select>
                           </div>
                       </div>
@@ -248,3 +251,37 @@
   </div>
 
 </div>
+
+<script type="text/ng-template" id="notesModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">{{info.title}}</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <form class='form-group' name='notesAddForm' ng-if='info.state == "addNote"'>
+            <h4>New Sheet</h4>
+            <div class="col-sm-3 col-xs-12">
+                <label class="radio-btn">New
+                <input type="radio" ng-model='notesInfo.type' value='New' name="type">
+                <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="col-sm-3 col-xs-12">
+                <label class="radio-btn">Clipping
+                <input type="radio" ng-model='notesInfo.type' value='Clipping' name="type">
+                <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="col-sm-3 col-xs-12" ng-if='notesInfo.type == "Clipping"'>
+                <input type="text" autocomplete="off" placeholder='File No' ng-model='notesInfo.fileNo' name='fileNo' class="form-control" required>
+            </div>
+            <br>
+            <textarea class='notesTextarea' ng-model='notesInfo.notes' required></textarea>
+            <div class='form-control'>
+                <button type="button" class="btn btn-default pull-right" ng-disabled='notesAddForm.$invalid' ng-click='addNotes()'>Submit</button>
+            </div>
+        </form>
+       
+    </div>
+    <!-- <div class='modal-footer'>
+    </div> -->
+</script>

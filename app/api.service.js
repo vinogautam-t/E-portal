@@ -34,5 +34,10 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         .get(APIURL+'?action=dashboard_files&id='+usr.id);
     }
 
+    apiService.addNotes = function(data){
+        return httpService
+        .post(APIURL+'?action=move_to_csr', data);
+    }
+
     return apiService;
 });
