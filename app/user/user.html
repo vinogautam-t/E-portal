@@ -6,7 +6,7 @@
                     <input type="text" class="form-control" placeholder="Search Employee Details" ng-model="search_query">
                 </span>
             </div> -->
-        <button class='mar-top-15 pull-right btn btn-primary' ui-sref="addUser">Add User</button>
+        <button class='mar-top-15 pull-right btn btn-primary' ng-click="addUser()">Add User</button>
     </div>
     <div class='view-body'>
 
@@ -30,6 +30,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>User Name</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
@@ -39,12 +40,13 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="data in userList  | filter:q as results track by data.id | filter:search_query">
+                            <td>{{data.username}}</td>
                             <td>{{data.firstname}}</td>
                             <td>{{data.lastname}}</td>
                             <td>{{data.email}}</td>
                             <td>{{data.userrole}}</td>
                             <td>
-                                <button class="btn btn-warning" ui-sref="editUser({id:data.id})" title="Edit">
+                                <button class="btn btn-warning" ng-click="editUser(data)" title="Edit">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </button>
                             </td>
@@ -61,3 +63,16 @@
 
     </div>
 </div>
+<script type="text/ng-template" id="loadUser">
+    <div class="modal-header">
+        <h3 class="col-xs-8 modal-title" id="modal-title">{{info.title}}</h3>
+        <span class='pull-right close-btn'><i class='fa fa-times' ng-click="cancel()"></i></span>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <div ng-include="'app/user/create_user.html'"></div>
+    </div>
+    <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="submitForm()">{{saveBtnAction}}</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+</script>

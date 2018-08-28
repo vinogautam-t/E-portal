@@ -3,16 +3,27 @@
         <div class="container">
             <div class="row">
                 <div class="file-upload">
-                    <h3>{{saveBtnAction}} User</h3>
                     <div class="col-sm-8">
                         <form ng-submit="submitForm(userForm.$valid)">
+                            <div class="row">
+                                <label class="lab-tx col-sm-4">User Name :</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="user.username">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="lab-tx col-sm-4">Email :</label>
+                                <div class="col-sm-6">
+                                    <input type="email" class="form-control" ng-model="user.email" ng-pattern="eml_add">
+                                </div>
+                            </div>
+                            <!-- row -->
                             <div class="row">
                                 <label class="lab-tx col-sm-4">First Name :</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" ng-model="user.firstName">
                                 </div>
                             </div>
-                            <!-- row -->
                             <div class="row">
                                 <label class="lab-tx col-sm-4">Last Name :</label>
                                 <div class="col-sm-6">
@@ -20,16 +31,11 @@
                                 </div>
                             </div>
                             <!-- row -->
-                            <div class="row">
-                                <label class="lab-tx col-sm-4">Email :</label>
-                                <div class="col-sm-6">
-                                    <input type="email" class="form-control" ng-model="user.email" ng-pattern="eml_add">
-                                </div>
-                            </div>
-                            <div class="row">
+
+                            <div class="row" ng-if="action === 'add'">
                                 <label class="lab-tx col-sm-4">Password :</label>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control" ng-model="user.password">
+                                    <input type="password" class="form-control" ng-model="user.password" autocomplete="off">
                                 </div>
                             </div>
                             <div class="row">
@@ -46,7 +52,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row" ng-if="user.role && user.role === 'dr'">
+                            <div class="row" ng-if="user.role && user.role === 'pr'">
                                 <label class="lab-tx col-sm-4">PR Section:</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" ng-model="user.roleAccess">
@@ -64,12 +70,6 @@
                                 </div>
                             </div>
                             <!-- row -->
-                            <div class="row">
-                                <div class="col-sm-10 text-right">
-                                    <button class="btn btn-success">{{saveBtnAction}}</button>
-                                    <button class="btn btn-success" ui-sref="listUser">Back</button>
-                                </div>
-                            </div>
                         </form>
                     </div>
                 </div>
