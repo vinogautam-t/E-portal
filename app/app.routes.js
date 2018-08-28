@@ -42,6 +42,12 @@ function routes($stateProvider, $urlRouterProvider) {
             url: '/user/edit:id',
             templateUrl: 'app/user/create_user.html',
             controller: 'AddUserController'
+        },
+        {
+            name: 'viewFile',
+            url: '/viewFile/:fileId',
+            templateUrl: 'app/fileView/fileView.html',
+            controller: 'viewFileController'
         }
     ];
 
