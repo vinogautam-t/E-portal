@@ -25,13 +25,13 @@ function routes($stateProvider, $urlRouterProvider) {
             url: '/section',
             templateUrl: 'app/section/section.html',
             controller: 'sectionController as vm'
-        },{
-            name: 'listUser',
-            url: '/listuser',
-            templateUrl: 'app/user/list_user.html',
+        }, {
+            name: 'user',
+            url: '/user',
+            templateUrl: 'app/user/user.html',
             controller: 'UserController'
         },
-        {
+{
             name: 'addUser',
             url: '/user/add',
             templateUrl: 'app/user/create_user.html',
@@ -48,8 +48,7 @@ function routes($stateProvider, $urlRouterProvider) {
             url: '/viewFile/:fileId',
             templateUrl: 'app/fileView/fileView.html',
             controller: 'viewFileController'
-        }
-    ];
+        }    ];
 
     angular.forEach(states, function (state) {
         $stateProvider.state(state);
