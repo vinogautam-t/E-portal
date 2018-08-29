@@ -39,5 +39,25 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         .post(APIURL+'?action=move_to_csr', data);
     }
 
+    apiService.fileProcess = function(data, action, role){
+        if(role == 'dr'){
+            if(action == 'approve'){
+                return httpService
+                .post(APIURL+'?action=dr_confirmed', data);
+            }else if(action == 'decline'){
+                return httpService
+                .post(APIURL+'?action=dr_rejected', data);
+            }
+        }else if(role == 'csr'){
+            if(action == 'approve'){    
+                return httpService
+                .post(APIURL+'?action=csr_confirmed', data);
+            }else if(action == 'decline'){
+                return httpService
+                .post(APIURL+'?action=csr_rejected', data);
+            }
+        }
+    }
+
     return apiService;
 });
