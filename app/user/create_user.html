@@ -2,76 +2,96 @@
     <section class="admin">
         <div class="container">
             <div class="row">
-                <div class="file-upload">
-                    <div class="col-sm-8">
-                        <form ng-submit="submitForm(userForm.$valid)">
-                            <div class="row">
-                                <label class="lab-tx col-sm-4">User Name :</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" ng-model="user.username">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="lab-tx col-sm-4">Email :</label>
-                                <div class="col-sm-6">
-                                    <input type="email" class="form-control" ng-model="user.email" ng-pattern="eml_add">
-                                </div>
-                            </div>
-                            <!-- row -->
-                            <div class="row">
-                                <label class="lab-tx col-sm-4">First Name :</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" ng-model="user.firstName">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="lab-tx col-sm-4">Last Name :</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" ng-model="user.lastName">
-                                </div>
-                            </div>
-                            <!-- row -->
+                <div class="col-sm-8">
+                    <form name="userForm"  novalidate>
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">User Name
+                                <span class="mandatory">*</span>
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="user.username" name="username" required>
+                                <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block">User name is required.</p>
 
-                            <div class="row" ng-if="action === 'add'">
-                                <label class="lab-tx col-sm-4">Password :</label>
-                                <div class="col-sm-6">
-                                    <input type="password" class="form-control" ng-model="user.password" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">Email
+                                <span class="mandatory">*</span>
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="email" class="form-control" ng-model="user.email" ng-pattern="eml_add" name="email" required>
+                                <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                            </div>
+                        </div>
+                        <!-- row -->
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">First Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="user.firstName">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">Last Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="user.lastName">
+                            </div>
+                        </div>
+                        <!-- row -->
+
+                        <div class="row" ng-if="action === 'add'">
+                            <label class="lab-tx col-sm-4">Password
+                                <span class="mandatory">*</span>
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" ng-model="user.password" name="password" autocomplete="off" required ng-minlength="4"
+                                    ng-maxlength="10">
+                                <p ng-show="userForm.password.$invalid && !userForm.password.$pristine">Password is required.</p>
+                                <p ng-show="userForm.password.$touched && userForm.password.$error.minlength">Password must have minimum 4 characters.</p>
+                                <p ng-show="userForm.password.$touched && userForm.password.$error.maxlength">Password must have maximum 10 characters.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">Phone Number:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="user.phoneNo" ng-pattern="ph_numbr">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">Role
+                                <span class="mandatory">*</span>
+                            </label>
+                            <div class="col-sm-6">
+                                <select class="form-control" ng-model="user.role" required name="role">
+                                    <option ng-repeat="role in roleList" value="{{role.id}}">{{role.value}}</option>
+                                </select>
+                                <p ng-show="userForm.role.$touched && !userForm.role.$valid"  class="help-block">Role is required.</p> 
+                            </div>
+                        </div>
+                        <div class="row" ng-if="user.role && user.role === 'pr'">
+                            <label class="lab-tx col-sm-4">PR Section:</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" ng-model="user.roleAccess">
+                                    <option ng-repeat="section in sectionList" value="{{section.id}}">{{section.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="user.role && user.role === 'csr'">
+                            <label class="lab-tx col-sm-4">CSR Section:</label>
+                            <div class="col-sm-6">
+                                <div class="form-check form-check-inline" ng-repeat="section in sectionList">
+                                    <input type="checkbox" class="form-check-input" id="{{section.id}}">
+                                    <label class="form-check-label" for="{{section.id}}">{{section.name}}</label>
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="lab-tx col-sm-4">Phone Number:</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" ng-model="user.phoneNo" ng-pattern="ph_numbr">
-                                </div>
+                        </div>
+                        <!-- row -->
+                        <div class="row">
+                            <div class="col-sm-10 text-right">
+                                <button class="btn btn-success" ng-disabled="userForm.$invalid" ng-click="submitForm(userForm.$valid)">{{saveBtnAction}}</button>
+                                <button class="btn btn-success" ng-click="cancel()">Back</button>
                             </div>
-                            <div class="row">
-                                <label class="lab-tx col-sm-4">Role:</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" ng-model="user.role">
-                                        <option ng-repeat="role in roleList" value="{{role.id}}">{{role.value}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row" ng-if="user.role && user.role === 'pr'">
-                                <label class="lab-tx col-sm-4">PR Section:</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" ng-model="user.roleAccess">
-                                        <option ng-repeat="section in sectionList" value="{{section.id}}">{{section.name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row" ng-if="user.role && user.role === 'csr'">
-                                <label class="lab-tx col-sm-4">CSR Section:</label>
-                                <div class="col-sm-6">
-                                    <div class="form-check form-check-inline" ng-repeat="section in sectionList">
-                                        <input type="checkbox" class="form-check-input" id="{{section.id}}">
-                                        <label class="form-check-label" for="{{section.id}}">{{section.name}}</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- row -->
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
