@@ -48,7 +48,14 @@ function routes($stateProvider, $urlRouterProvider) {
             url: '/viewFile/:fileId',
             templateUrl: 'app/fileView/fileView.html',
             controller: 'viewFileController'
-        }    ];
+        },
+        {
+            name: 'resetPwd',
+            url: '/resetPwd/:key',
+            templateUrl: 'app/resetPassword/resetPassword.html',
+            controller: 'resetPasswordController'
+        }    
+    ];
 
     angular.forEach(states, function (state) {
         $stateProvider.state(state);
