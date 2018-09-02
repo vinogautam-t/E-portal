@@ -39,6 +39,10 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                   }
                 }
               });
+
+            $timeout(function(){
+                branah.initialize("keyboard", "editor");
+            }, 1500);
           
               modalInstance.result.then(function (selectedItem) {
                 if(selectedItem.state == 'addNote'){
@@ -201,7 +205,7 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
     }
 ]);
 
-ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $scope, info, ApiService) {
+ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $scope, info, ApiService, $timeout) {
     $scope.info = info;
     $scope.userInfo = ApiService.getUserInfo();
     $scope.notesInfo = {'type': 'New'};
@@ -213,17 +217,35 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $sc
         $uibModalInstance.dismiss('cancel');
     };
 
+    $timeout(function(){
+        $('#editor').keyup(function(){
+            $scope.$apply(function(){
+                $scope.notesInfo.notes = $('#editor').val();
+            });
+        });
+    }, 1000);
+    
+
     $scope.addNotes = function() {
         var obj = {'notes': $scope.notesInfo.notes, 'updated_by': $scope.userInfo.id, 'id': $scope.info.rowData.id};
         console.log(obj);
         ApiService.startLoader();
-        ApiService.addNotes(obj).then(function(response){
-            ApiService.stopLoader();
-            if(response.status == 'success'){
-                toastr.success("successfully added notes");
-                $scope.ok({'state': 'addNote'});
-            }
-        }).catch(function(e){
+        html2canvas(document.getElementById('tamil_container_id'), {
+              onrendered: function(canvas) {
+                obj.files = canvas.toDataURL();
+                console.log(obj.dataUrl);
+                ApiService.addNotes(obj).then(function(response){
+                    ApiService.stopLoader();
+                    if(response.status == 'success'){
+                        toastr.success("successfully added notes");
+                        $scope.ok({'state': 'addNote'});
+                    }
+                }).catch(function(e){
+                    ApiService.stopLoader();
+                });
+              }
+            })
+        .catch(function (error) {
             ApiService.stopLoader();
         });
     }

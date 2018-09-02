@@ -6,7 +6,7 @@
         <div class="value-ct row">
         <div class="col-sm-12">
         <span class="no-of-re">10</span>
-        <div class="chart"><img src="/img/chart.png"></div>
+        <div class="chart"><img src="img/chart.png"></div>
         </div>
         <div class="col-sm-12">
         <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
@@ -20,7 +20,7 @@
         <div class="value-ct row">
         <div class="col-sm-12">
         <span class="no-of-re">10</span>
-        <div class="chart"><img src="/img/chart.png"></div>
+        <div class="chart"><img src="img/chart.png"></div>
         </div>
         <div class="col-sm-12">
         <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
@@ -34,7 +34,7 @@
         <div class="value-ct row">
         <div class="col-sm-12">
         <span class="no-of-re">10</span>
-        <div class="chart"><img src="/img/chart.png"></div>
+        <div class="chart"><img src="img/chart.png"></div>
         </div>
         <div class="col-sm-12">
         <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
@@ -48,7 +48,7 @@
         <div class="value-ct row">
         <div class="col-sm-12">
         <span class="no-of-re">10</span>
-        <div class="chart"><img src="/img/chart.png"></div>
+        <div class="chart"><img src="img/chart.png"></div>
         </div>
         <div class="col-sm-12">
         <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
@@ -112,8 +112,8 @@
                             <td>{{list.file_no}}</td>
                             <td>{{ list.created_on}}</td>
                             <td>{{list.title}}</td>
-                            <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="/img/file-doc.png"></a></td>
-                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="/img/create.png"></a></td>
+                            <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="img/file-doc.png"></a></td>
+                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
                         </tr>
                         <tr ng-if='fileList.new.length < 1'>
                             <td colspan='5' style='text-align: center;'>No Records to display...</td>
@@ -140,8 +140,8 @@
                                 <td>{{list.file_no}}</td>
                                 <td>{{ list.created_on}}</td>
                                 <td>{{list.title}}</td>
-                                <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
-                                <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
+                                <td class="text-center d-icon"><a href=""><img src="img/file-doc.png"></a></td>
+                                <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="img/create.png"></a></td>
                             </tr>
                             <tr ng-if='fileList.approved.length < 1'>
                                 <td colspan='6' style='text-align: center;'>No Records to display...</td>
@@ -168,8 +168,8 @@
                             <td>{{list.file_no}}</td>
                             <td>{{ list.created_on}}</td>
                             <td>{{list.title}}</td>
-                            <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
-                            <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
+                            <td class="text-center d-icon"><a href=""><img src="img/file-doc.png"></a></td>
+                            <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="img/create.png"></a></td>
                           </tr>
                           <tr ng-if='fileList.pending.length < 1'>
                             <td colspan='6' style='text-align: center;'>No Records to display...</td>
@@ -284,7 +284,9 @@
                 <input type="text" autocomplete="off" placeholder='File No' ng-model='notesInfo.fileNo' name='fileNo' class="form-control" required>
             </div>
             <br>
-            <textarea class='notesTextarea' ng-model='notesInfo.notes' required></textarea>
+            <div id="tamil_container_id">{{notesInfo.notes}}</div>
+            <textarea id='editor' class='notesTextarea' ng-model='notesInfo.notes' required></textarea>
+            <div id='keyboard'></div>
             <div class='form-control'>
                 <button type="button" class="btn btn-default pull-right" ng-disabled='notesAddForm.$invalid' ng-click='addNotes()'>Submit</button>
             </div>
