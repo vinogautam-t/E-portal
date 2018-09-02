@@ -59,5 +59,15 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         }
     }
 
+    apiService.getFileInfo = function(id){
+        return httpService
+        .get(APIURL+'?action=single_register&id='+id);
+    }
+
+    apiService.getRecordRoomInfo = function(){
+        return httpService
+        .get(APIURL+'?action=record_room_report');
+    }
+
     return apiService;
 });

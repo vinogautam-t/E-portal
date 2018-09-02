@@ -54,7 +54,13 @@ function routes($stateProvider, $urlRouterProvider) {
             url: '/resetPwd/:key',
             templateUrl: 'app/resetPassword/resetPassword.html',
             controller: 'resetPasswordController'
-        }    
+        },
+        {
+            name: 'registryRoom',
+            url: '/registryRoom',
+            templateUrl: 'app/registry/registry.html',
+            controller: 'registryController'
+        }      
     ];
 
     angular.forEach(states, function (state) {

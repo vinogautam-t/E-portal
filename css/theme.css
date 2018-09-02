@@ -222,6 +222,7 @@ table tr th{color:#5b845b;}
     overflow-y: scroll;  
     overflow-x: hidden;
     height: 100%;
+    margin: 10px;
   }
 
   .view-header {
