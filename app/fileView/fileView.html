@@ -65,18 +65,18 @@
                 <i class='fa fa-print pull-right print'></i>
             </div>
             <div class='printArea-body'>
-                <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
-                    <div uib-slide ng-repeat="slide in previewData track by $index" index="slide.index">
-                        <img width='300' ng-src="{{slide.src}}" style="margin:auto;">
-                        <div class="carousel-caption">
-                            <p>{{slide.name}}</p>
-                        </div>
+                <p ng-if='!showFiles' class='center'>No Preview Available</p>
+                <div ng-if='showFiles' uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                    <div uib-slide ng-repeat="slide in previewData track by $index" index='slide.index'>
+                        <img width='300' ng-src="{{slide.url}}" style="margin:auto;">
                     </div>
                 </div>
             </div>
-            <div class='center'>
+            <br>
+            <br>
+            <div ng-if='showAction' class='center'>
                 <button class='btn btn-default' ng-click='process("approve")'>Approve</button>
-                <button class='btn ' ng-click='process("decline")'>Decline</button>
+                <button class='btn' ng-click='process("decline")'>Decline</button>
             </div>
         </div>
     </div>

@@ -9,6 +9,15 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         document.getElementById("loading-screen").style.display = 'none';
     }
 
+    apiService.isLogin = function(){
+        var userInfo = localStorage.getItem('userInfo');
+        if(userInfo != undefined && userInfo != null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     apiService.getUserInfo = function(){
         return JSON.parse(localStorage.getItem('userInfo'));
     }
@@ -57,6 +66,27 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
                 .post(APIURL+'?action=csr_rejected', data);
             }
         }
+    }
+
+    apiService.getFileInfo = function(id){
+        return httpService
+        .get(APIURL+'?action=single_register&id='+id);
+    }
+
+    apiService.getRecordRoomInfo = function(){
+        return httpService
+        .get(APIURL+'?action=record_room_report');
+    }
+
+    apiService.getuserBasedRecordRoom = function(){
+        var usr = this.getUserInfo();
+        return httpService
+        .get(APIURL+'?action=register_report&id='+usr.id);
+    }
+
+    apiService.uploadOrderCopy = function(data){
+        return httpService
+        .post(APIURL+'?action=upload_order_copy', data);   
     }
 
     return apiService;

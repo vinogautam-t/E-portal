@@ -54,6 +54,15 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                     }).catch(function(e){
                         ApiService.stopLoader();
                     });
+                }else if(selectedItem.state == 'uploadOrderCopy'){
+                    $scope.getFiles().then(function(response){
+                        ApiService.stopLoader();
+                        if(response.data.status == 'success'){
+                            $scope.fileList = response.data.data;
+                        }
+                    }).catch(function(e){
+                        ApiService.stopLoader();
+                    });
                 }
               });
         }
@@ -61,6 +70,10 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
         $scope.getFiles = function(){
             ApiService.startLoader();
             return ApiService.getFiles();
+        }
+
+        $scope.viewRow = function(row){
+            $state.go('viewFile', { fileId:  row.id});
         }
         
         if($scope.userInfo.userrole == "attender"){
@@ -100,7 +113,7 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                         }
                     }
                 }
-                var canvas = document.getElementById('signature-pad');
+                // var canvas = document.getElementById('signature-pad');
                 // function resizeCanvas() {
                 //     // When zoomed out to less than 100%, for some very strange reason,
                 //     // some browsers report devicePixelRatio as less than 1
@@ -114,48 +127,48 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                 // window.onresize = resizeCanvas;
                 // resizeCanvas();
                 
-                var signaturePad = new SignaturePad(canvas, {
-                backgroundColor: 'rgb(255, 255, 255)' // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
-                });
+                // var signaturePad = new SignaturePad(canvas, {
+                // backgroundColor: 'rgb(255, 255, 255)' // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+                // });
                 
-                document.getElementById('save-png').addEventListener('click', function () {
-                if (signaturePad.isEmpty()) {
-                    return alert("Please provide a signature first.");
-                }
+                // document.getElementById('save-png').addEventListener('click', function () {
+                // if (signaturePad.isEmpty()) {
+                //     return alert("Please provide a signature first.");
+                // }
                 
-                var data = signaturePad.toDataURL('image/png');
-                console.log(data);
-                window.open(data);
-                });
+                // var data = signaturePad.toDataURL('image/png');
+                // console.log(data);
+                // window.open(data);
+                // });
                 
-                document.getElementById('save-jpeg').addEventListener('click', function () {
-                if (signaturePad.isEmpty()) {
-                    return alert("Please provide a signature first.");
-                }
+                // document.getElementById('save-jpeg').addEventListener('click', function () {
+                // if (signaturePad.isEmpty()) {
+                //     return alert("Please provide a signature first.");
+                // }
                 
-                var data = signaturePad.toDataURL('image/jpeg');
-                console.log(data);
-                window.open(data);
-                });
+                // var data = signaturePad.toDataURL('image/jpeg');
+                // console.log(data);
+                // window.open(data);
+                // });
                 
-                document.getElementById('save-svg').addEventListener('click', function () {
-                if (signaturePad.isEmpty()) {
-                    return alert("Please provide a signature first.");
-                }
+                // document.getElementById('save-svg').addEventListener('click', function () {
+                // if (signaturePad.isEmpty()) {
+                //     return alert("Please provide a signature first.");
+                // }
                 
-                var data = signaturePad.toDataURL('image/svg+xml');
-                console.log(data);
-                console.log(atob(data.split(',')[1]));
-                window.open(data);
-                });
+                // var data = signaturePad.toDataURL('image/svg+xml');
+                // console.log(data);
+                // console.log(atob(data.split(',')[1]));
+                // window.open(data);
+                // });
                 
-                document.getElementById('clear').addEventListener('click', function () {
-                signaturePad.clear();
-                });
+                // document.getElementById('clear').addEventListener('click', function () {
+                // signaturePad.clear();
+                // });
             }, 1000);
     
             $scope.Upload = function(e){
-                $scope.fileUpload.files = $scope.previewData
+                $scope.fileUpload.files = $scope.previewData;
                 ApiService.startLoader();
                 ApiService.createFiles($scope.fileUpload).then(function(response){
                     ApiService.stopLoader();
@@ -183,6 +196,12 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                 var data = {'title': 'Notes', 'state': 'addNote', 'rowData': rowData};
                 $scope.toggleModal(data);
             }
+
+            $scope.uploadOrder = function(rowData){
+                var data = {'title': 'Upload Order Copy', 'state': 'uploadOrderCopy', 'rowData': rowData};
+                $scope.toggleModal(data);
+            }
+
         }else if($scope.userInfo.userrole == "csr" || $scope.userInfo.userrole == "dr"){
             $scope.getFiles().then(function(response){
                 ApiService.stopLoader();
@@ -194,11 +213,6 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
             }).catch(function(e){
                 ApiService.stopLoader();
             });
-
-            $scope.viewRow = function(row){
-                $state.go('viewFile', { fileId:  row.id});
-            }
-
         }
         
 
@@ -216,6 +230,61 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $sc
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+    if($scope.info.state == 'uploadOrderCopy'){
+        $scope.showCarousel = false;
+        setTimeout(function(){
+            document.getElementById('files').onchange = function(e) {
+                e.preventDefault();		
+                $scope.previewData = [];	
+                var files = "";
+                if(e.type == "change"){
+                    files = e.target.files;
+                } else if(e.type === "drop"){
+                    files = e.originalEvent.dataTransfer.files;
+                }			
+                for(var i=0;i<files.length;i++){
+                    var file = files[i];
+                    if(file.type.indexOf("image") !== -1){
+                        previewFile(file, i);								
+                    } else {
+                        alert(file.name + " is not supported");
+                    }
+                }
+            }
+        },1000);
+    }
+    
+    $scope.uploadOrder = function(){
+        var data = {'id': $scope.info.rowData.id, 'updated_by': $scope.userInfo.id, 'files': $scope.previewData};
+        ApiService.startLoader();
+        ApiService.uploadOrderCopy(data).then(function(response){
+            ApiService.stopLoader();
+            if(response != undefined && response.status == 'success'){
+                $scope.ok({'state': 'uploadOrderCopy'});
+            }else{
+                toastr.warning('Something went wrong.');
+            }
+        }).catch(function(err){
+            ApiService.stopLoader();
+        });
+    }
+
+    function previewFile(file, i){
+        // var obj = new FormData().append('file',file);
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = readSuccess;                                            
+        function readSuccess(evt) {   
+            if(!$scope.$$phase) {
+                $scope.$apply(function(){
+                    $scope.previewData.push({'index': i, 'name':file.name, 'src':evt.target.result});                        
+                });
+            } else {
+                $scope.previewData.push({'index': i, 'name':file.name, 'src':evt.target.result});
+            }
+        };
+        $scope.showCarousel = true;
+    }
 
     $timeout(function(){
         $('#editor').keyup(function(){

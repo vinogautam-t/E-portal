@@ -12,6 +12,8 @@
       <!-- CSS SCRIPTS -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="https://unpkg.com/ionicons@4.1.1/dist/css/ionicons.min.css">
+      <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+      <link rel="stylesheet" type="text/css" href="css/angular-datatables.min.css">
       <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
       <link rel="stylesheet" type="text/css" href="css/toastr.min.css">
       <link rel="stylesheet" type="text/css" href="css/theme.css">
@@ -24,13 +26,19 @@
       <!-- Lib js Scripts -->
 
       
-      <script src='js/lib/jquery.min.js'></script>
-      <script type="text/javascript" src="js/lib/tooltipster.bundle.min.js"></script>
+      <script type="text/javascript" src='js/lib/jquery.min.js'></script>
+      <script type="text/javascript" src='js/lib/jquery.dataTables.min.js'></script>
       <script src='js/lib/angular.min.js'></script>
+      
       <script src='js/lib/angular-ui-router.min.js'></script>
+      <script type="text/javascript" src="js/lib/angular-sanitize.min.js"></script>
+      <script type="text/javascript" src='js/lib/angular-datatables.min.js'></script>
+      <script type="text/javascript" src="js/lib/tooltipster.bundle.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script src='js/lib/ui-bootstrap-tpls-2.5.0.js'></script>
       <script type="text/javascript" src="js/lib/angular-sanitize.min.js"></script>
+      <script src='js/lib/angular-animate.js'></script>
+
       <script type="text/javascript" src="js/lib/tv4.min.js"></script>
       <script src="//cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
       <script src='js/lib/toastr.min.js'></script>
@@ -74,6 +82,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav navbar-right">
                 <li><a href="javascript:void(0)"><span class="glyphicon glyphicon-envelope"></span></a></li>
+                <li ui-sref="registryRoom()"><a href="javascript:void(0)"><span class="fa fa-table"></span>  Registry Room</a></li>
                 <li ng-click='logout()'><a href="javascript:void(0)"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
               </ul>
             </div>
@@ -92,6 +101,7 @@
         <script src='app/fileView/fileView.controller.js'></script>
         <script src='app/section/section.controller.js'></script>
         <script src='app/resetPassword/resetPassword.controller.js'></script>
+        <script src='app/registry/registry.controller.js'></script>
 		    <script src='app/user/createuser.controller.js'></script>
     </body>
 </html>
