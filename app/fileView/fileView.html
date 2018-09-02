@@ -66,9 +66,11 @@
             </div>
             <div class='printArea-body'>
                 <p ng-if='!showFiles' class='center'>No Preview Available</p>
-                <div ng-if='showFiles' uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                {{active}}
+                <div ng-if='showFiles' uib-carousel active="active" interval="'none'" no-wrap="false">
                     <div uib-slide ng-repeat="slide in previewData track by $index" index='slide.index'>
-                        <img width='300' ng-src="{{slide.url}}" style="margin:auto;">
+                        <img width='700' ng-src="{{slide.url}}" style="margin:auto;">
+                        <canvas id="canvas_container" ng-if="$index === previewData.length-1"></canvas>
                     </div>
                 </div>
             </div>

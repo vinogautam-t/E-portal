@@ -243,10 +243,18 @@
         width: 60px
     }
 }
+
+#tamil_container{
+    opacity: 0;
+}
+#tamil_container span{
+    border-bottom: 1px solid #000;
+    display: inline-block;
+}
 #tamil_container_id{
-    visibility: hidden;
     position: fixed;
-    width: 900px;
+    width: 700px;
+    height: 900px;
     pointer-events: none;
     background: #fff;
     padding: 50px 30px;

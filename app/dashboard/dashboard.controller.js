@@ -302,7 +302,6 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $sc
         html2canvas(document.getElementById('tamil_container_id'), {
               onrendered: function(canvas) {
                 obj.files = canvas.toDataURL();
-                console.log(obj.dataUrl);
                 ApiService.addNotes(obj).then(function(response){
                     ApiService.stopLoader();
                     if(response.status == 'success'){

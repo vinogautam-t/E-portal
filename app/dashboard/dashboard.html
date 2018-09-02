@@ -286,11 +286,16 @@
                 <input type="text" autocomplete="off" placeholder='File No' ng-model='notesInfo.fileNo' name='fileNo' class="form-control" required>
             </div>
             <br>
-            <div id="tamil_container_id">{{notesInfo.notes}}</div>
+            <div id="tamil_container">
+              <div id="tamil_container_id">
+                <span>அலுவலகக்  குறிப்பு :</span><br><br>
+                <p>{{notesInfo.notes}}</p>
+              </div>
+            </div>
             <textarea id='editor' class='notesTextarea' ng-model='notesInfo.notes' required></textarea>
             <div id='keyboard'></div>
             <div class='form-control'>
-                <button type="button" class="btn btn-default pull-right" ng-disabled='notesAddForm.$invalid' ng-click='addNotes()'>Submit</button>
+                <button type="button" class="btn btn-default pull-right" ng-disabled='!notesInfo.notes' ng-click='addNotes()'>Submit</button>
             </div>
         </form>
 

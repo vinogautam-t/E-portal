@@ -3,7 +3,7 @@ ePortalApp.controller('viewFileController', ['$scope', '$window', '$http', '$tim
     function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $uibModal, ApiService, $uibModal, APIURL) {
         // alert('hi');
         $scope.userInfo = ApiService.getUserInfo();
-
+        $scope.active = 0;
         $scope.fileId = $stateParams.fileId;
         $scope.showFiles = false;
         $scope.previewData =  [];
@@ -21,11 +21,11 @@ ePortalApp.controller('viewFileController', ['$scope', '$window', '$http', '$tim
                             }
                         }
                         response.data.data.file_details.map(function(row){
-                            if(row.files != undefined && row.files != null && row.files.length > 0){
+                            if(!!row.files && row.is_only_log == 0){
                                 var arr = row.files.split(",");
                                 arr.map(function(rowItem){
                                     // $scope.previewData.push('https://e-portal-api-vinogautam.c9users.io/img/Sample1.png');
-                                    $scope.previewData.push({'url' : APIURL+ '/img/' + rowItem, 'index': $scope.previewData.length});
+                                    $scope.previewData.push({'url' : APIURL+ '/uploads/' + rowItem, 'index': $scope.previewData.length});
                                 });
                                 // $scope.previewData = $scope.previewData.concat(arr);
                             }
