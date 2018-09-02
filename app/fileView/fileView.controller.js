@@ -16,7 +16,9 @@ ePortalApp.controller('viewFileController', ['$scope', '$window', '$http', '$tim
                         if(parseInt(response.data.data.status) > 3 ){
                             $scope.showAction = false;
                         }else{
-                            $scope.showAction = true;
+                            if($scope.userInfo.userrole != 'pr'){
+                                $scope.showAction = true;
+                            }
                         }
                         response.data.data.file_details.map(function(row){
                             if(row.files != undefined && row.files != null && row.files.length > 0){
@@ -41,7 +43,7 @@ ePortalApp.controller('viewFileController', ['$scope', '$window', '$http', '$tim
         $scope.getInfo();
         
         $scope.process = function(action){
-            var data = {"updated_by": $scope.fileId, "id": $scope.userInfo.id};
+            var data = {"updated_by": $scope.userInfo.id, "id": $scope.fileId};
             ApiService.startLoader();
             ApiService.fileProcess(data, action, $scope.userInfo.userrole).then(function(response){
                 ApiService.stopLoader();

@@ -6,7 +6,7 @@
         <div class="value-ct row">
         <div class="col-sm-12">
         <span class="no-of-re">10</span>
-        <div class="chart"><img src="/img/chart.png"></div>
+        <div class="chart"><img src="img/chart.png"></div>
         </div>
         <div class="col-sm-12">
         <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
@@ -20,7 +20,7 @@
         <div class="value-ct row">
         <div class="col-sm-12">
         <span class="no-of-re">10</span>
-        <div class="chart"><img src="/img/chart.png"></div>
+        <div class="chart"><img src="img/chart.png"></div>
         </div>
         <div class="col-sm-12">
         <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
@@ -34,7 +34,7 @@
         <div class="value-ct row">
         <div class="col-sm-12">
         <span class="no-of-re">10</span>
-        <div class="chart"><img src="/img/chart.png"></div>
+        <div class="chart"><img src="img/chart.png"></div>
         </div>
         <div class="col-sm-12">
         <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
@@ -48,7 +48,7 @@
         <div class="value-ct row">
         <div class="col-sm-12">
         <span class="no-of-re">10</span>
-        <div class="chart"><img src="/img/chart.png"></div>
+        <div class="chart"><img src="img/chart.png"></div>
         </div>
         <div class="col-sm-12">
         <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
@@ -94,7 +94,7 @@
   <div style='padding: 10px;' ng-if='userInfo.userrole == "pr"' class="row">
     <div class="col-sm-12">
       <div class="file-upload">
-          <uib-tabset active="activeJustified" justified="true">
+          <uib-tabset class='tab-view' active="activeJustified" justified="true">
               <uib-tab index="0" heading="New Records">
                 <div class="table-responsive">
                     <table class="table">
@@ -112,8 +112,8 @@
                             <td>{{list.file_no}}</td>
                             <td>{{ list.created_on}}</td>
                             <td>{{list.title}}</td>
-                            <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="/img/file-doc.png"></a></td>
-                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="/img/create.png"></a></td>
+                            <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="img/file-doc.png"></a></td>
+                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
                         </tr>
                         <tr ng-if='fileList.new.length < 1'>
                             <td colspan='5' style='text-align: center;'>No Records to display...</td>
@@ -140,8 +140,9 @@
                                 <td>{{list.file_no}}</td>
                                 <td>{{ list.created_on}}</td>
                                 <td>{{list.title}}</td>
-                                <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
-                                <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
+                                <td>{{list.status}}</td>
+                                <td class="text-center d-icon"><i class='fa fa-upload upload-order' ng-click='uploadOrder(list)'></i></td>
+                                <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
                             </tr>
                             <tr ng-if='fileList.approved.length < 1'>
                                 <td colspan='6' style='text-align: center;'>No Records to display...</td>
@@ -159,7 +160,7 @@
                               <th>Date</th>
                               <th>Description</th>
                               <th class="text-center">Status</th>
-                              <th class="text-center">Upload Order Copy</th>
+                              <th class="text-center">Write Note Sheet</th>
                               <th class="text-center">Action</th>
                           </tr>
                       </thead>
@@ -168,8 +169,9 @@
                             <td>{{list.file_no}}</td>
                             <td>{{ list.created_on}}</td>
                             <td>{{list.title}}</td>
-                            <td class="text-center d-icon"><a href=""><img src="/img/file-doc.png"></a></td>
-                            <td class="text-center d-icon"><a href="" data-toggle="modal" data-target="#crate-note"><img src="/img/create.png"></a></td>
+                            <td>{{list.status}}</td>
+                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="/img/create.png"></a></td>
+                            <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
                           </tr>
                           <tr ng-if='fileList.pending.length < 1'>
                             <td colspan='6' style='text-align: center;'>No Records to display...</td>
@@ -252,11 +254,11 @@
       <div class="wrapper" style='border: 1px solid black;'>
         <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
       </div> -->
-        <button id="save-png">Save as PNG</button>
+        <!-- <button id="save-png">Save as PNG</button>
         <button id="save-jpeg">Save as JPEG</button>
         <button id="save-svg">Save as SVG</button>
 
-        <button id="clear">Clear</button>
+        <button id="clear">Clear</button> -->
   </div>
 
 </div>
@@ -284,13 +286,46 @@
                 <input type="text" autocomplete="off" placeholder='File No' ng-model='notesInfo.fileNo' name='fileNo' class="form-control" required>
             </div>
             <br>
-            <textarea class='notesTextarea' ng-model='notesInfo.notes' required></textarea>
+            <div id="tamil_container_id">{{notesInfo.notes}}</div>
+            <textarea id='editor' class='notesTextarea' ng-model='notesInfo.notes' required></textarea>
+            <div id='keyboard'></div>
             <div class='form-control'>
                 <button type="button" class="btn btn-default pull-right" ng-disabled='notesAddForm.$invalid' ng-click='addNotes()'>Submit</button>
             </div>
         </form>
+
+        <form class='form-group upload-order-form' name='uploadOrderForm' ng-if='info.state == "uploadOrderCopy"'>
+            <div class='row'>
+                <div class='col-sm-8'>
+                    <label class="lab-tx col-sm-4">upload Scan copy:</label>
+                    <div class="col-sm-6">
+                        <input type="file" name="uploadorder.files" multiple="true" accept="image/*" id='files' required class="form-control">
+                    </div>
+                </div>
+                <div class='col-sm-4'>
+                    <div ng-if='!showCarousel' id='myCarousel'>
+                        <i style='font-size: 220px;' class='fa fa-image'></i>
+                    </div>
+                    <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                        <div uib-slide ng-repeat="slide in previewData track by $index" index="slide.index">
+                            <img width='300' ng-src="{{slide.src}}" style="margin:auto;">
+                            <div class="carousel-caption">
+                                <p>{{slide.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='clearfix'></div>
+            </div>
+            <br>
+            <div class='form-control'>
+                <button type="button" class="btn btn-default pull-right" ng-disabled='!showCarousel' ng-click='uploadOrder()'>Submit</button>
+            </div>
+            <div class='clearfix'></div>
+        </form>
        
     </div>
+    
     <!-- <div class='modal-footer'>
     </div> -->
 </script>

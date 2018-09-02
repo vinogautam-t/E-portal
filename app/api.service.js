@@ -78,5 +78,16 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         .get(APIURL+'?action=record_room_report');
     }
 
+    apiService.getuserBasedRecordRoom = function(){
+        var usr = this.getUserInfo();
+        return httpService
+        .get(APIURL+'?action=register_report&id='+usr.id);
+    }
+
+    apiService.uploadOrderCopy = function(data){
+        return httpService
+        .post(APIURL+'?action=upload_order_copy', data);   
+    }
+
     return apiService;
 });
