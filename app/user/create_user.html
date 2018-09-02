@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8">
-                    <form name="userForm"  novalidate>
+                    <form name="userForm" novalidate>
                         <div class="row">
                             <label class="lab-tx col-sm-4">User Name
                                 <span class="mandatory">*</span>
@@ -64,7 +64,7 @@
                                 <select class="form-control" ng-model="user.role" required name="role">
                                     <option ng-repeat="role in roleList" value="{{role.id}}">{{role.value}}</option>
                                 </select>
-                                <p ng-show="userForm.role.$touched && !userForm.role.$valid"  class="help-block">Role is required.</p> 
+                                <p ng-show="userForm.role.$touched && !userForm.role.$valid" class="help-block">Role is required.</p>
                             </div>
                         </div>
                         <div class="row" ng-if="user.role && user.role === 'pr'">
@@ -79,9 +79,9 @@
                             <label class="lab-tx col-sm-4">CSR Section:</label>
                             <div class="col-sm-6">
                                 <div class="form-check form-check-inline" ng-repeat="section in sectionList">
-                                    <input type="checkbox" class="form-check-input" id="{{section.id}}">
-                                    <label class="form-check-label" for="{{section.id}}">{{section.name}}</label>
-                                </div>
+                                    <label class="i-checks m-b-none">
+                                        <input type="checkbox" data-ng-model="section.val" data-ng-click="selectedValue(section.val,$index)"> {{section.name}} </label>
+                               </div>
                             </div>
                         </div>
                         <!-- row -->

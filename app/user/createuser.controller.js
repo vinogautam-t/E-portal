@@ -86,6 +86,15 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
 
 
     $scope.submitForm = function () {
+        if ($scope.user.role === 'csr') {
+            var sectionLst = $filter('filter')($scope.sectionList, { 'val': true });
+            $scope.user.roleAccess = [];
+            angular.forEach(sectionLst, function (data, i) {
+                $scope.user.roleAccess.push(data.id)
+            });
+            
+        }
+
         var req =
             {
                 "handle": $scope.action,
@@ -118,7 +127,13 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
 
     $scope.getSectionList = function () {
         SectionService.getSectionList('?action=sections').then(function (resp) {
-            $scope.sectionList = $filter('filter')(resp.data, { 'type': 'section' });
+            var sectionLst = $filter('filter')(resp.data, { 'type': 'section' });
+            $scope.sectionList = [];
+            angular.forEach(sectionLst, function (data, i) {
+                var dt = data;
+                dt["val"]= false;
+                $scope.sectionList.push(data);
+            });
             if ($scope.info.user) {
                 var sections = $scope.info.user.section.split(',');
                 if (sections.length === 1) {
@@ -126,12 +141,13 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
                 } else {
 
                 }
-
             }
-
         }, function err() {
             console.log('err')
         });
+    }
+    $scope.selectedValue = function(value,index){
+        $scope.sectionList[index].val = !!value;
     }
 
     $scope.findActionType = function () {
@@ -159,8 +175,6 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
     };
 
 });
-
-
 
 ePortalApp.factory('UserService', function (httpService, APIURL) {
 
