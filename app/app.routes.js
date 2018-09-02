@@ -25,23 +25,11 @@ function routes($stateProvider, $urlRouterProvider) {
             url: '/section',
             templateUrl: 'app/section/section.html',
             controller: 'sectionController as vm'
-        }, {
+        },{
             name: 'user',
             url: '/user',
             templateUrl: 'app/user/user.html',
             controller: 'UserController'
-        },
-{
-            name: 'addUser',
-            url: '/user/add',
-            templateUrl: 'app/user/create_user.html',
-            controller: 'AddUserController'
-        },
-        {
-            name: 'editUser',
-            url: '/user/edit:id',
-            templateUrl: 'app/user/create_user.html',
-            controller: 'AddUserController'
         },
         {
             name: 'viewFile',
