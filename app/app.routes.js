@@ -68,3 +68,22 @@ function routes($stateProvider, $urlRouterProvider) {
     });
 
 }
+
+    
+angular.module('app').run(['$state', '$rootScope', 'ApiService', function($state, $rootScope, ApiService) {
+    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+        var notAuth = ['login', 'resetPwd'];
+        // console.log(notAuth.indexOf(toState.name));
+        if(notAuth.indexOf(toState.name) == -1){
+            if(!ApiService.isLogin()){
+                e.preventDefault();
+                $state.go('login');
+            }
+        }
+        if(toState.name == 'login'){
+            if(ApiService.isLogin()){
+                e.preventDefault();
+            }
+        }
+    });
+}]);

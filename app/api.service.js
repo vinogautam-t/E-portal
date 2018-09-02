@@ -9,6 +9,15 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         document.getElementById("loading-screen").style.display = 'none';
     }
 
+    apiService.isLogin = function(){
+        var userInfo = localStorage.getItem('userInfo');
+        if(userInfo != undefined && userInfo != null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     apiService.getUserInfo = function(){
         return JSON.parse(localStorage.getItem('userInfo'));
     }

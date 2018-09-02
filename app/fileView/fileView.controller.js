@@ -22,8 +22,8 @@ ePortalApp.controller('viewFileController', ['$scope', '$window', '$http', '$tim
                             if(row.files != undefined && row.files != null && row.files.length > 0){
                                 var arr = row.files.split(",");
                                 arr.map(function(rowItem){
-                                    // $scope.previewData.push('https://www.gstatic.com/webp/gallery3/2.png');
-                                    console.log(APIURL+ '/' + rowItem);
+                                    // $scope.previewData.push('https://e-portal-api-vinogautam.c9users.io/img/Sample1.png');
+                                    $scope.previewData.push(APIURL+ '/img/' + rowItem);
                                 });
                                 // $scope.previewData = $scope.previewData.concat(arr);
                             }

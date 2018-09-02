@@ -68,7 +68,7 @@
                 <p ng-if='!showFiles' class='center'>No Preview Available</p>
                 <div ng-if='showFiles' uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
                     <div uib-slide ng-repeat="slide in previewData track by $index">
-                        <img width='500' height="400" ng-src="{{slide}}" style="margin:auto;">
+                        <img width='300' ng-src="{{slide}}" style="margin:auto;">
                     </div>
                 </div>
             </div>
