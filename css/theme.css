@@ -219,10 +219,10 @@ table tr th{color:#5b845b;}
   }
 
   .view-container {
-    overflow-y: scroll;  
+    /* overflow-y: scroll;   */
     overflow-x: hidden;
     height: 100%;
-    margin: 10px;
+    margin: 0 100px;
   }
 
   .view-header {

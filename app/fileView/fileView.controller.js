@@ -23,7 +23,7 @@ ePortalApp.controller('viewFileController', ['$scope', '$window', '$http', '$tim
                                 var arr = row.files.split(",");
                                 arr.map(function(rowItem){
                                     // $scope.previewData.push('https://e-portal-api-vinogautam.c9users.io/img/Sample1.png');
-                                    $scope.previewData.push(APIURL+ '/img/' + rowItem);
+                                    $scope.previewData.push({'url' : APIURL+ '/img/' + rowItem, 'index': $scope.previewData.length});
                                 });
                                 // $scope.previewData = $scope.previewData.concat(arr);
                             }
