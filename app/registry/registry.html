@@ -1,31 +1,33 @@
 <div class='view-container'>
     <h3>Registry room</h3>
-    <div class='table-responsive'>
-        <!-- <table datatable="" dt-instance="dtInstance" dt-options="dtOptions" dt-columns="dtColumns" dt-column-defs='dtColDef' class="row-border hover row-clickable"></table> -->
-        <div class='table-container'>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>File No</th>
-                        <th>File Expiry</th>
-                        <th>Section</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-if='!noData' ng-repeat='row in recordRoomData track by row.id'>
-                        <td>{{row.file_no}}</td>
-                        <td>{{row.file_expiry}}</td>
-                        <td>{{row.section}}</td>
-                        <td>{{row.status}}</td>
-                        <td><a href='javascript:void(0)' ng-click="viewRow(row)">View</a></td>
-                    </tr>
-                    <tr ng-if='noData' colspan='5'>
-                        <td>no records to display</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <uib-tabset class='tab-view' active="activeJustified" justified="true">
+        <uib-tab ng-repeat='s in recordRoomDataKeys track by $index' index="$index" heading="Section {{s}}">
+            <div class='table-responsive'>
+                <!-- <table datatable="" dt-instance="dtInstance" dt-options="dtOptions" dt-columns="dtColumns" dt-column-defs='dtColDef' class="row-border hover row-clickable"></table> -->
+                <div class=''>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>File No</th>
+                                <th>File Expiry</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if='!noData' ng-repeat='row in recordRoomData[s] track by row.id'>
+                                <td>{{row.file_no}}</td>
+                                <td>{{row.file_expiry}}</td>
+                                <td>{{row.status}}</td>
+                                <td><a href='javascript:void(0)' ng-click="viewRow(row)">View</a></td>
+                            </tr>
+                            <tr ng-if='noData' colspan='5'>
+                                <td>no records to display</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
 </div>

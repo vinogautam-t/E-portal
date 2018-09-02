@@ -2,11 +2,13 @@ ePortalApp.controller('registryController', ['$scope', '$window', '$http', '$tim
     function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $uibModal, ApiService, $uibModal, DTOptionsBuilder, DTColumnBuilder, APIURL) {
        
         $scope.getRecordRoomDetails = function(){
-            ApiService.getRecordRoomInfo().then(function(response){
+            ApiService.getuserBasedRecordRoom().then(function(response){
+                console.log(response);
                 if(response.data != undefined && response.data.status == 'success' && response.data.data != undefined){
-                    if(response.data.data.length > 0){
+                    if(Object.keys(response.data.data).length > 0){
                         $scope.noData = false;
                         $scope.recordRoomData = response.data.data;
+                        $scope.recordRoomDataKeys = Object.keys($scope.recordRoomData);
                     }else{
                         $scope.noData = true;
                     }

@@ -472,6 +472,25 @@ table tr th{color:#5b845b;}
     padding: 10px;
   }
 
+  .tab-view ul {
+    background: rgb(231, 243, 231);
+    border-top: 4px solid #5b845b;
+    width: 100% !important;
+  }
+
+  .tab-view ul li{
+    width: 200px !important;
+    background: rgb(210, 210, 208);
+    color: rgb(136, 136, 136);
+  }
+
+  .tab-view ul li a,
+  .tab-view ul li a:hover {
+    background: rgb(210, 210, 208);
+    color: rgb(136, 136, 136);
+    font-weight: 600;
+  }
+
   .table-container {
     box-shadow: 0px 0px 2px 2px #c5bdbd;
     margin: 20px 0;
