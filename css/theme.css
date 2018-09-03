@@ -596,4 +596,11 @@ table tr th{color:#5b845b;}
     }
 
   }
-  
+  #canvas_container{
+    position: absolute;
+    width: 700px;
+    height: 900px;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }

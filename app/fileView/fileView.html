@@ -70,7 +70,7 @@
                 <div ng-if='showFiles' uib-carousel active="active" interval="'none'" no-wrap="false">
                     <div uib-slide ng-repeat="slide in previewData track by $index" index='slide.index'>
                         <img width='700' ng-src="{{slide.url}}" style="margin:auto;">
-                        <canvas id="canvas_container" ng-if="$index === previewData.length-1"></canvas>
+                        <canvas id="canvas_container" width=700 height=900 ng-if="$index === previewData.length-1"></canvas>
                     </div>
                 </div>
             </div>
@@ -82,5 +82,22 @@
             </div>
         </div>
     </div>
-
+</div>
+<script type="text/ng-template" id="expiryModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">{{info.title}}</h3>
     </div>
+    <div class="modal-body" id="modal-body">
+        <form class='form-group' name='expiryForm' ng-if='info.state == "expiry"'>
+            <div class='row'>     
+                <label class="lab-tx col-sm-4">Date :</label>
+                <div class="col-sm-4">
+                    <input type="date" id='expiryDate' data-date-format="DD MMMM YYYY" autocomplete="off" required name='date' ng-model='expiry.date' class="form-control">
+                </div>
+            </div>
+            <div class='form-control'>
+                <button type="button" class="btn btn-default pull-right" ng-disabled='expiryForm.$invalid' ng-click='setExpiry()'>Submit</button>
+            </div>
+        </form>
+    </div>
+</script>
