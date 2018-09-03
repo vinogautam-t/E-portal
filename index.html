@@ -81,8 +81,10 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="javascript:void(0)"><span class="glyphicon glyphicon-envelope"></span></a></li>
-                <li ui-sref="registryRoom()"><a href="javascript:void(0)"><span class="fa fa-table"></span>  Registry Room</a></li>
+                <li ng-if="userInfo.userrole == 'admin'" ui-sref="user()"><a href="javascript:void(0)"><span class="fa fa-user"></span>  User</a></li>
+                <li ng-if="userInfo.userrole == 'admin'" ui-sref="section()"><a href="javascript:void(0)"><span class="fa fa-group"></span>  Section</a></li>
+                <li ng-if="userInfo.userrole != 'admin'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-envelope"></span></a></li>
+                <li ng-if="userInfo.userrole != 'admin'" ui-sref="registryRoom()"><a href="javascript:void(0)"><span class="fa fa-table"></span>  Registry Room</a></li>
                 <li ng-click='logout()'><a href="javascript:void(0)"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
               </ul>
             </div>
@@ -102,6 +104,6 @@
         <script src='app/section/section.controller.js'></script>
         <script src='app/resetPassword/resetPassword.controller.js'></script>
         <script src='app/registry/registry.controller.js'></script>
-		    <script src='app/user/createuser.controller.js'></script>
+        <script src='app/user/createuser.controller.js'></script>
     </body>
 </html>

@@ -16,7 +16,24 @@ ePortalApp.controller('registryController', ['$scope', '$window', '$http', '$tim
             }).catch(function(err){
                 console.log(err);
             });
-        }
+        };
+        
+        $scope.statusDetail = [
+            {
+                0 : 'New File' ,
+                1 : 'Waiting for CSR Approval',
+                2 : 'Waiting for DR Approval',
+                '-1' : 'Rejected pending in PR Table'
+            },
+            {
+                '-1' : 'Order Approved / Order copy correction in PR Table',
+                '-2' : 'Order Approved',
+                4: 'Moved to Record Romm',
+                1: 'Order Approved / Waiting for CSR Approval',
+                2: 'Order Approved / Waiting for CSR Approval'
+            }
+            ]
+        
         $scope.getRecordRoomDetails();
 
         $scope.loadTable = function(){

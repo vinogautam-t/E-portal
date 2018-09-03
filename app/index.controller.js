@@ -13,6 +13,8 @@ function indexController($rootScope, $scope, $state, $location, $uibModal, $stat
     // }
     
    
+    $scope.userInfo = ApiService.getUserInfo();
+   
     $scope.openNav = function(){
         document.getElementById("side-nav").style.left = '0px';
         document.getElementById("menu-btn").style.display = 'none';

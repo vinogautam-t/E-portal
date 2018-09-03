@@ -8,17 +8,21 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>File No</th>
-                                <th>File Expiry</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th width="10%">#</th>
+                                <th width="15%">File Date</th>
+                                <th width="20%">File No</th>
+                                <th width="25%">Note sheet</th>
+                                <th width="20%">Status</th>
+                                <th width="10%">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-if='!noData' ng-repeat='row in recordRoomData[s] track by row.id'>
+                                <td>{{$index+1}}</td>
+                                <td>{{row.created_on}}</td>
                                 <td>{{row.file_no}}</td>
-                                <td>{{row.file_expiry}}</td>
-                                <td>{{row.status}}</td>
+                                <td>{{row.file_details[1].notes}}</td>
+                                <td>{{statusDetail[row.approved][row.status]}}</td>
                                 <td><a href='javascript:void(0)' ng-click="viewRow(row)">View</a></td>
                             </tr>
                             <tr ng-if='noData' colspan='5'>
