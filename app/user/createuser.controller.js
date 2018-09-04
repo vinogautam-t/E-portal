@@ -1,4 +1,4 @@
-ePortalApp.controller("UserController", function ($scope, $window, $http, $timeout, $rootScope, $stateParams, $uibModal, UserService) {
+ePortalApp.controller("UserController", function ($scope, $window, $http, $timeout, $rootScope, $state,$stateParams, $uibModal, UserService) {
     $scope.userList = [];
 
     $scope.getUserList = function () {
@@ -60,6 +60,29 @@ ePortalApp.controller("UserController", function ($scope, $window, $http, $timeo
         });
     }
 
+    $scope.updateStatus = function (userId, status, msg) {
+        var req =
+            {
+                "handle": 'edit',
+                "status": status,
+                "id": userId
+            };
+        $scope.successMsg = 'User ' + msg + ' Successfully';
+        $scope.errorMsg = 'User ' + msg + ' failed';
+        UserService.addUserDetail('?action=user_action', req).then(function (resp) {
+            if (resp.status === 'success') {
+                toastr.success($scope.successMsg);
+                // $state.go('listUser');
+                $state.reload();
+            } else {
+                toastr.warning($scope.errorMsg + ", Please try after sometime.");
+            }
+        }, function err() {
+            toastr.warning("Service failed, Please try after sometime.");
+        });
+
+    }
+
 });
 ePortalApp.controller("UserActionController", function ($scope, $filter, $window, $http, $timeout, $uibModal, UserService, SectionService, info, $uibModalInstance, $state) {
 
@@ -92,7 +115,7 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
             angular.forEach(sectionLst, function (data, i) {
                 $scope.user.roleAccess.push(data.id)
             });
-            
+
         }
 
         var req =
@@ -131,7 +154,7 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
             $scope.sectionList = [];
             angular.forEach(sectionLst, function (data, i) {
                 var dt = data;
-                dt["val"]= false;
+                dt["val"] = false;
                 $scope.sectionList.push(data);
             });
             if ($scope.info.user) {
@@ -146,7 +169,7 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
             console.log('err')
         });
     }
-    $scope.selectedValue = function(value,index){
+    $scope.selectedValue = function (value, index) {
         $scope.sectionList[index].val = !!value;
     }
 

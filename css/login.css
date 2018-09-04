@@ -1,3 +1,12 @@
 .mandatory{
     color: red;
 }
+.useractive {
+    pointer-events: none;
+    color: green !important;
+}
+.userInactive {
+    cursor: pointer;
+    color:red !important;
+}
+

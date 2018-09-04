@@ -1,9 +1,9 @@
 angular.module('app')
     .controller('indexController', indexController);
 
-indexController.$inject = ['$rootScope', '$scope', '$state', '$location', '$uibModal', '$stateParams', '$window']
+indexController.$inject = ['$rootScope', '$scope', '$state', '$location', '$uibModal', '$stateParams', '$window','ApiService']
 
-function indexController($rootScope, $scope, $state, $location, $uibModal, $stateParams, $window) {
+function indexController($rootScope, $scope, $state, $location, $uibModal, $stateParams, $window,ApiService) {
     var vm = this;
     // $scope.isLogin = false;
     // if($location.$$path == '' || $location.$$path == '/'){

@@ -46,17 +46,24 @@
                             <td>{{data.lastname}}</td>
                             <td>{{data.email}}</td>
                             <td>{{data.userrole}}</td>
-                            <td><span data-ng-if="data.status === '1'">Active</span><span data-ng-if="data.status !== '1'">Not Active </span></td>
                             <td>
-                                <button class="btn btn-warning" ng-click="editUser(data)" title="Edit">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" ng-click="deleteInfo(data.id, $index)" title="Delete">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </td>
+
+                                <span>
+                                    <a href="JavaScript:void(0)" ng-class="data.status === '1' ? 'useractive' : 'userInactive'" ng-click="updateStatus(data.id,1,'Activation')">Active</a>
+                                </span> /
+                                <span>
+                                    <a href="JavaScript:void(0)" ng-class="data.status === '1' ? 'userInactive' : 'useractive'" ng-click="updateStatus(data.id,0,'In activation')">In Active </a>
+                                </span>
+                                <td>
+                                    <button class="btn btn-warning" ng-click="editUser(data)" title="Edit">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger" ng-click="deleteInfo(data.id, $index)" title="Delete">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </td>
                         </tr>
                     </tbody>
                 </table>

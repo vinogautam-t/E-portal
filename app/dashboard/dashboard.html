@@ -250,6 +250,49 @@
               </div>
           </div>
       </div>
+      <div class="col-sm-12">
+            <div class="file-upload">
+                <h3>Leave Form</h3>
+                <div class="col-sm-8">
+                    <form name='leavefileUploadForm' enctype="multipart/form-data">
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">Employee :</label>
+                            <div class="col-sm-6">
+                                <select class="form-control">
+                                    <option ng-repeat="employee in employeeList" value="{{employee.id}}">{{employee.firstname}} {{employee.lastname}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">From Date :</label>
+                            <div class="col-sm-6">
+                                <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='date' ng-model='leavefileUploadForm.fromDate'
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">To Date :</label>
+                            <div class="col-sm-6">
+                                <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='date' ng-model='leavefileUploadForm.toDate'
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="lab-tx col-sm-4">upload Scan copy:</label>
+                            <div class="col-sm-6">
+                                <input type="file" name="leavefileUploadForm.files" multiple="true" accept="image/*" id='files' required class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-10 text-right">
+                                <button class="btn btn-success" ng-disabled='leavefileUploadForm.$invalid' ng-click='leaveUpload(leavefileUploadForm)'>Submit</button>
+                            </div>
+                    </form>
+                    </div>
+
+                </div>
+            </div>
       <!-- <p>hi canvas</p>
       <div class="wrapper" style='border: 1px solid black;'>
         <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>

@@ -1,11 +1,12 @@
-ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$timeout', '$rootScope', '$stateParams', '$uibModal', 'ApiService', '$uibModal', '$state',
-    function ($scope, $window, $http, $timeout, $rootScope, $stateParams, $uibModal, ApiService, $uibModal, $state) {
+ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$timeout', '$rootScope', '$stateParams', '$uibModal', 'ApiService', '$uibModal', '$state','UserService','$filter',
+    function ($scope, $window, $http, $timeout, $rootScope, $stateParams, $uibModal, ApiService, $uibModal, $state,UserService,$filter) {
         
         $scope.previewData = [];
         $scope.showCarousel = false;
 
         $scope.datePopup = {'opened' : false};
         $scope.userInfo = ApiService.getUserInfo();
+        $scope.employeeList = [];
         
         $scope.getSection = function(){
             ApiService.startLoader();
@@ -214,6 +215,15 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                 ApiService.stopLoader();
             });
         }
+
+        $scope.getUserList = function () {
+            UserService.getUserList('?action=users').then(function (resp) {
+                $scope.employeeList = $filter('filter')(resp.data, { 'status': "1" });
+            }, function err() {
+                console.log('err')
+            });
+        }
+        $scope.getUserList();
         
 
     }
