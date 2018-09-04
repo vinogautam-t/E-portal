@@ -89,5 +89,10 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         .post(APIURL+'?action=upload_order_copy', data);   
     }
 
+    apiService.moveToRecordRoom = function(data){
+        return httpService
+        .post(APIURL+'?action=move_to_record_room', data);
+    }
+
     return apiService;
 });

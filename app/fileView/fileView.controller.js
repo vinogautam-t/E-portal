@@ -82,14 +82,16 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
             }
         });
 
-        modalInstance.result.then(function (selectedItem) {
-
+        modalInstance.result.then(function (res) {
+            if(res.state == 'expiry'){
+                $state.go('dashboard');
+            }
         });
     }
     
     $scope.process = function(action){
         if($scope.registryInfo.approved = '1' && $scope.userInfo.userrole == 'dr'){
-            $scope.toggleModal({'title': 'Set Expiry Period', 'state': 'expiry'});
+            $scope.toggleModal({'title': 'Set Expiry Period', 'state': 'expiry', 'registryInfo': $scope.registryInfo});
         }else{
             $scope.proceed();
         }
@@ -125,7 +127,8 @@ ePortalApp.controller('expiryModalInstanceCtrl', ['$scope', 'info', '$window', '
     function ($scope, info, $window, $http, $timeout, $rootScope, $state, $stateParams, $uibModal, ApiService, $uibModal, APIURL) {
         $scope.info = info;
         $scope.expiry = {};
-
+        $scope.userInfo = ApiService.getUserInfo();
+        console.log($scope.info.registryInfo);
         $timeout(function(){
             // var today = new Date();
             // var dd = today.getDate();
@@ -151,7 +154,18 @@ ePortalApp.controller('expiryModalInstanceCtrl', ['$scope', 'info', '$window', '
         };
 
         $scope.setExpiry = function(){
-            console.log($scope.expiry);
+            var dateArr = JSON.stringify($scope.expiry.date).split('T');
+            var expiryDate = moment(dateArr[0], "YYYY-MM-DD").add(1, 'day').format("YYYY-MM-DD") ;
+            
+            var data = {"updated_by": $scope.userInfo.id, "id": $scope.info.registryInfo.id, "expiry": expiryDate};
+            ApiService.moveToRecordRoom(data).then(function(response){
+                if(response.status == 'success'){
+                    $scope.ok({'state': 'expiry'});
+                }
+            }).catch(function(err){
+
+            });
+
         }
 
     }

@@ -11,10 +11,14 @@ function indexController($rootScope, $scope, $state, $location, $uibModal, $stat
     //     $scope.moduleTitle = 'Welcome Back';
     //     $scope.loginInfo = {name: '', password: ''};
     // }
-    
+
    
-    $scope.userInfo = ApiService.getUserInfo();
-   
+    $scope.getUserInfo = function(){
+        $scope.userInfo = ApiService.getUserInfo();
+    }
+
+    $scope.getUserInfo();
+
     $scope.openNav = function(){
         document.getElementById("side-nav").style.left = '0px';
         document.getElementById("menu-btn").style.display = 'none';
@@ -32,18 +36,4 @@ function indexController($rootScope, $scope, $state, $location, $uibModal, $stat
         $state.go('login');
     }
 
-}
-
-function screenResize(){
-    //var width = document.getElementById("body").outerWidth;
-    // if(window.innerWidth < 768 ){
-    //      console.log(document.getElementById('isNavOpen').value);
-    //     if(document.getElementById('isNavOpen').value == 'false'){
-    //         document.getElementById("menu-btn").style.display = 'block';
-    //      }else{
-    //         document.getElementById("menu-btn").style.display = 'none';
-    //      }
-    // }else{
-    //     document.getElementById("menu-btn").style.display = 'none';
-    // }
 }

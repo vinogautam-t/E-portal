@@ -17,6 +17,8 @@ ePortalApp.controller('loginController', ['$scope', '$window', '$http', '$timeou
                     if(res.status == 'success'){
                         toastr.success("Welcome back "+ res.data.firstname + ' '+ res.data.lastname);
                         localStorage.setItem('userInfo', JSON.stringify(res.data));
+                        var indexScope = angular.element(document.getElementById('body')).scope();
+                        indexScope.getUserInfo();
                         $state.go('dashboard');
                     }else{
                         toastr.warning(res.msg);
