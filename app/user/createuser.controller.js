@@ -1,4 +1,4 @@
-ePortalApp.controller("UserController", function ($scope, $window, $http, $timeout, $rootScope, $state,$stateParams, $uibModal, UserService) {
+ePortalApp.controller("UserController", function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $uibModal, UserService) {
     $scope.userList = [];
 
     $scope.getUserList = function () {
@@ -8,7 +8,7 @@ ePortalApp.controller("UserController", function ($scope, $window, $http, $timeo
             console.log('err')
         });
     }
-    $scope.getUserList();
+   $scope.getUserList();
 
     $scope.addUser = function () {
         var data = { 'title': 'Add User', 'module': 'adduser' };
@@ -60,7 +60,8 @@ ePortalApp.controller("UserController", function ($scope, $window, $http, $timeo
         });
     }
 
-    $scope.updateStatus = function (userId, status, msg) {
+    $scope.updateStatus = function (userId, status) {
+        var msg = status === '0' ? 'In activation' : 'Activation';
         var req =
             {
                 "handle": 'edit',
@@ -72,7 +73,6 @@ ePortalApp.controller("UserController", function ($scope, $window, $http, $timeo
         UserService.addUserDetail('?action=user_action', req).then(function (resp) {
             if (resp.status === 'success') {
                 toastr.success($scope.successMsg);
-                // $state.go('listUser');
                 $state.reload();
             } else {
                 toastr.warning($scope.errorMsg + ", Please try after sometime.");
@@ -85,7 +85,6 @@ ePortalApp.controller("UserController", function ($scope, $window, $http, $timeo
 
 });
 ePortalApp.controller("UserActionController", function ($scope, $filter, $window, $http, $timeout, $uibModal, UserService, SectionService, info, $uibModalInstance, $state) {
-
     $scope.info = info;
     $scope.action = 'add';
     $scope.saveBtnAction = "Create";
@@ -109,15 +108,16 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
 
 
     $scope.submitForm = function () {
+        var userRole = [];
         if ($scope.user.role === 'csr') {
             var sectionLst = $filter('filter')($scope.sectionList, { 'val': true });
-            $scope.user.roleAccess = [];
+            var userRole = [];
             angular.forEach(sectionLst, function (data, i) {
-                $scope.user.roleAccess.push(data.id)
+                userRole.push(data.id)
             });
-
+        } else if ($scope.user.role === 'pr') {
+            userRole.push($scope.user.roleAccess);
         }
-
         var req =
             {
                 "handle": $scope.action,
@@ -126,7 +126,7 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
                 "firstname": $scope.user.firstName,
                 "lastname": $scope.user.lastName,
                 "userrole": $scope.user.role,
-                "section": $scope.user.roleAccess
+                "section": userRole
             };
         if ($scope.userId) {
             req['id'] = $scope.userId;
@@ -138,7 +138,6 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
             if (resp.status === 'success') {
                 toastr.success($scope.successMsg);
                 $uibModalInstance.dismiss('cancel');
-                // $state.go('listUser');
                 $state.reload();
             } else {
                 toastr.warning($scope.errorMsg + ", Please try after sometime.");
@@ -154,16 +153,16 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
             $scope.sectionList = [];
             angular.forEach(sectionLst, function (data, i) {
                 var dt = data;
-                dt["val"] = false;
+                var preSelectedSections = ($scope.info.user) ? $scope.info.user.section : [];
+                if (preSelectedSections.includes(dt.id)) {
+                    dt["val"] = true;
+                } else {
+                    dt["val"] = false;
+                }
                 $scope.sectionList.push(data);
             });
-            if ($scope.info.user) {
-                var sections = $scope.info.user.section.split(',');
-                if (sections.length === 1) {
-                    $scope.user.roleAccess = $scope.info.user.section;
-                } else {
-
-                }
+            if ($scope.info.user && $scope.user.role === 'pr' && $scope.info.user.section.length === 1) {
+                $scope.user.roleAccess = $scope.info.user.section[0];
             }
         }, function err() {
             console.log('err')
@@ -186,7 +185,6 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
             $scope.user.lastName = userObject.lastname;
             $scope.user.email = userObject.email;
             $scope.user.role = userObject.userrole;
-            // $scope.user.roleAccess = Number(userObject.section);
             $scope.userId = userObject.id;
         }
     };

@@ -8,6 +8,22 @@
             </div> -->
         <button class='mar-top-15 pull-right btn btn-primary' ng-click="addUser()">Add User</button>
     </div>
+
+    <!-- <div has-Permission=userInfo>
+            i am admin
+  
+          </div>
+          <div>
+              i am user
+              <span has-Permission=userInfo > i am span admin</span>
+              <span > i am span user</span>
+              <ui>
+                <li ng-if="userInfo.userrole != 'admin'"  > i am user li</li>
+                <li ng-if="userInfo.userrole == 'attender'"  > i am attender user li</li>
+                <li ng-if="userInfo.userrole != 'attender'"  > i am hidden attender user li</li>
+                <li  has-Permission=userInfo> i am admin li</li>
+              </ui>
+            </div> -->
     <div class='view-body'>
 
         <div class="tab-content">
@@ -47,13 +63,12 @@
                             <td>{{data.email}}</td>
                             <td>{{data.userrole}}</td>
                             <td>
-
-                                <span>
-                                    <a href="JavaScript:void(0)" ng-class="data.status === '1' ? 'useractive' : 'userInactive'" ng-click="updateStatus(data.id,1,'Activation')">Active</a>
-                                </span> /
-                                <span>
-                                    <a href="JavaScript:void(0)" ng-class="data.status === '1' ? 'userInactive' : 'useractive'" ng-click="updateStatus(data.id,0,'In activation')">In Active </a>
-                                </span>
+                                <label class="switch">
+                                    <input type="checkbox" ng-model="data.status" ng-true-value="'1'" ng-false-value="'0'" ng-click="updateStatus(data.id,data.status)">
+                                    <span class="slider"></span>
+                                </label>
+                                <br>
+                                <br>
                                 <td>
                                     <button class="btn btn-warning" ng-click="editUser(data)" title="Edit">
                                         <span class="glyphicon glyphicon-edit"></span>
@@ -81,7 +96,5 @@
         <div ng-include="'app/user/create_user.html'"></div>
     </div>
     <div class="modal-footer">
-            <!-- <button class="btn btn-primary" type="button" ng-click="submitForm()">{{saveBtnAction}}</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> -->
-        </div>
+     </div>
 </script>
