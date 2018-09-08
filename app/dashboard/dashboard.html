@@ -92,6 +92,7 @@
     </div>
     </div>
   <div style='padding: 10px;' ng-if='userInfo.userrole == "pr"' class="row">
+    <a class='btn btn-default pull-right' href='javascript:void(0)' ng-click='toggleAddRecord()'>Add New Record</a>
     <div class="col-sm-12">
       <div class="file-upload">
           <uib-tabset class='tab-view' active="activeJustified" justified="true">
@@ -250,58 +251,7 @@
               </div>
           </div>
       </div>
-      <div class="col-sm-12">
-            <div class="file-upload">
-                <h3>Leave Form</h3>
-                <div class="col-sm-8">
-                    <form name='leavefileUploadForm' enctype="multipart/form-data">
-                        <div class="row">
-                            <label class="lab-tx col-sm-4">Employee :</label>
-                            <div class="col-sm-6">
-                                <select class="form-control">
-                                    <option ng-repeat="employee in employeeList" value="{{employee.id}}">{{employee.firstname}} {{employee.lastname}}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <label class="lab-tx col-sm-4">From Date :</label>
-                            <div class="col-sm-6">
-                                <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='date' ng-model='leavefileUploadForm.fromDate'
-                                    class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="lab-tx col-sm-4">To Date :</label>
-                            <div class="col-sm-6">
-                                <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='date' ng-model='leavefileUploadForm.toDate'
-                                    class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="lab-tx col-sm-4">upload Scan copy:</label>
-                            <div class="col-sm-6">
-                                <input type="file" name="leavefileUploadForm.files" multiple="true" accept="image/*" id='files' required class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-10 text-right">
-                                <button class="btn btn-success" ng-disabled='leavefileUploadForm.$invalid' ng-click='leaveUpload(leavefileUploadForm)'>Submit</button>
-                            </div>
-                    </form>
-                    </div>
-
-                </div>
-            </div>
-      <!-- <p>hi canvas</p>
-      <div class="wrapper" style='border: 1px solid black;'>
-        <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
-      </div> -->
-        <!-- <button id="save-png">Save as PNG</button>
-        <button id="save-jpeg">Save as JPEG</button>
-        <button id="save-svg">Save as SVG</button>
-
-        <button id="clear">Clear</button> -->
+      
   </div>
 
 </div>
@@ -315,13 +265,13 @@
             <h4>New Sheet</h4>
             <div class="col-sm-3 col-xs-12">
                 <label class="radio-btn">New
-                <input type="radio" ng-model='notesInfo.type' value='New' name="type">
+                <input type="radio" ng-model='notesInfo.type' value='New' name="type" ng-change='noteTypeChange()'>
                 <span class="checkmark"></span>
                 </label>
             </div>
             <div class="col-sm-3 col-xs-12">
                 <label class="radio-btn">Clipping
-                <input type="radio" ng-model='notesInfo.type' value='Clipping' name="type">
+                <input type="radio" ng-model='notesInfo.type' value='Clipping' name="type" ng-change='noteTypeChange()'>
                 <span class="checkmark"></span>
                 </label>
             </div>
@@ -329,16 +279,17 @@
                 <input type="text" autocomplete="off" placeholder='File No' ng-model='notesInfo.fileNo' name='fileNo' class="form-control" required>
             </div>
             <br>
-            <div id="tamil_container">
+            <div id="tamil_container" ng-if='notesInfo.type != "Clipping"'>
               <div id="tamil_container_id">
                 <span>அலுவலகக்  குறிப்பு :</span><br><br>
                 <p>{{notesInfo.notes}}</p>
               </div>
             </div>
-            <textarea id='editor' class='notesTextarea' ng-model='notesInfo.notes' required></textarea>
-            <div id='keyboard'></div>
-            <div class='form-control'>
-                <button type="button" class="btn btn-default pull-right" ng-disabled='!notesInfo.notes' ng-click='addNotes()'>Submit</button>
+            <textarea ng-if='notesInfo.type != "Clipping"' id='editor' class='notesTextarea' ng-model='notesInfo.notes' required></textarea>
+            <div id='keyboard' ng-if='notesInfo.type != "Clipping"'></div>
+            <div class=''>
+                <button ng-if='notesInfo.type == "Clipping"' type="button" class="btn btn-default pull-right" ng-disabled='!notesInfo.fileNo' ng-click='addClippingNotes()'>Submit</button>
+                <button ng-if='notesInfo.type != "Clipping"' type="button" class="btn btn-default pull-right" ng-disabled='!notesInfo.notes' ng-click='addNotes()'>Submit</button>
             </div>
         </form>
 
@@ -370,6 +321,58 @@
                 <button type="button" class="btn btn-default pull-right" ng-disabled='!showCarousel' ng-click='uploadOrder()'>Submit</button>
             </div>
             <div class='clearfix'></div>
+        </form>
+
+        <form class='form-group' name='newRecord' ng-if='info.state == "addRecord"'>
+            <div class='row'>
+                <div class='col-sm-8'>
+                    <div class="row">
+                        <label class="lab-tx col-sm-4">New File id :</label>
+                        <div class="col-sm-6">
+                            <input type="text" autocomplete="off" required name='fileId' ng-model='addRecordNew.file_no' class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <label class="lab-tx col-sm-4">Date :</label>
+                        <div class="col-sm-6">
+                            <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='date' ng-model='addRecordNew.created_by' class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <label class="lab-tx col-sm-4">Description :</label>
+                        <div class="col-sm-6">
+                            <input type="text" autocomplete="off" required name='desc' ng-model='addRecordNew.title' class="form-control">
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        <label class="lab-tx col-sm-4">upload Scan copy:</label>
+                        <div class="col-sm-6">
+                            <input type="file" name="addRecordNew.files" multiple="true" accept="image/*" id='files' required class="form-control">
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class="col-sm-10 text-right">
+                            <button class="btn btn-success" ng-disabled='newRecord.$invalid' ng-click='addRecordUpload()'>Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-sm-4'>
+                    <div ng-if='!showCarousel' id='myCarousel'>
+                        <i style='font-size: 220px;' class='fa fa-image'></i>
+                    </div>
+                    <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                        <div uib-slide ng-repeat="slide in previewData track by $index" index="slide.index">
+                            <img width='300' ng-src="{{slide.src}}" style="margin:auto;">
+                            <div class="carousel-caption">
+                                <p>{{slide.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
        
     </div>
