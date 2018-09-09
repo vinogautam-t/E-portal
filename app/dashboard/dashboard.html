@@ -1,17 +1,45 @@
 <div class='view-container'>
-  <div class="row">
+  <div class="row chart_container">
       <div class="col-sm-3">
         <div class="notify">
-        <h3>Today</h3>
-        <div class="value-ct row">
-        <div class="col-sm-12">
-        <span class="no-of-re">10</span>
-        <div class="chart"><img src="img/chart.png"></div>
-        </div>
-        <div class="col-sm-12">
-        <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
-        </div>
-        </div>
+          <h3>Today</h3>
+          <div class="value-ct row">
+            <div class="col-sm-12">
+              <span class="no-of-re">10</span>
+              <div class="chart">
+                <div class="pieID pie"></div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <ul>
+                <li><span class="ne-fl"></span> New File</li>
+                <li><span class="in-prs"></span> In Process</li>
+                <li><span class="cplt"></span> Complited</li>
+              </ul>
+            </div>
+            <ul class="pieID legend">
+              <li>
+                <em>Humans</em>
+                <span>718</span>
+              </li>
+              <li>
+                <em>Dogs</em>
+                <span>531</span>
+              </li>
+              <li>
+                <em>Cats</em>
+                <span>868</span>
+              </li>
+              <li>
+                <em>Slugs</em>
+                <span>344</span>
+              </li>
+              <li>
+                <em>Aliens</em>
+                <span>1145</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="col-sm-3">
@@ -61,9 +89,35 @@
   <div style='padding: 10px;' ng-if='userInfo.userrole == "csr" || userInfo.userrole == "dr"' class="row">
     <div class="col-sm-12">
         <div class="file-upload">
-            <div class='table-container' ng-repeat='s in sections'>
+            <div class='table-container' ng-if='userInfo.userrole == "csr" && csrFileList["notification"].length'>
                 <div class='table-header'>
-                    <h4>Section ({{s}})</h4>
+                    <h4>Notifications</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id No</th>
+                                <th>File Date</th>
+                                <th>Note Sheet</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in csrFileList['notification'] track by row.id">
+                                <td>{{row.file_no}}</td>
+                                <td>{{row.created_on}}</td>
+                                <td>{{row.file_details[1].notes}}</td>
+                                <td>Yet Date No action on this file</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class='table-container' ng-repeat="s in sections">
+                <div class='table-header'>
+                    <h4>{{csrFileList['section'][s]['name']}} Section</h4>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
@@ -77,11 +131,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat='row in csrFileList[s] track by row.id'>
+                            <tr ng-repeat="row in csrFileList['section'][s]['data'] track by row.id">
                                 <td>{{row.file_no}}</td>
                                 <td>{{row.created_on}}</td>
                                 <td>{{row.file_details[1].notes}}</td>
-                                <td>{{row.status}}</td>
+                                <td>{{statusDetail[row.approved][row.status]}}</td>
                                 <td><a href='javascript:void(0)' ng-click="viewRow(row)">View</a></td>
                             </tr>
                         </tbody>

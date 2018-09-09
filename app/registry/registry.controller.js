@@ -32,7 +32,7 @@ ePortalApp.controller('registryController', ['$scope', '$window', '$http', '$tim
                 1: 'Order Approved / Waiting for CSR Approval',
                 2: 'Order Approved / Waiting for CSR Approval'
             }
-            ]
+        ];
         
         $scope.getRecordRoomDetails();
 

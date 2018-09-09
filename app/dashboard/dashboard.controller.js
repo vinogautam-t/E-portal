@@ -26,6 +26,21 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
         }
         $scope.getSection();
 
+        $scope.statusDetail = [
+            {
+                0 : 'New File' ,
+                1 : 'Waiting for CSR Approval',
+                2 : 'Waiting for DR Approval',
+                '-1' : 'Rejected pending in PR Table'
+            },
+            {
+                '-1' : 'Order Approved / Order copy correction in PR Table',
+                '-2' : 'Order Approved',
+                4: 'Moved to Record Romm',
+                1: 'Order Approved / Waiting for CSR Approval',
+                2: 'Order Approved / Waiting for CSR Approval'
+            }
+        ];
 
         $scope.toggleModal = function(data){
             var modalInstance = $uibModal.open({
@@ -163,8 +178,8 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                 ApiService.stopLoader();
                 if(response.data.status == 'success'){
                     $scope.csrFileList = response.data.data;
-                    $scope.sections = Object.keys($scope.csrFileList);
-                    console.log(Object.keys($scope.csrFileList));
+                    $scope.sections = Object.keys($scope.csrFileList['section']);
+                    console.log(Object.keys($scope.csrFileList['section']));
                 }
             }).catch(function(e){
                 ApiService.stopLoader();
@@ -180,7 +195,55 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
         }
         $scope.getUserList();
         
+        function sliceSize(dataNum, dataTotal) {
+          return (dataNum / dataTotal) * 360;
+        }
+        function addSlice(sliceSize, pieElement, offset, sliceID, color) {
+          $(pieElement).append("<div class='slice "+sliceID+"'><span></span></div>");
+          var offset = offset - 1;
+          var sizeRotation = -179 + sliceSize;
+          $("."+sliceID).css({
+            "transform": "rotate("+offset+"deg) translate3d(0,0,0)"
+          });
+          $("."+sliceID+" span").css({
+            "transform"       : "rotate("+sizeRotation+"deg) translate3d(0,0,0)",
+            "background-color": color
+          });
+        }
+        function iterateSlices(sliceSize, pieElement, offset, dataCount, sliceCount, color) {
+          var sliceID = "s"+dataCount+"-"+sliceCount;
+          var maxSize = 179;
+          if(sliceSize<=maxSize) {
+            addSlice(sliceSize, pieElement, offset, sliceID, color);
+          } else {
+            addSlice(maxSize, pieElement, offset, sliceID, color);
+            iterateSlices(sliceSize-maxSize, pieElement, offset+maxSize, dataCount, sliceCount+1, color);
+          }
+        }
+        function createPie(dataElement, pieElement) {
+          var listData = [];
+          $(dataElement+" span").each(function() {
+            listData.push(Number($(this).html()));
+          });
+          var listTotal = 0;
+          for(var i=0; i<listData.length; i++) {
+            listTotal += listData[i];
+          }
+          var offset = 0;
+          var color = [
+            "#93b193", 
+            "#60c060", 
+            "#245938"
+          ];
+          for(var i=0; i<listData.length; i++) {
+            var size = sliceSize(listData[i], listTotal);
+            iterateSlices(size, pieElement, offset, i, 0, color[i]);
+            $(dataElement+" li:nth-child("+(i+1)+")").css("border-color", color[i]);
+            offset += size;
+          }
+        }
 
+        $timeout(function(){createPie(".pieID.legend", ".pieID.pie");}, 1000);
     }
 ]);
 
@@ -287,6 +350,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $sc
     $scope.addRecordUpload = function() {
         if($scope.previewData != undefined && $scope.previewData.length > 0){
             $scope.addRecordNew.files = $scope.previewData;
+            $scope.addRecordNew.section = $scope.userInfo.section[0];
            //console.log($scope.addRecordNew); 
             ApiService.startLoader();
             ApiService.createFiles($scope.addRecordNew).then(function(response){
