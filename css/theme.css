@@ -45,9 +45,9 @@ float: left; font-weight: bold; padding-top: 0px;}
 .chart img{ padding: 0 22px 10px;}
 .value-ct ul li{ float: left; padding:0 4px; list-style-type: none; font-size: 12px; }  
 .value-ct ul li span{ width: 16px; height: 11px;  display: inline-block;}
-.value-ct ul li .ne-fl{background: #93b193;}
-.value-ct ul li .in-prs{background: #60c060;}
-.value-ct ul li .cplt{background: #245938;}
+.value-ct ul li .st0{background: #93b193;}
+.value-ct ul li .st1{background: #60c060;}
+.value-ct ul li .st2{background: #245938;}
 .file-upload{background: #fff; display: inline-block;  width: 100%; margin-top: 30px; margin-bottom: 10px;}
 .file-upload h3{border-top:2px solid #5b845b; background:#e7f2e7; padding:10px; font-size:18px; margin-top:0;} 
 .lab-tx{ text-align:right; margin-top:10px; }
@@ -152,7 +152,7 @@ table tr th{color:#5b845b;}
     position: absolute;
     top: 50%;
     left: 50%;
-    background-image: url(/img/loader.svg);
+    background-image: url(../img/loader.svg);
     background-repeat: no-repeat;
     height: 50px;
     display: block;
@@ -674,4 +674,7 @@ table tr th{color:#5b845b;}
 }
 .chart_container .legend span {
   float: right;
+}
+.chart_container .chart-legend{
+  margin-top: 10px;
 }

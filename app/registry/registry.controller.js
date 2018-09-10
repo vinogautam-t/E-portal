@@ -58,7 +58,8 @@ ePortalApp.controller('registryController', ['$scope', '$window', '$http', '$tim
         }
 
         $scope.viewRow = function(row){
-            $state.go('viewFile', { fileId:  row.id});
+            var win = window.open(APIURL+'?action=view_file&id='+row.id, '_blank');
+            win.focus();
         }
 
 

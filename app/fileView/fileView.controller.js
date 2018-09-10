@@ -45,12 +45,18 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
                         }
                     }
                     response.data.data.file_details.map(function(row){
-                        if(!!row.files && row.is_only_log == 0){
+                        if(!!row.files){
                             var arr = row.files.split(",");
-                            arr.map(function(rowItem){
-                                // $scope.previewData.push('https://e-portal-api-vinogautam.c9users.io/img/Sample1.png');
-                                $scope.previewData.push({'url' : APIURL+ '/uploads/' + rowItem, 'index': $scope.previewData.length});
-                            });
+                            if(row.is_only_log == 0 && arr.length === 1){
+                                $scope.previewData.push({'url' : APIURL+ '/uploads/' + arr[0], 'index': $scope.previewData.length});
+                            } else if(arr.length > 1) {
+                                angular.forEach(arr, function(rowItem, ind){
+                                    if(row.is_only_log == 0 || (row.is_only_log == 1 && arr.length-1 === ind)){
+                                        $scope.previewData.push({'url' : APIURL+ '/uploads/' + rowItem, 'index': $scope.previewData.length});
+                                    }
+                                });
+                            }
+                            
                             // $scope.previewData = $scope.previewData.concat(arr);
                         }
                     });
@@ -90,19 +96,35 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
     }
     
     $scope.process = function(action){
-        if($scope.registryInfo.approved = '1' && $scope.userInfo.userrole == 'dr'){
+        if(action == 'approve' && $scope.registryInfo.file_expiry && $scope.userInfo.userrole == 'dr'){
+            $scope.expired();
+        } else if($scope.registryInfo.approved == '1' && $scope.userInfo.userrole == 'dr'){
             $scope.toggleModal({'title': 'Set Expiry Period', 'state': 'expiry', 'registryInfo': $scope.registryInfo});
-        }else{
-            $scope.proceed();
+        } else{
+            $scope.proceed(action);
         }
        
     }
 
-    $scope.proceed = function(){
+    $scope.expired = function(){
+        var fileData = signaturePad.toDataURL('image/png');
+        var data = {"updated_by": $scope.userInfo.id, "id": $scope.fileId, 'files': fileData, 'last_log_id': $scope.registryInfo.file_details[$scope.registryInfo.file_details.length-1].id};
+
+        ApiService.expired(data).then(function(response){
+            if(response.status == 'success'){
+                toastr.success("Record deleted successfully.");
+                $state.go('dashboard');
+            }
+        }).catch(function(err){
+            toastr.warning("Record failed to delete.");
+        }); 
+    }
+
+    $scope.proceed = function(action){
         var fileData = signaturePad.toDataURL('image/png');
         if(fileData!=undefined){
             var data = {"updated_by": $scope.userInfo.id, "id": $scope.fileId, 'files': fileData, 'last_log_id': $scope.registryInfo.file_details[$scope.registryInfo.file_details.length-1].id};
-        }else{
+        } else{
             var data = {"updated_by": $scope.userInfo.id, "id": $scope.fileId};
         }
         ApiService.startLoader();
@@ -161,6 +183,7 @@ ePortalApp.controller('expiryModalInstanceCtrl', ['$scope', 'info', '$window', '
             ApiService.moveToRecordRoom(data).then(function(response){
                 if(response.status == 'success'){
                     $scope.ok({'state': 'expiry'});
+                    $state.go('dashboard');
                 }
             }).catch(function(err){
 

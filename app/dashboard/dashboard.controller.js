@@ -1,5 +1,5 @@
-ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$timeout', '$rootScope', '$stateParams', '$uibModal', 'ApiService', '$uibModal', '$state','UserService','$filter',
-    function ($scope, $window, $http, $timeout, $rootScope, $stateParams, $uibModal, ApiService, $uibModal, $state,UserService,$filter) {
+ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$timeout', '$rootScope', '$stateParams', '$uibModal', 'ApiService', '$uibModal', '$state','UserService','$filter','APIURL',
+    function ($scope, $window, $http, $timeout, $rootScope, $stateParams, $uibModal, ApiService, $uibModal, $state,UserService,$filter,APIURL) {
         
         $scope.previewData = [];
         $scope.showCarousel = false;
@@ -96,7 +96,12 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
         }
 
         $scope.viewRow = function(row){
-            $state.go('viewFile', { fileId:  row.id});
+            if($scope.userInfo.userrole == 'pr'){
+                var win = window.open(APIURL+'?action=view_file&id='+row.id, '_blank');
+                win.focus();
+            } else {
+                $state.go('viewFile', { fileId:  row.id});
+            }
         }
         
         if($scope.userInfo.userrole == "attender"){
@@ -199,13 +204,13 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
           return (dataNum / dataTotal) * 360;
         }
         function addSlice(sliceSize, pieElement, offset, sliceID, color) {
-          $(pieElement).append("<div class='slice "+sliceID+"'><span></span></div>");
+          pieElement.append("<div class='slice "+sliceID+"'><span></span></div>");
           var offset = offset - 1;
           var sizeRotation = -179 + sliceSize;
-          $("."+sliceID).css({
+          pieElement.find("."+sliceID).css({
             "transform": "rotate("+offset+"deg) translate3d(0,0,0)"
           });
-          $("."+sliceID+" span").css({
+          pieElement.find("."+sliceID+" span").css({
             "transform"       : "rotate("+sizeRotation+"deg) translate3d(0,0,0)",
             "background-color": color
           });
@@ -222,7 +227,7 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
         }
         function createPie(dataElement, pieElement) {
           var listData = [];
-          $(dataElement+" span").each(function() {
+          dataElement.find("em").each(function() {
             listData.push(Number($(this).html()));
           });
           var listTotal = 0;
@@ -238,12 +243,22 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
           for(var i=0; i<listData.length; i++) {
             var size = sliceSize(listData[i], listTotal);
             iterateSlices(size, pieElement, offset, i, 0, color[i]);
-            $(dataElement+" li:nth-child("+(i+1)+")").css("border-color", color[i]);
             offset += size;
           }
         }
 
-        $timeout(function(){createPie(".pieID.legend", ".pieID.pie");}, 1000);
+        ApiService.getChart().then(function(response){
+            if(response.status == 200){
+                if(response.data.status == 'success'){
+                    $scope.charts = response.data.data;
+                    $timeout(function(){
+                        $('.charts-list').each(function(){
+                            createPie($(this).find(".chart-legend"), $(this).find(".chart-pie"));
+                        });
+                    }, 2000);
+                }
+            }
+        });
     }
 ]);
 
@@ -341,6 +356,12 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $sc
 
     $timeout(function(){
         $('#editor').keyup(function(){
+            $scope.$apply(function(){
+                $scope.notesInfo.notes = $('#editor').val();
+            });
+        });
+
+        $('#keyboard').click(function(){
             $scope.$apply(function(){
                 $scope.notesInfo.notes = $('#editor').val();
             });

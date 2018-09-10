@@ -43,6 +43,12 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         .get(APIURL+'?action=dashboard_files&id='+usr.id);
     }
 
+    apiService.getChart = function(){
+        var usr = this.getUserInfo();
+        return httpService
+        .get(APIURL+'?action=chart_details&id='+usr.id);
+    }
+
     apiService.addNotes = function(data){
         return httpService
         .post(APIURL+'?action=move_to_csr', data);
@@ -92,6 +98,11 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
     apiService.moveToRecordRoom = function(data){
         return httpService
         .post(APIURL+'?action=move_to_record_room', data);
+    }
+
+    apiService.expired = function(data){
+        return httpService
+        .post(APIURL+'?action=expired', data);
     }
 
     return apiService;

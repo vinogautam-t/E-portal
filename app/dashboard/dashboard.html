@@ -1,87 +1,23 @@
 <div class='view-container'>
   <div class="row chart_container">
-      <div class="col-sm-3">
+      <div ng-repeat="ch in charts" ng-if="ch.total > 0" class="col-sm-3 charts-list">
         <div class="notify">
-          <h3>Today</h3>
+          <h3>{{ch.title}}</h3>
           <div class="value-ct row">
             <div class="col-sm-12">
-              <span class="no-of-re">10</span>
+              <span class="no-of-re">{{ch.total}}</span>
               <div class="chart">
-                <div class="pieID pie"></div>
+                <div class="chart-pie pieID pie"></div>
               </div>
             </div>
             <div class="col-sm-12">
-              <ul>
-                <li><span class="ne-fl"></span> New File</li>
-                <li><span class="in-prs"></span> In Process</li>
-                <li><span class="cplt"></span> Complited</li>
+              <ul class="chart-legend">
+                <li><span class="st0"></span><em> {{ch.new}}</em> New</li>
+                <li><span class="st1"></span><em> {{ch.pending}}</em> Pending</li>
+                <li><span class="st2"></span><em> {{ch.completed}}</em> Complete</li>
               </ul>
             </div>
-            <ul class="pieID legend">
-              <li>
-                <em>Humans</em>
-                <span>718</span>
-              </li>
-              <li>
-                <em>Dogs</em>
-                <span>531</span>
-              </li>
-              <li>
-                <em>Cats</em>
-                <span>868</span>
-              </li>
-              <li>
-                <em>Slugs</em>
-                <span>344</span>
-              </li>
-              <li>
-                <em>Aliens</em>
-                <span>1145</span>
-              </li>
-            </ul>
           </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="notify">
-        <h3>Week</h3>
-        <div class="value-ct row">
-        <div class="col-sm-12">
-        <span class="no-of-re">10</span>
-        <div class="chart"><img src="img/chart.png"></div>
-        </div>
-        <div class="col-sm-12">
-        <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
-        </div>
-        </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="notify">
-        <h3>Month</h3>
-        <div class="value-ct row">
-        <div class="col-sm-12">
-        <span class="no-of-re">10</span>
-        <div class="chart"><img src="img/chart.png"></div>
-        </div>
-        <div class="col-sm-12">
-        <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
-        </div>
-        </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="notify">
-        <h3>Today</h3>
-        <div class="value-ct row">
-        <div class="col-sm-12">
-        <span class="no-of-re">10</span>
-        <div class="chart"><img src="img/chart.png"></div>
-        </div>
-        <div class="col-sm-12">
-        <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
-        </div>
-        </div>
         </div>
       </div>
   </div>
@@ -135,7 +71,7 @@
                                 <td>{{row.file_no}}</td>
                                 <td>{{row.created_on}}</td>
                                 <td>{{row.file_details[1].notes}}</td>
-                                <td>{{statusDetail[row.approved][row.status]}}</td>
+                                <td>{{row.file_expiry ? 'Moved to Record Room' : statusDetail[row.approved][row.status]}}</td>
                                 <td><a href='javascript:void(0)' ng-click="viewRow(row)">View</a></td>
                             </tr>
                         </tbody>
@@ -225,7 +161,7 @@
                             <td>{{ list.created_on}}</td>
                             <td>{{list.title}}</td>
                             <td>{{list.status}}</td>
-                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="/img/create.png"></a></td>
+                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
                             <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
                           </tr>
                           <tr ng-if='fileList.pending.length < 1'>
