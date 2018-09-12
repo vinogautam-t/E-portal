@@ -24,6 +24,7 @@ ePortalApp.controller('loginController', ['$scope', '$window', '$http', '$timeou
                         toastr.warning(res.msg);
                     }
                 }).catch(function(e){
+                    ApiService.stopLoader();
                     toastr.warning("Login failed, Please try after sometime.");
                 });
                //  $state.go('dashboard');

@@ -162,7 +162,13 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
             }
 
         }else if($scope.userInfo.userrole == "pr"){
-            $scope.fileList = {'approved': [], 'new': [], 'pending': []};
+            
+            if($scope.userInfo.section_type == "section"){
+                $scope.fileList = {'approved': [], 'new': [], 'pending': []};
+            }else if($scope.userInfo.section_type == "recordroom"){ 
+                $scope.fileList = {'expiry': [], 'pending': []};
+            }
+               
             
             $scope.getFiles().then(function(response){
                 ApiService.stopLoader();

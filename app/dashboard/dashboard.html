@@ -82,99 +82,166 @@
     </div>
     </div>
   <div style='padding: 10px;' ng-if='userInfo.userrole == "pr"' class="row">
-    <a class='btn btn-default pull-right' href='javascript:void(0)' ng-click='toggleAddRecord()'>Add New Record</a>
-    <div class="col-sm-12">
-      <div class="file-upload">
-          <uib-tabset class='tab-view' active="activeJustified" justified="true">
-              <uib-tab index="0" heading="New Records">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>File No</th>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th class="text-center">File Document</th>
-                                <th class="text-center">Create Note Sheet</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat='list in fileList.new'>
-                            <td>{{list.file_no}}</td>
-                            <td>{{ list.created_on}}</td>
-                            <td>{{list.title}}</td>
-                            <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="img/file-doc.png"></a></td>
-                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
-                        </tr>
-                        <tr ng-if='fileList.new.length < 1'>
-                            <td colspan='5' style='text-align: center;'>No Records to display...</td>
-                        </tr>
-                        </tbody>
-                    </table>
+        <div ng-if='userInfo.section_type == "section"'>
+                <a class='btn btn-default pull-right' href='javascript:void(0)' ng-click='toggleAddRecord()'>Add New Record</a>
+                <div class="col-sm-12">
+                    <div class="file-upload">
+                        <uib-tabset class='tab-view' active="activeJustified" justified="true">
+                            <uib-tab index="0" heading="New Records">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>File No</th>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th class="text-center">File Document</th>
+                                            <th class="text-center">Create Note Sheet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat='list in fileList.new'>
+                                        <td>{{list.file_no}}</td>
+                                        <td>{{ list.created_on}}</td>
+                                        <td>{{list.title}}</td>
+                                        <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="img/file-doc.png"></a></td>
+                                        <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
+                                    </tr>
+                                    <tr ng-if='fileList.new.length < 1'>
+                                        <td colspan='5' style='text-align: center;'>No Records to display...</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </uib-tab>
+                            <uib-tab index="1" heading="Approved Records">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>File No</th>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Upload Order Copy</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat='list in fileList.approved'>
+                                            <td>{{list.file_no}}</td>
+                                            <td>{{ list.created_on}}</td>
+                                            <td>{{list.title}}</td>
+                                            <td>{{list.status}}</td>
+                                            <td class="text-center d-icon"><i class='fa fa-upload upload-order' ng-click='uploadOrder(list)'></i></td>
+                                            <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
+                                        </tr>
+                                        <tr ng-if='fileList.approved.length < 1'>
+                                            <td colspan='6' style='text-align: center;'>No Records to display...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </uib-tab>
+                            <uib-tab index="2" heading="Pending Records">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>File No</th>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Write Note Sheet</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat='list in fileList.pending'>
+                                        <td>{{list.file_no}}</td>
+                                        <td>{{ list.created_on}}</td>
+                                        <td>{{list.title}}</td>
+                                        <td>{{list.status}}</td>
+                                        <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
+                                        <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
+                                        </tr>
+                                        <tr ng-if='fileList.pending.length < 1'>
+                                        <td colspan='6' style='text-align: center;'>No Records to display...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </uib-tab>
+                        </uib-tabset>
+                        <hr/>
+                    </div>
                 </div>
-              </uib-tab>
-              <uib-tab index="1" heading="Approved Records">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>File No</th>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Upload Order Copy</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat='list in fileList.approved'>
-                                <td>{{list.file_no}}</td>
-                                <td>{{ list.created_on}}</td>
-                                <td>{{list.title}}</td>
-                                <td>{{list.status}}</td>
-                                <td class="text-center d-icon"><i class='fa fa-upload upload-order' ng-click='uploadOrder(list)'></i></td>
-                                <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
-                            </tr>
-                            <tr ng-if='fileList.approved.length < 1'>
-                                <td colspan='6' style='text-align: center;'>No Records to display...</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            </div>
+            <div ng-if='userInfo.section_type == "recordroom"'>
+                <div class="col-sm-12">
+                    <div class="file-upload">
+                        <uib-tabset class='tab-view' active="activeJustified" justified="true">
+                            <uib-tab index="0" heading="Expiry Records">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>File No</th>
+                                            <th>Expiry Date</th>
+                                            <th>Description</th>
+                                            <th class="text-center">Section</th>
+                                            <th class="text-center">Create Note Sheet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat='list in fileList.expiry'>
+                                        <td>{{list.file_no}}</td>
+                                        <td>{{ list.created_on}}</td>
+                                        <td>{{list.title}}</td>
+                                        <td>{{list.section}}</td>
+                                        <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
+                                    </tr>
+                                    <tr ng-if='fileList.expiry.length < 1'>
+                                        <td colspan='5' style='text-align: center;'>No Records to display...</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </uib-tab>
+                            <uib-tab index="1" heading="Pending Records">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>File No</th>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Write Note Sheet</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat='list in fileList.pending'>
+                                        <td>{{list.file_no}}</td>
+                                        <td>{{ list.created_on}}</td>
+                                        <td>{{list.title}}</td>
+                                        <td>{{list.status}}</td>
+                                        <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
+                                        <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
+                                        </tr>
+                                        <tr ng-if='fileList.pending.length < 1'>
+                                        <td colspan='6' style='text-align: center;'>No Records to display...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </uib-tab>
+                        </uib-tabset>
+                        <hr/>
+                    </div>
                 </div>
-              </uib-tab>
-              <uib-tab index="2" heading="Pending Records">
-                <div class="table-responsive">
-                  <table class="table">
-                      <thead>
-                          <tr>
-                              <th>File No</th>
-                              <th>Date</th>
-                              <th>Description</th>
-                              <th class="text-center">Status</th>
-                              <th class="text-center">Write Note Sheet</th>
-                              <th class="text-center">Action</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr ng-repeat='list in fileList.pending'>
-                            <td>{{list.file_no}}</td>
-                            <td>{{ list.created_on}}</td>
-                            <td>{{list.title}}</td>
-                            <td>{{list.status}}</td>
-                            <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
-                            <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
-                          </tr>
-                          <tr ng-if='fileList.pending.length < 1'>
-                            <td colspan='6' style='text-align: center;'>No Records to display...</td>
-                          </tr>
-                      </tbody>
-                  </table>
-                </div>
-              </uib-tab>
-          </uib-tabset>
-          <hr/>
-      </div>
-    </div>
+            </div>
   </div>
 
   <div ng-if='userInfo.userrole == "attender"' class="row">
