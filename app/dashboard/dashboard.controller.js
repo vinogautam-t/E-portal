@@ -6,6 +6,11 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
 
         $scope.datePopup = {'opened' : false};
         $scope.userInfo = ApiService.getUserInfo();
+
+        if($scope.userInfo.userrole === 'admin'){
+            $state.go('user');
+        }
+
         $scope.employeeList = [];
         
         $scope.getSection = function(){
@@ -391,21 +396,18 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $sc
         var obj = {'notes': $scope.notesInfo.notes, 'updated_by': $scope.userInfo.id, 'id': $scope.info.rowData.id};
         console.log(obj);
         ApiService.startLoader();
-        html2canvas(document.getElementById('tamil_container_id'), {
-              onrendered: function(canvas) {
-                obj.files = canvas.toDataURL();
-                ApiService.addNotes(obj).then(function(response){
-                    ApiService.stopLoader();
-                    if(response.status == 'success'){
-                        toastr.success("successfully added notes");
-                        $scope.ok({'state': 'addNote'});
-                    }
-                }).catch(function(e){
-                    ApiService.stopLoader();
-                });
-              }
-            })
-        .catch(function (error) {
+        html2canvas(document.querySelector("#tamil_container_id")).then(canvas => {
+            obj.files = canvas.toDataURL();
+            ApiService.addNotes(obj).then(function(response){
+                ApiService.stopLoader();
+                if(response.status == 'success'){
+                    toastr.success("successfully added notes");
+                    $scope.ok({'state': 'addNote'});
+                }
+            }).catch(function(e){
+                ApiService.stopLoader();
+            });
+        }).catch(function (error) {
             ApiService.stopLoader();
         });
     }

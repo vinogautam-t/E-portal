@@ -1604,6 +1604,9 @@ local.layout=layouts[0].Id;
 
 branah.initialize = function(kfield, editor){
     keyboard = new branah.keyboard(kfield, editor);
+
+    branah.util.indexOf=function(a,d){var c=a.length;for(var b=0;b<c;b++){if(a[b]==d){return b}}return -1};branah.util.composeBrahmi=function(k,g,b,j){var f=j.length;if(f==0){return""}var e=j.charCodeAt(0);var h=String.fromCharCode(e);var a,d;for(var c=1;c<f;++c){a=j.charCodeAt(c);d=branah.util.indexOf(k,a);if(branah.util.indexOf(b,e)!=-1&&e==a){}if(branah.util.indexOf(b,e)!=-1&&d!=-1){a=g[d]}if(e==39&&d!=-1){h=h.slice(0,h.length-1)}e=a;h=h+String.fromCharCode(a)}return h};keyboard.customOnKey=function(b){branah.util.insertAtCaret(this.nativeTextbox,b);if(local.layout=="tamil99"){var a=branah.util.deleteAtCaret(this.nativeTextbox,2,0);branah.util.insertAtCaret(this.nativeTextbox,tamil.compose(a))}return true};var tamil={vowel:[2950,2951,2952,2953,2954,2958,2959,2960,2962,2963,2964],modifier:[3006,3007,3008,3009,3010,3014,3015,3016,3018,3019,3020],consonant:[2965,2969,2970,2974,2975,2979,2980,2984,2985,2986,2990,2991,2992,2993,2994,2995,2996,2997,2998,2972,2999,3000,3001],compose:function(a){return branah.util.composeBrahmi(this.vowel,this.modifier,this.consonant,a)}};
+    
     keyboard.fontSize = 16;
     if(layouts.length == 1) {
         keyboard.loadVirtualLayout(layouts[0].Json);
