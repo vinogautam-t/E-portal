@@ -6,7 +6,7 @@
           <i class="user-key fa fa-key"></i>
           
         </span> -->
-        <h1>{{moduleTitle}}</h1>
+        <h1>உள்நுழை படிவம்</h1>
         
         <div class='login-body'>
           <form ng-if='moduleTitle == "Login Form"' name='loginForm' class="loginform">
@@ -25,7 +25,7 @@
             <a class='form-submit' ng-disabled='{{fpForm.$invalid}}' href='javascript:void(0);' ng-keydown="fpKeydown($event)" ng-click='fp()'>send</a>
           </form>
           <div class='login-opt'>
-            <a ng-if='moduleTitle == "Login Form" || moduleTitle == "Forgot Password"' href='javascript:void(0);' class='pull-left reg' ng-click='toggleRegister()'><i class='fa fa-user'></i>  Register</span>
+            <a ng-if='moduleTitle == "Login Form" || moduleTitle == "Forgot Password"' href='javascript:void(0);' class='pull-left reg' ng-click='toggleRegister()'>
             <a ng-if='moduleTitle == "Register New User" || moduleTitle == "Forgot Password"' href='javascript:void(0);' class='fp' ng-click='toggleLogin()'><i class='fa fa-sign-in'></i> Login</span>
             <a ng-if='moduleTitle == "Login Form" || moduleTitle == "Register New User"' href='javascript:void(0);' class='pull-right fp' ng-click='toggleForgotPwd()'>
               <i class='fa fa-key'></i>  Forgot Password
