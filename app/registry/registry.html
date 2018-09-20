@@ -1,5 +1,16 @@
 <div class='view-container'>
-    <h3>Registry room</h3>
+    <h3 class='col-xs-12'>Registry room</h3>
+    <div class='row'>
+        <label class="lab-tx col-xs-2">Start Date :</label>
+        <div class="col-xs-2">
+            <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='startdate' ng-model='startDate' class="form-control">
+        </div>
+        <label class="lab-tx col-xs-2">End Date :</label>
+        <div class="col-xs-2">
+            <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='enddate' ng-model='endDate' class="form-control">
+        </div>
+        <button class='btn btn-primary' ng-click='getRecords()'> Filter </button>
+    </div>
     <uib-tabset class='tab-view' active="activeJustified" justified="true">
         <uib-tab ng-repeat='s in recordRoomDataKeys track by $index' index="$index" heading="Section {{s}}">
             <div class='table-responsive'>

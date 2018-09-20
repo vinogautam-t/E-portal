@@ -1,8 +1,15 @@
 ePortalApp.controller('registryController', ['$scope', '$window', '$http', '$timeout', '$rootScope', '$state', '$stateParams', '$uibModal', 'ApiService', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'APIURL',
     function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $uibModal, ApiService, $uibModal, DTOptionsBuilder, DTColumnBuilder, APIURL) {
-       
+        var today = new Date();
+        $scope.startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+        $scope.endDate = today;
+        
+
         $scope.getRecordRoomDetails = function(){
-            ApiService.getuserBasedRecordRoom().then(function(response){
+            
+            var obj = {'startDate': moment($scope.startDate, "YYYY-MM-DD").format("YYYY-MM-DD"), 'endDate': moment($scope.endDate, "YYYY-MM-DD").format("YYYY-MM-DD")}
+            console.log(obj);
+            ApiService.getuserBasedRecordRoom(obj).then(function(response){
                 console.log(response);
                 if(response.data != undefined && response.data.status == 'success' && response.data.data != undefined){
                     if(Object.keys(response.data.data).length > 0){
