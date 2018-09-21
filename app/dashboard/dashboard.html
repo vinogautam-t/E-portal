@@ -152,7 +152,7 @@
                                             <th>Date</th>
                                             <th>Description</th>
                                             <th class="text-center">Status</th>
-                                            <th class="text-center">Write Note Sheet</th>
+                                            <th class="text-center">Write Note Sheet / Upload Order Copy</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
@@ -162,7 +162,8 @@
                                         <td>{{ list.created_on}}</td>
                                         <td>{{list.title}}</td>
                                         <td>{{list.status}}</td>
-                                        <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
+                                        <td ng-if='list.approved == 0' class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
+                                        <td ng-if='list.approved == 1' class="text-center d-icon"><i class='fa fa-upload upload-order' ng-click='uploadOrder(list)'></i></td>
                                         <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
                                         </tr>
                                         <tr ng-if='fileList.pending.length < 1'>
