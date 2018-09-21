@@ -87,7 +87,7 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
     apiService.getuserBasedRecordRoom = function(data){
         var usr = this.getUserInfo();
         return httpService
-        .get(APIURL+'?action=register_report&id='+usr.id);
+        .get(APIURL+'?action=register_report&id='+usr.id+'&startDate='+data.startDate+'&endDate='+data.endDate);
     }
 
     apiService.uploadOrderCopy = function(data){

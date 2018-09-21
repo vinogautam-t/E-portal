@@ -9,7 +9,7 @@
         <div class="col-xs-2">
             <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='enddate' ng-model='endDate' class="form-control">
         </div>
-        <button class='btn btn-primary' ng-click='getRecords()'> Filter </button>
+        <button class='btn btn-primary' ng-click='getRecordRoomDetails()'> Filter </button>
     </div>
     <uib-tabset class='tab-view' active="activeJustified" justified="true">
         <uib-tab ng-repeat='s in recordRoomDataKeys track by $index' index="$index" heading="Section {{s}}">

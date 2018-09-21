@@ -5,12 +5,10 @@ ePortalApp.controller('registryController', ['$scope', '$window', '$http', '$tim
         $scope.endDate = today;
         
 
-        $scope.getRecordRoomDetails = function(){
-            
+        $scope.getRecordRoomDetails = function(){            
             var obj = {'startDate': moment($scope.startDate, "YYYY-MM-DD").format("YYYY-MM-DD"), 'endDate': moment($scope.endDate, "YYYY-MM-DD").format("YYYY-MM-DD")}
-            console.log(obj);
+
             ApiService.getuserBasedRecordRoom(obj).then(function(response){
-                console.log(response);
                 if(response.data != undefined && response.data.status == 'success' && response.data.data != undefined){
                     if(Object.keys(response.data.data).length > 0){
                         $scope.noData = false;
