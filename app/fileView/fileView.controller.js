@@ -145,8 +145,8 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
 }
 ]);
 
-ePortalApp.controller('expiryModalInstanceCtrl', ['$scope', 'info', '$window', '$http', '$timeout', '$rootScope', '$state', '$stateParams', '$uibModal', 'ApiService', '$uibModal', 'APIURL',
-    function ($scope, info, $window, $http, $timeout, $rootScope, $state, $stateParams, $uibModal, ApiService, $uibModal, APIURL) {
+ePortalApp.controller('expiryModalInstanceCtrl', ['$scope', 'info', '$window', '$http', '$timeout', '$rootScope', '$state', '$stateParams', '$uibModal', 'ApiService', '$uibModalInstance', 'APIURL',
+    function ($scope, info, $window, $http, $timeout, $rootScope, $state, $stateParams, $uibModal, ApiService, $uibModalInstance, APIURL) {
         $scope.info = info;
         $scope.expiry = {};
         $scope.userInfo = ApiService.getUserInfo();
@@ -180,10 +180,11 @@ ePortalApp.controller('expiryModalInstanceCtrl', ['$scope', 'info', '$window', '
             var expiryDate = moment(dateArr[0], "YYYY-MM-DD").add(1, 'day').format("YYYY-MM-DD") ;
             
             var data = {"updated_by": $scope.userInfo.id, "id": $scope.info.registryInfo.id, "expiry": expiryDate};
+           
             ApiService.moveToRecordRoom(data).then(function(response){
                 if(response.status == 'success'){
                     $scope.ok({'state': 'expiry'});
-                    $state.go('dashboard');
+                    
                 }
             }).catch(function(err){
 

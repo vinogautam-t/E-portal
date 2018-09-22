@@ -3,6 +3,8 @@ ePortalApp.controller('loginController', ['$scope', '$window', '$http', '$timeou
         $scope.moduleTitle = 'Login Form';
         $scope.loginInfo = {username: '', password: ''};
 
+        $scope.registerInfo = {'email': ''};
+
         $scope.loginKeydown = function(e) {
             if(e.keyCode == '32'){
                 $scope.login();

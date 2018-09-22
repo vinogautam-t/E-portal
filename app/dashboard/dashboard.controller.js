@@ -10,7 +10,30 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
         if($scope.userInfo.userrole === 'admin'){
             $state.go('user');
         }
-
+        
+        setInterval(function(){
+           ApiService.getFiles().then(function(response){
+                if(response.data.status == 'success'){
+                    $scope.fileList = response.data.data;
+                }
+            }).catch(function(e){
+                ApiService.stopLoader();
+            }); 
+            
+            ApiService.getChart().then(function(response){
+                if(response.status == 200){
+                    if(response.data.status == 'success'){
+                        $scope.charts = response.data.data;
+                        $timeout(function(){
+                            $('.charts-list').each(function(){
+                                createPie($(this).find(".chart-legend"), $(this).find(".chart-pie"));
+                            });
+                        }, 2000);
+                    }
+                }
+            });
+        }, 120000);
+        
         $scope.employeeList = [];
         
         $scope.getSection = function(){
@@ -129,18 +152,18 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
             }
             setTimeout(function(){
                 document.getElementById('files').onchange = function(e) {
-                    e.preventDefault();		
-                    $scope.previewData = [];	
+                    e.preventDefault();     
+                    $scope.previewData = [];    
                     var files = "";
                     if(e.type == "change"){
                         files = e.target.files;
                     } else if(e.type === "drop"){
                         files = e.originalEvent.dataTransfer.files;
-                    }			
+                    }           
                     for(var i=0;i<files.length;i++){
                         var file = files[i];
                         if(file.type.indexOf("image") !== -1){
-                            previewFile(file, i);								
+                            previewFile(file, i);                               
                         } else {
                             alert(file.name + " is not supported");
                         }
@@ -305,14 +328,14 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
         $scope.showCarousel = false;
         setTimeout(function(){
             document.getElementById('files').onchange = function(e) {
-                e.preventDefault();		
-                $scope.previewData = [];	
+                e.preventDefault();     
+                $scope.previewData = [];    
                 var files = "";
                 if(e.type == "change"){
                     files = e.target.files;
                 } else if(e.type === "drop"){
                     files = e.originalEvent.dataTransfer.files;
-                }			
+                }           
                 for(var i=0;i<files.length;i++){
                     var file = files[i];
                     if(file.type.indexOf("image") !== -1){
