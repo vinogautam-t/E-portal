@@ -75,7 +75,7 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger" ng-click="deleteInfo(data.id, $index)" title="Delete">
+                                    <button class="btn btn-danger" ng-click="openDeleteModal(data.id, $index)" title="Delete">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>
                                 </td>
@@ -96,5 +96,18 @@
         <div ng-include="'app/user/create_user.html'"></div>
     </div>
     <div class="modal-footer">
+     </div>
+</script>
+<script type="text/ng-template" id="deleteUser">
+    <div class="modal-header">
+        <h3 class="col-xs-8 modal-title" id="modal-title">Delete User</h3>
+        <span class='pull-right close-btn'><i class='fa fa-times' ng-click="cancelDelete()"></i></span>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <p> <h4>Are you sure, you need to delete this User?</h4></p>
+    </div>
+    <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="confirmDelete()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancelDelete()">Cancel</button>
      </div>
 </script>

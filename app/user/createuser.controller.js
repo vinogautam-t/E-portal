@@ -8,7 +8,7 @@ ePortalApp.controller("UserController", function ($scope, $window, $http, $timeo
             console.log('err')
         });
     }
-   $scope.getUserList();
+    $scope.getUserList();
 
     $scope.addUser = function () {
         var data = { 'title': 'Add User', 'module': 'adduser' };
@@ -19,7 +19,6 @@ ePortalApp.controller("UserController", function ($scope, $window, $http, $timeo
         var data = { 'title': 'Edit User', 'module': 'edituser', 'user': userData };
         $scope.toggleModal('md', data);
     }
-
     $scope.toggleModal = function (size, data) {
         var modalInstance = $uibModal.open({
             animation: true,
@@ -41,23 +40,49 @@ ePortalApp.controller("UserController", function ($scope, $window, $http, $timeo
         });
     }
 
-    $scope.deleteInfo = function (userId, index) {
+    $scope.openDeleteModal = function (userId, index) {
+        $scope.deleteUser = {"userId": userId, 'selectedIndex': index};
+        var modalInstance = $uibModal.open({
+            animation: true,
+            backdrop: 'static',
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'deleteUser',
+            size: 'md',
+            scope: $scope
+       });
+       $scope.modalInstance = modalInstance;
+    }
+
+      $scope.confirmDelete = function () {
+        $scope.modalInstance.close('Yes Button Clicked')
+        $scope.deleteInfo();
+      };
+  
+      // Dismiss the modal if No button click
+      $scope.cancelDelete = function () {
+        $scope.modalInstance.dismiss('cancel');
+      };
+
+    $scope.deleteInfo = function () {
         var req =
             {
                 "handle": "delete",
-                "id": Number(userId)
+                "id": Number($scope.deleteUser.userId)
             };
         UserService.deleteUserDetail('?action=user_action', req).then(function (resp) {
             if (resp.status === 'success') {
                 toastr.success("User Deleted Successfully");
-                $scope.userList.splice(index, 1);
+                $scope.userList.splice( $scope.deleteUser.selectedIndex, 1);
             } else {
                 toastr.warning("User deleting failed, Please try after sometime.");
             }
+            $scope.deleteUser = undefined;
         }, function err() {
             console.log('err')
             toastr.warning("Service failed, Please try after sometime.");
-        });
+            $scope.deleteUser = undefined;
+        }); 
     }
 
     $scope.updateStatus = function (userId, status) {
@@ -103,7 +128,7 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
     $scope.ph_numbr = /^\+?\d{10}$/;
     $scope.eml_add = /^[^\s@]+@[^\s@]+\.[^\s@]/;
     $scope.roleList = [{ "id": "attender", "value": "Attender" },
-    { "id": "csr", "value": "CSR" }, { "id": "dr", "value": "DR" }, { "id": "pr", "value": "PR" }];
+    { "id": "csr", "value": "CSR" }, { "id": "dr", "value": "DR" }, { "id": "pr", "value": "Section" }];
 
 
 
@@ -149,9 +174,9 @@ ePortalApp.controller("UserActionController", function ($scope, $filter, $window
 
     $scope.getSectionList = function () {
         SectionService.getSectionList('?action=sections').then(function (resp) {
-            var sectionLst = $filter('filter')(resp.data, { 'type': 'section' });
+            // var sectionLst = $filter('filter')(resp.data, { 'type': 'section' });
             $scope.sectionList = [];
-            angular.forEach(sectionLst, function (data, i) {
+            angular.forEach(resp.data, function (data, i) {
                 var dt = data;
                 var preSelectedSections = ($scope.info.user) ? $scope.info.user.section : [];
                 if (preSelectedSections.includes(dt.id)) {
