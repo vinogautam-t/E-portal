@@ -273,7 +273,7 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
     }
 ]);
 
-ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $scope, info, ApiService, $timeout) {
+ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $http, $scope, info, ApiService, $timeout) {
     $scope.info = info;
     $scope.userInfo = ApiService.getUserInfo();
     $scope.notesInfo = {'type': 'New'};
@@ -316,7 +316,9 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $sc
                 for(var i=0;i<files.length;i++){
                     var file = files[i];
                     if(file.type.indexOf("image") !== -1){
-                        previewFile(file, i);								
+                        previewFile(file, i);	
+                    } else if(file.type.indexOf("application/msword") !== -1 && $scope.info.state == 'uploadOrderCopy'){
+                        convertFile(file);
                     } else {
                         alert(file.name + " is not supported");
                     }
@@ -346,6 +348,24 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $sc
         }).catch(function(err){
             ApiService.stopLoader();
         });
+    }
+
+    function convertFile(file){
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = readSuccess;                                            
+        function readSuccess(evt) { 
+            $http.post('https://api.cloudconvert.com/process', {"inputformat": "doc", "outputformat": "jpg"},
+                {headers: {Authorization: 'Bearer  twOQPLwS7lvr1CPA7pxwyaNQ-RfxVEOagnMzvFe5yEBd9hcvXo0ohPU6eTFyS-d89ec7e6CJkCQUnBP-1NX_pw'}})
+            .then(function(res){
+                console.log(res);
+                if(res.status === 200){
+                    $http.post(res.data.url, {input:'base64', file: evt.target.result.split('base64,')[1], filename: file.name}).then(function(res2){
+                        console.log(res2);
+                    });
+                }
+            });
+        }
     }
 
     function previewFile(file, i){

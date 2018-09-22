@@ -356,20 +356,7 @@
                 <div class='col-sm-8'>
                     <label class="lab-tx col-sm-4">upload Scan copy:</label>
                     <div class="col-sm-6">
-                        <input type="file" name="uploadorder.files" multiple="true" accept="image/*" id='files' required class="form-control">
-                    </div>
-                </div>
-                <div class='col-sm-4'>
-                    <div ng-if='!showCarousel' id='myCarousel'>
-                        <i style='font-size: 220px;' class='fa fa-image'></i>
-                    </div>
-                    <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
-                        <div uib-slide ng-repeat="slide in previewData track by $index" index="slide.index">
-                            <img width='300' ng-src="{{slide.src}}" style="margin:auto;">
-                            <div class="carousel-caption">
-                                <p>{{slide.name}}</p>
-                            </div>
-                        </div>
+                        <input type="file" name="uploadorder.files" id='files' required class="form-control">
                     </div>
                 </div>
                 <div class='clearfix'></div>
