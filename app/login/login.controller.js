@@ -7,7 +7,26 @@ ePortalApp.controller('loginController', ['$scope', '$window', '$http', '$timeou
             if(e.keyCode == '32'){
                 $scope.login();
             }
-        }
+        };
+
+        $scope.forgot_password = function(){
+            if($scope.registerInfo.email){
+                ApiService.startLoader();
+
+                ApiService.forgot_password({email: $scope.registerInfo.email}).then(function (res) {
+                    ApiService.stopLoader();
+                    if(res.status == 'success'){
+                        toastr.success("Reset link send to your mail.");
+                        $scope.toggleLogin();
+                    }else{
+                        toastr.warning(res.msg);
+                    }
+                }).catch(function(e){
+                    ApiService.stopLoader();
+                    toastr.warning("Invalid Email");
+                });
+            }
+        };
 
         $scope.login = function(){
             if($scope.loginInfo != undefined && $scope.loginInfo.username != '' && $scope.loginInfo.password != ''){

@@ -27,6 +27,11 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         .post(APIURL+'?action=login', data);
     }
 
+    apiService.forgot_password = function (data) {
+        return httpService
+        .post(APIURL+'?action=forgot_password', data);
+    }
+
     apiService.getSections = function(){
         return httpService
         .get(APIURL+'?action=sections');

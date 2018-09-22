@@ -22,7 +22,7 @@
           </form>
           <form ng-if='moduleTitle == "Forgot Password"' name='fpForm' class="fpform">
             <input autocomplete="off" type="email" required name='Email' ng-model='registerInfo.email' placeholder="Email-id">
-            <a class='form-submit' ng-disabled='{{fpForm.$invalid}}' href='javascript:void(0);' ng-keydown="fpKeydown($event)" ng-click='fp()'>send</a>
+            <a class='form-submit' ng-disabled='{{fpForm.$invalid}}' href='javascript:void(0);' ng-keydown="fpKeydown($event)" ng-click='forgot_password()'>Submit</a>
           </form>
           <div class='login-opt'>
             <a ng-if='moduleTitle == "Login Form" || moduleTitle == "Forgot Password"' href='javascript:void(0);' class='pull-left reg' ng-click='toggleRegister()'>
