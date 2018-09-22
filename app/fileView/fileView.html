@@ -67,15 +67,17 @@
             <div class='printArea-body'>
                 <p ng-if='!showFiles' class='center'>No Preview Available</p>
                 {{active}}
-                <div ng-if='showFiles' uib-carousel active="active" interval="'none'" no-wrap="false">
+                <div ng-if='showFiles' uib-carousel active="previewData.length-1" interval="'none'" no-wrap="true">
                     <div uib-slide ng-repeat="slide in previewData track by $index" index='slide.index'>
                         <img width='700' ng-src="{{slide.url}}" style="margin:auto;">
                         <canvas id="canvas_container" width=700 height=900 ng-if="$index === previewData.length-1"></canvas>
+                        
                     </div>
                 </div>
             </div>
             <br>
             <br>
+            
             <div ng-if='showAction' class='center'>
                 <button class='btn btn-default' ng-click='process("approve")'>Approve</button>
                 <button class='btn' ng-click='process("decline")'>Decline</button>
@@ -95,7 +97,7 @@
                     <input type="date" id='expiryDate' data-date-format="YYYY-MMMM-DD" autocomplete="off" required name='date' ng-model='expiry.date' class="form-control">
                 </div>
             </div>
-            <div class='form-control'>
+            <div class=''>
                 <button type="button" class="btn btn-default pull-right" ng-disabled='expiryForm.$invalid' ng-click='setExpiry()'>Submit</button>
             </div>
         </form>
