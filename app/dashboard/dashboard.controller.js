@@ -340,7 +340,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
                     var file = files[i];
                     if(file.type.indexOf("image") !== -1){
                         previewFile(file, i);	
-                    } else if(file.type.indexOf("application/msword") !== -1 && $scope.info.state == 'uploadOrderCopy'){
+                    } else if((file.type == '' || file.type.indexOf("application/msword") !== -1) && $scope.info.state == 'uploadOrderCopy'){
                         convertFile(file);
                     } else {
                         alert(file.name + " is not supported");
@@ -378,12 +378,25 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
         reader.readAsDataURL(file);
         reader.onload = readSuccess;                                            
         function readSuccess(evt) { 
-            $http.post('https://api.cloudconvert.com/process', {"inputformat": "doc", "outputformat": "jpg"},
+            $http.post('https://api.cloudconvert.com/process', {"apikey": "twOQPLwS7lvr1CPA7pxwyaNQ-RfxVEOagnMzvFe5yEBd9hcvXo0ohPU6eTFyS-d89ec7e6CJkCQUnBP-1NX_pw",
+                                                                "download" : "inline",
+                                                                "filename": file.name,
+                                                                "input": "base64",
+                                                                "inputformat": file.name.split('.')[file.name.split('.').length-1],
+                                                                "outputformat": "png",
+                                                                "wait": true},
                 {headers: {Authorization: 'Bearer  twOQPLwS7lvr1CPA7pxwyaNQ-RfxVEOagnMzvFe5yEBd9hcvXo0ohPU6eTFyS-d89ec7e6CJkCQUnBP-1NX_pw'}})
             .then(function(res){
                 console.log(res);
                 if(res.status === 200){
-                    $http.post(res.data.url, {input:'base64', file: evt.target.result.split('base64,')[1], filename: file.name}).then(function(res2){
+                    
+                    $http.post(res.data.url, {"apikey": "twOQPLwS7lvr1CPA7pxwyaNQ-RfxVEOagnMzvFe5yEBd9hcvXo0ohPU6eTFyS-d89ec7e6CJkCQUnBP-1NX_pw",
+                    "inputformat": file.name.split('.')[file.name.split('.').length-1],
+                    "outputformat": "png",
+                    "input":'base64', 
+                    "file": evt.target.result,
+                    "filename": file.name,
+                    "wait": true}).then(function(res2){
                         console.log(res2);
                     });
                 }
