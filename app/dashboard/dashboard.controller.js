@@ -114,7 +114,7 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
         }
 
         $scope.toggleAddRecord = function() {
-            var data = {'title': 'Add New Records', 'state': 'addRecord', 'sectionList': $scope.sectionList};
+            var data = {'title': 'புதிய கோப்பு', 'state': 'addRecord', 'sectionList': $scope.sectionList};
             $scope.toggleModal(data);
         }
 

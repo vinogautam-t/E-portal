@@ -1,4 +1,4 @@
-<div class='view-container'>
+<div class='container'>
   <div class="row chart_container">
       <div ng-repeat="ch in charts" ng-if="ch.total > 0" class="col-sm-3 charts-list">
         <div class="notify">
@@ -27,16 +27,16 @@
         <div class="file-upload">
             <div class='table-container' ng-if='userInfo.userrole == "csr" && csrFileList["notification"].length'>
                 <div class='table-header'>
-                    <h4>Notifications</h4>
+                    <h4>அறிவிப்புகள்</h4>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Id No</th>
-                                <th>File Date</th>
-                                <th>Note Sheet</th>
-                                <th>Status</th>
+                                <th>கோப்பு எண்</th>
+                                <th>கோப்பு தேதி</th>
+                                <th>குறிப்பு தாள்</th>
+                                <th>நிலை</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,11 +59,11 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Id No</th>
-                                <th>File Date</th>
-                                <th>Note Sheet</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>கோப்பு எண்</th>
+                                <th>கோப்பு தேதி</th>
+                                <th>குறிப்பு தாள்</th>
+                                <th>நிலை</th>
+                                <th>நடவடிக்கை</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,7 +72,7 @@
                                 <td>{{row.created_on}}</td>
                                 <td>{{row.file_details[1].notes}}</td>
                                 <td>{{row.file_expiry ? 'Moved to Record Room' : statusDetail[row.approved][row.status]}}</td>
-                                <td><a href='javascript:void(0)' ng-click="viewRow(row)">View</a></td>
+                                <td><a href='javascript:void(0)' ng-click="viewRow(row)">காண்க</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -83,20 +83,21 @@
     </div>
   <div style='padding: 10px;' ng-if='userInfo.userrole == "pr"' class="row">
         <div ng-if='userInfo.section_type == "section"'>
-                <a class='btn btn-default pull-right' href='javascript:void(0)' ng-click='toggleAddRecord()'>Add New Record</a>
+                <a class='btn btn-default pull-right' href='javascript:void(0)' ng-click='toggleAddRecord()'>புதிய கோப்பு</a>
                 <div class="col-sm-12">
+                <div class="row">
                     <div class="file-upload">
                         <uib-tabset class='tab-view' active="activeJustified" justified="true">
-                            <uib-tab index="0" heading="New Records">
+                            <uib-tab index="0" heading="புதிய கோப்புகள்">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>File No</th>
-                                            <th>Date</th>
-                                            <th>Description</th>
-                                            <th class="text-center">File Document</th>
-                                            <th class="text-center">Create Note Sheet</th>
+                                            <th>கோப்பு எண்</th>
+                                            <th>தேதி</th>
+                                            <th>விளக்கம்</th>
+                                            <th class="text-center">கோப்பு ஆவணம்</th>
+                                            <th class="text-center">குறிப்பு தாள் உருவாக்கவும்</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -114,17 +115,17 @@
                                 </table>
                             </div>
                             </uib-tab>
-                            <uib-tab index="1" heading="Approved Records">
+                            <uib-tab index="1" heading="அங்கீகரிக்கப்பட்ட கோப்புகள்">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>File No</th>
-                                            <th>Date</th>
-                                            <th>Description</th>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center">Upload Order Copy</th>
-                                            <th class="text-center">Action</th>
+                                            <th>கோப்பு எண்</th>
+                                            <th>தேதி</th>
+                                            <th>விளக்கம்</th>
+                                            <th class="text-center">நிலை</th>
+                                            <th class="text-center">ஆணை நகல் பதிவேற்றவும்</th>
+                                            <th class="text-center">நடவடிக்கை</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -134,7 +135,7 @@
                                             <td>{{list.title}}</td>
                                             <td>{{list.status}}</td>
                                             <td class="text-center d-icon"><i class='fa fa-upload upload-order' ng-click='uploadOrder(list)'></i></td>
-                                            <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
+                                            <td><a href='javascript:void(0)' ng-click="viewRow(list)">காண்க</a></td>
                                         </tr>
                                         <tr ng-if='fileList.approved.length < 1'>
                                             <td colspan='6' style='text-align: center;'>No Records to display...</td>
@@ -143,17 +144,17 @@
                                 </table>
                             </div>
                             </uib-tab>
-                            <uib-tab index="2" heading="Pending Records">
+                            <uib-tab index="2" heading="நிலுவையில் உள்ள கோப்புகள் ">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>File No</th>
-                                            <th>Date</th>
-                                            <th>Description</th>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center">Write Note Sheet / Upload Order Copy</th>
-                                            <th class="text-center">Action</th>
+                                            <th>கோப்பு எண்</th>
+                                            <th>தேதி</th>
+                                            <th>விளக்கம்</th>
+                                            <th class="text-center">நிலை</th>
+                                            <th class="text-center">குறிப்பு தாள் எழுதவும் / ஆணை நகல் பதிவேற்றவும்</th>
+                                            <th class="text-center">நடவடிக்கை</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -164,7 +165,7 @@
                                         <td>{{list.status}}</td>
                                         <td ng-if='list.approved == 0' class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
                                         <td ng-if='list.approved == 1' class="text-center d-icon"><i class='fa fa-upload upload-order' ng-click='uploadOrder(list)'></i></td>
-                                        <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
+                                        <td><a href='javascript:void(0)' ng-click="viewRow(list)">காண்க</a></td>
                                         </tr>
                                         <tr ng-if='fileList.pending.length < 1'>
                                         <td colspan='6' style='text-align: center;'>No Records to display...</td>
@@ -177,6 +178,7 @@
                         <hr/>
                     </div>
                 </div>
+                </div>
             </div>
             <div ng-if='userInfo.section_type == "recordroom"'>
                 <div class="col-sm-12">
@@ -187,11 +189,11 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>File No</th>
-                                            <th>Expiry Date</th>
-                                            <th>Description</th>
-                                            <th class="text-center">Section</th>
-                                            <th class="text-center">Create Note Sheet</th>
+                                            <th>கோப்பு எண்</th>
+                                            <th>காலாவதியாகும் தேதி</th>
+                                            <th>விளக்கம் </th>
+                                            <th class="text-center">பிரிவு</th>
+                                            <th class="text-center">குறிப்பு தாள் உருவாக்கவும்</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -214,12 +216,12 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>File No</th>
-                                            <th>Date</th>
-                                            <th>Description</th>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center">Write Note Sheet</th>
-                                            <th class="text-center">Action</th>
+                                            <th>கோப்பு எண்</th>
+                                            <th>தேதி :</th>
+                                            <th>விளக்கம் </th>
+                                            <th class="text-center">நிலை</th>
+                                            <th class="text-center">குறிப்பு தாள் எழுதவும்</th>
+                                            <th class="text-center">நடவடிக்கை</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -229,7 +231,7 @@
                                         <td>{{list.title}}</td>
                                         <td>{{list.status}}</td>
                                         <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
-                                        <td><a href='javascript:void(0)' ng-click="viewRow(list)">View</a></td>
+                                        <td><a href='javascript:void(0)' ng-click="viewRow(list)">காண்க</a></td>
                                         </tr>
                                         <tr ng-if='fileList.pending.length < 1'>
                                         <td colspan='6' style='text-align: center;'>No Records to display...</td>
@@ -248,39 +250,39 @@
   <div ng-if='userInfo.userrole == "attender"' class="row">
       <div class="col-sm-12">
           <div class="file-upload">
-              <h3>New Record Insert</h3>
+              <h3>புதிய கோப்பு</h3>
               <div class="col-sm-8">
                   <form name='fileUploadForm' enctype="multipart/form-data">
                       <div class="row">
-                          <label class="lab-tx col-sm-4">New File id :</label>
+                          <label class="lab-tx col-sm-4">புதிய கோப்பு எண் :</label>
                           <div class="col-sm-6">
                           <input type="text" autocomplete="off" required name='fileId' ng-model='fileUpload.file_no' class="form-control">
                           </div>
                       </div>
                       
                       <div class="row">
-                          <label class="lab-tx col-sm-4">Date :</label>
+                          <label class="lab-tx col-sm-4">தேதி :</label>
                           <div class="col-sm-6">
                           <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='date' ng-model='fileUpload.created_by' class="form-control">
                           </div>
                       </div>
                       
                       <div class="row">
-                          <label class="lab-tx col-sm-4">Description :</label>
+                          <label class="lab-tx col-sm-4">விளக்கம் :</label>
                           <div class="col-sm-6">
                           <input type="text" autocomplete="off" required name='desc' ng-model='fileUpload.title' class="form-control">
                           </div>
                       </div>
                       
                       <div class="row">
-                          <label class="lab-tx col-sm-4">upload Scan copy:</label>
+                          <label class="lab-tx col-sm-4">ஸ்கேன் நகலை பதிவேற்றவும்:</label>
                           <div class="col-sm-6">
                           <input type="file" name="fileUpload.files" multiple="true" accept="image/*" id='files' required class="form-control">
                           </div>
                       </div>
                       
                       <div class="row">
-                          <label class="lab-tx col-sm-4">Section :</label>
+                          <label class="lab-tx col-sm-4">பிரிவு :</label>
                           <div class="col-sm-6">
                           <select class="form-control" required ng-model="fileUpload.section" ng-options="section.id as section.name for section in sectionList">
                           </select>
@@ -289,7 +291,7 @@
                       
                       <div class="row">
                           <div class="col-sm-10 text-right">
-                          <button class="btn btn-success" ng-disabled='fileUploadForm.$invalid' ng-click='Upload(fileUploadForm)'>Submit</button>
+                          <button class="btn btn-success" ng-disabled='fileUploadForm.$invalid' ng-click='Upload(fileUploadForm)'>சேமி</button>
                       </div>
                   </form>    
               </div>
@@ -300,7 +302,7 @@
                   <i style='font-size: 220px;' class='fa fa-image'></i>
               </div>
               <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
-                  <div uib-slide ng-repeat="slide in previewData track by $index" index="slide.index">
+                  <div uib-slide ng-repeat="slide in previewData track by $index" class="img-slider" index="slide.index">
                       <img width='300' ng-src="{{slide.src}}" style="margin:auto;">
                       <div class="carousel-caption">
                           <p>{{slide.name}}</p>
@@ -320,15 +322,15 @@
     </div>
     <div class="modal-body" id="modal-body">
         <form class='form-group' name='notesAddForm' ng-if='info.state == "addNote"'>
-            <h4>New Sheet</h4>
+            <h4>புதிய தாள்</h4>
             <div class="col-sm-3 col-xs-12">
-                <label class="radio-btn">New
+                <label class="radio-btn">புதிய
                 <input type="radio" ng-model='notesInfo.type' value='New' name="type" ng-change='noteTypeChange()'>
                 <span class="checkmark"></span>
                 </label>
             </div>
             <div class="col-sm-3 col-xs-12">
-                <label class="radio-btn">Clipping
+                <label class="radio-btn">இணைக்க
                 <input type="radio" ng-model='notesInfo.type' value='Clipping' name="type" ng-change='noteTypeChange()'>
                 <span class="checkmark"></span>
                 </label>
@@ -354,7 +356,7 @@
         <form class='form-group upload-order-form' name='uploadOrderForm' ng-if='info.state == "uploadOrderCopy"'>
             <div class='row'>
                 <div class='col-sm-8'>
-                    <label class="lab-tx col-sm-4">upload Scan copy:</label>
+                    <label class="lab-tx col-sm-4">ஸ்கேன் நகலை பதிவேற்றவும்:</label>
                     <div class="col-sm-6">
                         <input type="file" name="uploadorder.files" id='files' required class="form-control">
                     </div>
@@ -372,35 +374,35 @@
             <div class='row'>
                 <div class='col-sm-8'>
                     <div class="row">
-                        <label class="lab-tx col-sm-4">New File id :</label>
+                        <label class="lab-tx col-sm-4">புதிய கோப்பு எண்:</label>
                         <div class="col-sm-6">
                             <input type="text" autocomplete="off" required name='fileId' ng-model='addRecordNew.file_no' class="form-control">
                         </div>
                     </div>
                     
                     <div class="row">
-                        <label class="lab-tx col-sm-4">Date :</label>
+                        <label class="lab-tx col-sm-4">தேதி :</label>
                         <div class="col-sm-6">
                             <input type="date" data-date-format="DD MMMM YYYY" autocomplete="off" required name='date' ng-model='addRecordNew.created_by' class="form-control">
                         </div>
                     </div>
                     
                     <div class="row">
-                        <label class="lab-tx col-sm-4">Description :</label>
+                        <label class="lab-tx col-sm-4">விளக்கம்  :</label>
                         <div class="col-sm-6">
                             <input type="text" autocomplete="off" required name='desc' ng-model='addRecordNew.title' class="form-control">
                         </div>
                     </div>
 
                     <div class='row'>
-                        <label class="lab-tx col-sm-4">upload Scan copy:</label>
+                        <label class="lab-tx col-sm-4">ஸ்கேன் நகலை பதிவேற்றவும்:</label>
                         <div class="col-sm-6">
                             <input type="file" name="addRecordNew.files" multiple="true" accept="image/*" id='files' required class="form-control">
                         </div>
                     </div>
                     <div class='row'>
                         <div class="col-sm-10 text-right">
-                            <button class="btn btn-success" ng-disabled='newRecord.$invalid' ng-click='addRecordUpload()'>Submit</button>
+                            <button class="btn btn-success" ng-disabled='newRecord.$invalid' ng-click='addRecordUpload()'>சேமி</button>
                         </div>
                     </div>
                 </div>
