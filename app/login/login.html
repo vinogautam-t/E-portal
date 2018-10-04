@@ -12,7 +12,7 @@
           <form ng-if='moduleTitle == "Login Form"' name='loginForm' class="loginform">
             <input autocomplete="off" type="text" required name='username' ng-model='loginInfo.username' placeholder="Username">
             <input autocomplete="off" type="password" required name='password' ng-model='loginInfo.password' placeholder="Password">
-            <a class='form-submit' ng-disabled='{{loginForm.$invalid}}' href='javascript:void(0);' ng-keydown="loginKeydown($event)" ng-click='login()'>உள் நுழை</a>
+            <a class='form-submit' ng-disabled='{{loginForm.$invalid}}' href='javascript:void(0);' ng-keydown="loginKeydown($event)" ng-click='login()'>Login</a>
           </form>
           <form ng-if='moduleTitle == "Register New User"' name='registerForm' class="registerform">
             <input autocomplete="off" type="email" required name='Email' ng-model='registerInfo.email' placeholder="Email-id">
