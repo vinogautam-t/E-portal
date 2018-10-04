@@ -18,7 +18,7 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
             ctx = canvas.getContext("2d");
             // Make sure the image is loaded first otherwise nothing will draw.
             background.onload = function(){
-                ctx.drawImage(background,0,0);   
+                ctx.drawImage(background,0,0,700,900);   
             }  
             signaturePad = new SignaturePad(canvas, {
                 penColor: 'green',
