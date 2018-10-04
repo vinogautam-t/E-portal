@@ -51,7 +51,7 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
                                 $scope.previewData.push({'url' : APIURL+ '/uploads/' + arr[0], 'index': $scope.previewData.length});
                             } else if(arr.length > 1) {
                                 angular.forEach(arr, function(rowItem, ind){
-                                    if(row.is_only_log == 0 || (row.is_only_log == 1 && arr.length-1 === ind)){
+                                    if(row.is_only_log == 0 || (row.is_only_log == 1 && arr.length-1 !== ind)){
                                         $scope.previewData.push({'url' : APIURL+ '/uploads/' + rowItem, 'index': $scope.previewData.length});
                                     }
                                 });
