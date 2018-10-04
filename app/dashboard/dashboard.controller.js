@@ -296,7 +296,7 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
     }
 ]);
 
-ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $http, $scope, info, ApiService, $timeout) {
+ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $http, $scope, info, ApiService, $timeout,APIURL) {
     $scope.info = info;
     $scope.userInfo = ApiService.getUserInfo();
     $scope.notesInfo = {'type': 'New'};
@@ -340,7 +340,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
                     var file = files[i];
                     if(file.type.indexOf("image") !== -1){
                         previewFile(file, i);	
-                    } else if((file.type == '' || file.type.indexOf("application/msword") !== -1) && $scope.info.state == 'uploadOrderCopy'){
+                    } else if((file.type == '' || file.type.indexOf("word") !== -1) && $scope.info.state == 'uploadOrderCopy'){
                         convertFile(file);
                     } else {
                         alert(file.name + " is not supported");
@@ -398,6 +398,30 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
                     "filename": file.name,
                     "wait": true}).then(function(res2){
                         console.log(res2);
+                        ApiService.startLoader();
+                        ApiService.uploadConvertFile(res2.data.output).then(function(response){
+                            ApiService.stopLoader();
+                            if(response != undefined && response.status == 'success'){
+                                
+                                if(!$scope.$$phase) {
+                                    $scope.$apply(function(){
+                                        angular.forEach(response.data, function(v,i){
+                                            $scope.previewData.push({'index': i, 'name':v, 'src':APIURL+'/uploads/'+v});
+                                        });   
+                                        $scope.showCarousel = true;                     
+                                    });
+                                } else {
+                                    angular.forEach(response.data, function(v,i){
+                                        $scope.previewData.push({'index': i, 'name':v, 'src':APIURL+'/uploads/'+v});
+                                    });
+                                    $scope.showCarousel = true;
+                                }  
+                            }else{
+                                toastr.warning('Something went wrong.');
+                            }
+                        }).catch(function(err){
+                            ApiService.stopLoader();
+                        });
                     });
                 }
             });
