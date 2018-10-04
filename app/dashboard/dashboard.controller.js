@@ -359,7 +359,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
     }
     
     $scope.uploadOrder = function(){
-        var data = {'id': $scope.info.rowData.id, 'updated_by': $scope.userInfo.id, 'files': $scope.previewData};
+        var data = {'id': $scope.info.rowData.id, 'updated_by': $scope.userInfo.id, 'files': $scope.previewData.map(function(a){return a.name})};
         ApiService.startLoader();
         ApiService.uploadOrderCopy(data).then(function(response){
             ApiService.stopLoader();
