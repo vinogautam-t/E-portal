@@ -98,9 +98,7 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
     $scope.process = function(action){
         if(action == 'approve' && $scope.registryInfo.file_expiry && $scope.userInfo.userrole == 'dr'){
             $scope.expired();
-        } else if($scope.registryInfo.approved == '1' && $scope.userInfo.userrole == 'dr'){
-            $scope.toggleModal({'title': 'Set Expiry Period', 'state': 'expiry', 'registryInfo': $scope.registryInfo});
-        } else{
+        }else{
             $scope.proceed(action);
         }
        
