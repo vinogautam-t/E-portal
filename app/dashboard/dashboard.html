@@ -101,11 +101,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat='list in fileList.new'>
+                                    <tr ng-if='loadNewFile' ng-repeat='list in fileList.new'>
                                         <td>{{list.file_no}}</td>
                                         <td>{{ list.created_on}}</td>
                                         <td>{{list.title}}</td>
-                                        <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="img/file-doc.png"></a></td>
+                                        <td class='center'> <a href='javascript:void(0)' ng-click='editSection(list)'>{{list.sectionName}}</a></td>
                                         <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
                                     </tr>
                                     <tr ng-if='fileList.new.length < 1'>
@@ -321,7 +321,18 @@
         <h3 class="modal-title" id="modal-title">{{info.title}}</h3>
     </div>
     <div class="modal-body" id="modal-body">
-        
+        <form class='form-group' name='sectionChangeFrom' ng-if='info.state == "changeSection"'>
+            <div class="col-xs-12">
+                <label class="col-xs-3">பிரிவு :</label>
+                <div class="col-xs-6">
+                    <select class="form-control" required ng-model="info.rowData.section" ng-options="section.id as section.name for section in info.sectionList">
+                    </select>
+                </div>
+            </div>
+            <div class='row'>
+                <button class='btn btn-default pull-right' style='margin-right: 20px;' ng-click='saveSection()'>சேமி</button>
+            </div>
+        </form>
         <form class='form-group' name='notesAddForm' ng-if='info.state == "addNote"'>
             <h4>புதிய தாள்</h4>
             <div class="col-sm-3 col-xs-12">

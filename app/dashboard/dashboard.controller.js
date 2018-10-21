@@ -12,26 +12,41 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
         }
         
         setInterval(function(){
-           ApiService.getFiles().then(function(response){
-                if(response.data.status == 'success'){
-                    $scope.fileList = response.data.data;
-                }
-            }).catch(function(e){
-                ApiService.stopLoader();
-            }); 
-            
-            ApiService.getChart().then(function(response){
-                if(response.status == 200){
+            if(!!localStorage.getItem('userInfo')){    
+                ApiService.getFiles().then(function(response){
                     if(response.data.status == 'success'){
-                        $scope.charts = response.data.data;
-                        $timeout(function(){
-                            $('.charts-list').each(function(){
-                                createPie($(this).find(".chart-legend"), $(this).find(".chart-pie"));
+                        $scope.fileList = response.data.data;
+                        if($scope.fileList.new != undefined && $scope.fileList.new.length > 0){
+                            $scope.loadNewFile = false;
+                            $scope.fileList.new.map(function(row, inx){
+                                $scope.sectionList.map(function(s){
+                                    if(row.section == s.id){
+                                        row.sectionName = s.name;
+                                        if(inx == $scope.fileList.new.length -1){
+                                            $scope.loadNewFile = true;
+                                        }
+                                    }
+                                });
                             });
-                        }, 2000);
+                        }
                     }
-                }
-            });
+                }).catch(function(e){
+                    ApiService.stopLoader();
+                }); 
+                
+                ApiService.getChart().then(function(response){
+                    if(response.status == 200){
+                        if(response.data.status == 'success'){
+                            $scope.charts = response.data.data;
+                            $timeout(function(){
+                                $('.charts-list').each(function(){
+                                    createPie($(this).find(".chart-legend"), $(this).find(".chart-pie"));
+                                });
+                            }, 2000);
+                        }
+                    }
+                });
+            }
         }, 120000);
         
         $scope.employeeList = [];
@@ -91,11 +106,24 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
               }
           
               modalInstance.result.then(function (selectedItem) {
-                if(selectedItem.state == 'addNote' || selectedItem.state == 'addRecord'){
+                if(selectedItem.state == 'addNote' || selectedItem.state == 'addRecord' || selectedItem.state == 'changeSection'){
                     $scope.getFiles().then(function(response){
                         ApiService.stopLoader();
                         if(response.data.status == 'success'){
                             $scope.fileList = response.data.data;
+                            if($scope.fileList.new != undefined && $scope.fileList.new.length > 0){
+                                $scope.loadNewFile = false;
+                                $scope.fileList.new.map(function(row, inx){
+                                    $scope.sectionList.map(function(s){
+                                        if(row.section == s.id){
+                                            row.sectionName = s.name;
+                                            if(inx == $scope.fileList.new.length -1){
+                                                $scope.loadNewFile = true;
+                                            }
+                                        }
+                                    });
+                                });
+                            }
                         }
                     }).catch(function(e){
                         ApiService.stopLoader();
@@ -105,6 +133,19 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                         ApiService.stopLoader();
                         if(response.data.status == 'success'){
                             $scope.fileList = response.data.data;
+                            if($scope.fileList.new != undefined && $scope.fileList.new.length > 0){
+                                $scope.loadNewFile = false;
+                                $scope.fileList.new.map(function(row, inx){
+                                    $scope.sectionList.map(function(s){
+                                        if(row.section == s.id){
+                                            row.sectionName = s.name;
+                                            if(inx == $scope.fileList.new.length -1){
+                                                $scope.loadNewFile = true;
+                                            }
+                                        }
+                                    });
+                                });
+                            }
                         }
                     }).catch(function(e){
                         ApiService.stopLoader();
@@ -197,13 +238,31 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                 ApiService.stopLoader();
                 if(response.data.status == 'success'){
                     $scope.fileList = response.data.data;
+                    if($scope.fileList.new != undefined && $scope.fileList.new.length > 0){
+                        $scope.loadNewFile = false;
+                        $scope.fileList.new.map(function(row, inx){
+                            $scope.sectionList.map(function(s){
+                                if(row.section == s.id){
+                                    row.sectionName = s.name;
+                                    if(inx == $scope.fileList.new.length -1){
+                                        $scope.loadNewFile = true;
+                                    }
+                                }
+                            });
+                        });
+                    }
                 }
             }).catch(function(e){
                 ApiService.stopLoader();
             });
 
+            $scope.editSection = function(rowData){
+                var data = {'title': 'Change Section', 'state': 'changeSection', 'rowData': rowData, 'sectionList': $scope.sectionList};
+                $scope.toggleModal(data);
+            }
+
             $scope.addNotes = function(rowData){
-                var data = {'title': 'Notes', 'state': 'addNote', 'rowData': rowData};
+                var data = {'title': 'புதிய தாள்', 'state': 'addNote', 'rowData': rowData};
                 $scope.toggleModal(data);
             }
 
@@ -308,6 +367,23 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    $scope.saveSection = function(){
+        var obj = {'section': $scope.info.rowData.section, 'id': $scope.info.rowData.id};
+        ApiService.startLoader();
+        ApiService.editSection(obj).then(function(response){
+            ApiService.stopLoader();
+            if(response != undefined && response.status == 'success'){
+                toastr.success('section changed successfully.');
+                $scope.ok({'state': 'changeSection'});
+            }else{
+                toastr.warning('Something went wrong, Please try again.');
+            }
+        }).catch(function(err){
+            ApiService.stopLoader();
+        });
+
+    }
 
     $scope.noteTypeChange = function(){
         if($scope.notesInfo.type == 'New'){
