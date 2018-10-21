@@ -33,10 +33,11 @@
                                 <td>{{row.created_on}}</td>
                                 <td class="bamini">{{row.file_no}}</td>
                                 <td  class="bamini">{{row.file_details[1].notes}}</td>
-                                <td ng-if="!closed">{{statusDetail[row.approved][row.status]}}</td>
-                                <td ng-if="closed">{{statusDetail[2][row.status]}}</td>
-                                <td><a href='javascript:void(0)' ng-click="viewRow(row)">File</a></td>
-                                <td><a ng-if="row.order_copy" href='javascript:void(0)' ng-click="viewOrder(row)">Order</a></td>
+                                <td ng-if="row.closed==0">{{statusDetail[row.approved][row.status]}}</td>
+                                <td ng-if="row.closed==1">{{statusDetail[2][row.status]}}</td>
+                                <td><a href='javascript:void(0)' ng-click="viewRow(row)">File</a>
+                                &nbsp;&nbsp;
+                                <a ng-if="row.order_copy" href='javascript:void(0)' ng-click="viewOrder(row)">Order</a></td>
                             </tr>
                             <tr ng-if='noData' colspan='5'>
                                 <td>no records to display</td>

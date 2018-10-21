@@ -71,8 +71,8 @@
                                 <td class="bamini">{{row.file_no}}</td>
                                 <td>{{row.created_on}}</td>
                                 <td class="bamini">{{row.file_details[1].notes}}</td>
-                                <td ng-if="!closed">{{statusDetail[row.approved][row.status]}}</td>
-                                <td ng-if="closed">{{statusDetail[2][row.status]}}</td>
+                                <td ng-if="row.closed==0">{{statusDetail[row.approved][row.status]}}</td>
+                                <td ng-if="row.closed==1">{{statusDetail[2][row.status]}}</td>
                                 <td><a href='javascript:void(0)' ng-click="viewRow(row)">காண்க</a></td>
                             </tr>
                         </tbody>
@@ -385,7 +385,7 @@
                 <br>
                 <div id="tamil_container" ng-if='notesInfo.type != "Clipping"'>
                   <div id="tamil_container_id">
-                    <span>அலுவலகக்  குறிப்பு :</span><br><br>
+                    <span ng-if="info.rowData.status == 0">அலுவலகக்  குறிப்பு :</span><br><br>
                     <p class="bamini">{{notesInfo.notes}}</p>
                   </div>
                 </div>

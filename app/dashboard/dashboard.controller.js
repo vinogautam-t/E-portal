@@ -367,7 +367,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
     $scope.userInfo = ApiService.getUserInfo();
     $scope.notesInfo = {'type': 'New'};
     $scope.addRecordNew = {};
-    $scope.orderCopy = {state: 1, data: '', placeholder: 'img/placeholder.png'};
+    $scope.orderCopy = {state: 1, data: angular.copy($scope.info.rowData.order_copy_data), placeholder: 'img/placeholder.png'};
     $scope.orderCopyState = 1;
     $scope.ok = function (data) {
         $uibModalInstance.close(data);

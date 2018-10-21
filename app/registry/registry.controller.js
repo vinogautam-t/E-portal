@@ -39,7 +39,7 @@ ePortalApp.controller('registryController', ['$scope', '$window', '$http', '$tim
             },
             {
                 '-1' : 'Move to Record Room / Hold back in section',
-                '-2' : 'Move to Record Room / Hold in section',
+                '-2' : 'File completed',
                 4: 'Moved to Record Romm',
                 1: 'Move to Record Room / Waiting for CSR Approval',
                 2: 'Order Approved / Waiting for DR Approval'
