@@ -31,10 +31,11 @@
                             <tr ng-if='!noData' ng-repeat='row in recordRoomData[s] track by row.id'>
                                 <td>{{$index+1}}</td>
                                 <td>{{row.created_on}}</td>
-                                <td>{{row.file_no}}</td>
-                                <td>{{row.file_details[1].notes}}</td>
+                                <td class="bamini">{{row.file_no}}</td>
+                                <td  class="bamini">{{row.file_details[1].notes}}</td>
                                 <td>{{statusDetail[row.approved][row.status]}}</td>
-                                <td><a href='javascript:void(0)' ng-click="viewRow(row)">View</a></td>
+                                <td><a href='javascript:void(0)' ng-click="viewRow(row)">File</a></td>
+                                <td><a ng-if="row.order_copy" href='javascript:void(0)' ng-click="viewOrder(row)">Order</a></td>
                             </tr>
                             <tr ng-if='noData' colspan='5'>
                                 <td>no records to display</td>

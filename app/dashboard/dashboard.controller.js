@@ -360,7 +360,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
     $scope.userInfo = ApiService.getUserInfo();
     $scope.notesInfo = {'type': 'New'};
     $scope.addRecordNew = {};
-    $scope.orderCopy = {state: 1, data: ''};
+    $scope.orderCopy = {state: 1, data: '', placeholder: 'https://via.placeholder.com/250x200/?text=Your%20Sign'};
     $scope.orderCopyState = 1;
     $scope.ok = function (data) {
         $uibModalInstance.close(data);
@@ -437,17 +437,20 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
     }
     
     $scope.uploadOrder = function(){
-        var data = {id: $scope.info.rowData.id, updated_by: $scope.userInfo.id, notes: $scope.orderCopy.data, files: $scope.orderCopy.canvas.toDataURL()};
-        ApiService.startLoader();
-        ApiService.uploadOrderCopy(data).then(function(response){
-            ApiService.stopLoader();
-            if(response != undefined && response.status == 'success'){
-                $scope.ok({'state': 'uploadOrderCopy'});
-            }else{
-                toastr.warning('Something went wrong.');
-            }
-        }).catch(function(err){
-            ApiService.stopLoader();
+        html2canvas(document.querySelector("#ordercopypreviewImgcanvas_container")).then(canvas => {
+            var data = {id: $scope.info.rowData.id, updated_by: $scope.userInfo.id, notes: $scope.orderCopy.data, 
+            files: canvas.toDataURL()};
+            ApiService.startLoader();
+            ApiService.uploadOrderCopy(data).then(function(response){
+                ApiService.stopLoader();
+                if(response != undefined && response.status == 'success'){
+                    $scope.ok({'state': 'uploadOrderCopy'});
+                }else{
+                    toastr.warning('Something went wrong.');
+                }
+            }).catch(function(err){
+                ApiService.stopLoader();
+            });
         });
     }
 
@@ -558,18 +561,17 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
     $scope.checksignImage = function(){
         ApiService.check_sign_file($scope.orderCopy.otp).then(function(res){
             if(res.data.status == 'success'){
-                ApiService.startLoader();
-                var objDiv = document.getElementById("ordercopypreviewImg");
+                /*var objDiv = document.getElementById("ordercopypreviewImg");
                 objDiv.scrollTop = objDiv.scrollHeight;
-                var signimg = new Image();
+                */
+                $scope.orderCopy.sign = '../'+res.data.data;
+                /*var signimg = new Image();
                 signimg.src = '../'+res.data.data;
-                // background.src = 'img/pdf.png';
                 ctx = $scope.orderCopy.canvas.getContext("2d");
-                // Make sure the image is loaded first otherwise nothing will draw.
                 signimg.onload = function(){
                     ctx.drawImage(signimg,0,$scope.orderCopy.canvas.height-200,250, 200);
                     ApiService.stopLoader();
-                }
+                }*/
             } else {
                 $timeout(function(){
                     $scope.checksignImage();
@@ -578,6 +580,41 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
         });
     };
     
+    $scope.notesPreview = function(){
+        ApiService.startLoader();
+        html2canvas(document.querySelector("#tamil_container_id")).then(canvas => {
+            $scope.$apply(function(){
+                $scope.orderCopy.img=canvas.toDataURL();
+                $scope.orderCopy.state=2;
+                
+                /*$scope.orderCopy.canvas = document.createElement('canvas');
+                $scope.orderCopy.canvas.width = canvas.width;
+                $scope.orderCopy.canvas.height = canvas.height;*/
+                    
+                ApiService.getotp().then(function(res){
+                    $scope.orderCopy.otp = res.data.data;
+                    /*$("#ordercopypreviewImgcanvas_container").html($scope.orderCopy.canvas);
+                    var background = new Image();
+                    background.src = $scope.orderCopy.img;
+                    ctx = $scope.orderCopy.canvas.getContext("2d");
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(0,0,$scope.orderCopy.canvas.width, $scope.orderCopy.canvas.height);
+                    background.onload = function(){
+                        ctx.drawImage(background,0,0,canvas.width,canvas.height);   
+                    } */
+                    $scope.checksignImage();
+                    ApiService.stopLoader();
+                    $('.draggablee').draggable({ containment: "parent" });
+                });
+                 
+            });
+            
+        }).catch(function (error) {
+            ApiService.stopLoader();
+        });  
+    };
+    
+    
     $scope.orderCopyPreview = function(){
         ApiService.startLoader();
         html2canvas(document.querySelector("#ordercopypreviewdata")).then(canvas => {
@@ -585,13 +622,13 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
                 $scope.orderCopy.img=canvas.toDataURL();
                 $scope.orderCopy.state=2;
                 
-                $scope.orderCopy.canvas = document.createElement('canvas');
+                /*$scope.orderCopy.canvas = document.createElement('canvas');
                 $scope.orderCopy.canvas.width = canvas.width;
-                $scope.orderCopy.canvas.height = canvas.height + 220;
+                $scope.orderCopy.canvas.height = canvas.height + 250;*/
                     
                 ApiService.getotp().then(function(res){
                     $scope.orderCopy.otp = res.data.data;
-                    $("#ordercopypreviewImgcanvas_container").html($scope.orderCopy.canvas);
+                    /*$("#ordercopypreviewImgcanvas_container").html($scope.orderCopy.canvas);
                     var background = new Image();
                     background.src = $scope.orderCopy.img;
                     // background.src = 'img/pdf.png';
@@ -600,9 +637,10 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
                     ctx.fillRect(0,0,$scope.orderCopy.canvas.width, $scope.orderCopy.canvas.height);
                     background.onload = function(){
                         ctx.drawImage(background,0,0,canvas.width,canvas.height);   
-                    } 
+                    } */
                     $scope.checksignImage();
                     ApiService.stopLoader();
+                    $('.draggablee').draggable({ containment: "parent" });
                 });
                  
             });
@@ -616,7 +654,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
         var obj = {'notes': $scope.notesInfo.notes, 'updated_by': $scope.userInfo.id, 'id': $scope.info.rowData.id};
         console.log(obj);
         ApiService.startLoader();
-        html2canvas(document.querySelector("#tamil_container_id")).then(canvas => {
+        html2canvas(document.querySelector("#ordercopypreviewImgcanvas_container")).then(canvas => {
             obj.files = canvas.toDataURL();
             ApiService.addNotes(obj).then(function(response){
                 ApiService.stopLoader();
@@ -627,8 +665,6 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
             }).catch(function(e){
                 ApiService.stopLoader();
             });
-        }).catch(function (error) {
-            ApiService.stopLoader();
         });
     }
 

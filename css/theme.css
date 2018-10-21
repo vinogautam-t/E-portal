@@ -694,6 +694,10 @@ table tr th{color:#5b845b;}
   width:900px;
   height:500px;
 }
+.modal-body.addNote{
+  width:900px;
+  height:500px;
+}
 #ordercopypreview{width:700px;opacity: 0;pointer-events:none}
 #ordercopypreviewdata{margin-bottom: 100px;}
 #ordercopypreviewImg {
@@ -710,4 +714,6 @@ table tr th{color:#5b845b;}
 .draggablee{
   position:absolute;
   bottom:0;
+  left:0;
 }
+#ordercopypreviewImgcanvas_container{position:relative;}

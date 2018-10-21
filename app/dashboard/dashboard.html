@@ -361,34 +361,50 @@
             </div>
         </form>
         <form class='form-group' name='notesAddForm' ng-if='info.state == "addNote"'>
-            <h4>புதிய தாள்</h4>
-            <div class="col-sm-3 col-xs-12">
-                <label class="radio-btn">புதிய
-                <input type="radio" ng-model='notesInfo.type' value='New' name="type" ng-change='noteTypeChange()'>
-                <span class="checkmark"></span>
-                </label>
+            <div ng-if="orderCopy.state == 1">
+                <div ng-if="info.rowData.status == 0">
+                    <h4>புதிய தாள்</h4>
+                    <div class="col-sm-3 col-xs-12">
+                        <label class="radio-btn">புதிய
+                        <input type="radio" ng-model='notesInfo.type' value='New' name="type" ng-change='noteTypeChange()'>
+                        <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                        <label class="radio-btn">இணைக்க
+                        <input type="radio" ng-model='notesInfo.type' value='Clipping' name="type" ng-change='noteTypeChange()'>
+                        <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="col-sm-3 col-xs-12" ng-if='notesInfo.type == "Clipping"'>
+                        <input type="text" autocomplete="off" placeholder='File No' ng-model='notesInfo.fileNo' name='fileNo' class="form-control bamini" required>
+                    </div>
+                </div>
+                <br>
+                <div id="tamil_container" ng-if='notesInfo.type != "Clipping"'>
+                  <div id="tamil_container_id">
+                    <span>அலுவலகக்  குறிப்பு :</span><br><br>
+                    <p class="bamini">{{notesInfo.notes}}</p>
+                  </div>
+                </div>
+                <textarea ng-if='notesInfo.type != "Clipping"' id='editor' class='notesTextarea bamini' ng-model='notesInfo.notes' required></textarea>
+                <div id='keyboard' ng-if='notesInfo.type != "Clipping"'></div>
+                <div class=''>
+                    <button ng-if='notesInfo.type == "Clipping"' type="button" class="btn btn-default pull-right" ng-disabled='!notesInfo.fileNo' ng-click='addClippingNotes()'>Submit</button>
+                    <button ng-if='notesInfo.type != "Clipping"' type="button" class="btn btn-default pull-right" ng-disabled='!notesInfo.notes' ng-click='notesPreview()'>அடுத்து</button>
+                </div>
             </div>
-            <div class="col-sm-3 col-xs-12">
-                <label class="radio-btn">இணைக்க
-                <input type="radio" ng-model='notesInfo.type' value='Clipping' name="type" ng-change='noteTypeChange()'>
-                <span class="checkmark"></span>
-                </label>
-            </div>
-            <div class="col-sm-3 col-xs-12" ng-if='notesInfo.type == "Clipping"'>
-                <input type="text" autocomplete="off" placeholder='File No' ng-model='notesInfo.fileNo' name='fileNo' class="form-control bamini" required>
-            </div>
-            <br>
-            <div id="tamil_container" ng-if='notesInfo.type != "Clipping"'>
-              <div id="tamil_container_id">
-                <span>அலுவலகக்  குறிப்பு :</span><br><br>
-                <p>{{notesInfo.notes}}</p>
-              </div>
-            </div>
-            <textarea ng-if='notesInfo.type != "Clipping"' id='editor' class='notesTextarea bamini' ng-model='notesInfo.notes' required></textarea>
-            <div id='keyboard' ng-if='notesInfo.type != "Clipping"'></div>
-            <div class=''>
-                <button ng-if='notesInfo.type == "Clipping"' type="button" class="btn btn-default pull-right" ng-disabled='!notesInfo.fileNo' ng-click='addClippingNotes()'>Submit</button>
-                <button ng-if='notesInfo.type != "Clipping"' type="button" class="btn btn-default pull-right" ng-disabled='!notesInfo.notes' ng-click='addNotes()'>Submit</button>
+            <div id="ordercopypreviewImg" class="clearfix" ng-if="orderCopy.state == 2">
+                <p>Enter this OTP <b>{{orderCopy.otp}}</b> and sign in mobile</p>
+                <div id="ordercopypreviewImgcanvas_container">
+                    <img ng-src="{{orderCopy.img}}">
+                    <img class="draggablee"  ng-src="{{orderCopy.sign? orderCopy.sign : orderCopy.placeholder}}">
+                </div>
+                <div class="clearfix">
+                    <button type="button" class="btn btn-default pull-left" ng-click='orderCopy.state=1'>மீண்டும் எழுத</button>
+                    <button type="button" class="btn btn-default pull-right"  ng-click='addNotes()'>சேமி</button>  
+                </div>
             </div>
         </form>
 
@@ -405,7 +421,10 @@
             
             <div id="ordercopypreviewImg" class="clearfix" ng-if="orderCopy.state == 2">
                 <p>Enter this OTP <b>{{orderCopy.otp}}</b> and sign in mobile</p>
-                <div id="ordercopypreviewImgcanvas_container"></div>
+                <div id="ordercopypreviewImgcanvas_container">
+                    <img ng-src="{{orderCopy.img}}">
+                    <img class="draggablee"  ng-src="{{orderCopy.sign? orderCopy.sign : orderCopy.placeholder}}">
+                </div>
                 <div class="clearfix">
                     <button type="button" class="btn btn-default pull-left" ng-click='orderCopy.state=1'>மீண்டும் எழுத</button>
                     <button type="button" class="btn btn-default pull-right"  ng-click='uploadOrder()'>சேமி</button>  

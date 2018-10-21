@@ -66,6 +66,11 @@ ePortalApp.controller('registryController', ['$scope', '$window', '$http', '$tim
             var win = window.open(APIURL+'?action=view_file&id='+row.id, '_blank');
             win.focus();
         }
+        
+        $scope.viewOrder = function(row){
+            var win = window.open(APIURL+'?action=view_order&id='+row.id, '_blank');
+            win.focus();
+        }
 
 
         function reloadData() {
