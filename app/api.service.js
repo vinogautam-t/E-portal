@@ -42,6 +42,11 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         .get(APIURL+'?action=sections');
     }
 
+    apiService.editSection = function(data){
+        return httpService
+        .post(APIURL+'?action=change_section', data);
+    }
+
     apiService.createFiles = function(data){
         return httpService
         .post(APIURL+'?action=create_file', data);
