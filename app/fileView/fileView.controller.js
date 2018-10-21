@@ -177,7 +177,7 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
                 $scope.proceed_action(canvas.toDataURL(), action);
             });
         } else {
-            html2canvas(document.querySelector("#canvas_container_oc")).then(canvas => {
+            html2canvas(document.querySelector("#canvas_container_f")).then(canvas => {
                 $scope.proceed_action(canvas.toDataURL(), action);
             });
         }
@@ -185,7 +185,12 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
     
     
     $scope.proceed_action = function(fileData, action){
-        var data = {isOC: $scope.isOC, oc: $scope.registryInfo.order_copy ,"updated_by": $scope.userInfo.id, "id": $scope.fileId, 'files': fileData, 'last_log_id': $scope.registryInfo.file_details[$scope.registryInfo.file_details.length-1].id};
+        if($scope.isOC){
+            var data = {isOC: $scope.isOC, oc: $scope.registryInfo.order_copy ,"updated_by": $scope.userInfo.id, "id": $scope.fileId, 'files': fileData, 'last_log_id': $scope.registryInfo.file_details[$scope.registryInfo.file_details.length-1].id};
+        } else {
+            var data = {"updated_by": $scope.userInfo.id, "id": $scope.fileId, 'files': fileData, 'last_log_id': $scope.registryInfo.file_details[$scope.registryInfo.file_details.length-1].id};
+        }
+        
         
         ApiService.fileProcess(data, action, $scope.userInfo.userrole).then(function(response){
             ApiService.stopLoader();

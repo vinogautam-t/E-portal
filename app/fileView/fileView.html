@@ -31,7 +31,7 @@
             <div ng-show="showordercopy">
                 <div id="canvas_container_oc" class="text-center">
                     <img ng-src="{{'../uploads/'+registryInfo.order_copy}}">
-                    <img class="draggablee" ng-src="{{orderCopy.sign ? orderCopy.sign : orderCopy.placeholder}}">
+                    <img ng-if="isOC" class="draggablee" ng-src="{{orderCopy.sign ? orderCopy.sign : orderCopy.placeholder}}">
                 </div>
             </div>
             <br>
