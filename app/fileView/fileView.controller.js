@@ -7,7 +7,7 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
     $scope.fileId = $stateParams.fileId;
     $scope.showFiles = false;
     $scope.showordercopy = false;
-    $scope.orderCopy = {placeholder: 'https://via.placeholder.com/250x200/?text=Your%20Sign'};
+    $scope.orderCopy = {placeholder: 'img/placeholder.png'};
     $scope.previewData =  [];
     var signaturePad;
     $scope.registryInfo = {};
@@ -147,7 +147,9 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
     
     $scope.process = function(action){
         if(action == 'approve' && $scope.registryInfo.file_expiry && $scope.userInfo.userrole == 'dr'){
-            $scope.expired();
+            html2canvas(document.querySelector("#canvas_container_f")).then(canvas => {
+                $scope.expired(canvas.toDataURL());
+            });
         } else if($scope.registryInfo.closed == '1' && $scope.userInfo.userrole == 'dr'){
             $scope.toggleModal({'title': 'Set Expiry Period', 'state': 'expiry', 'registryInfo': $scope.registryInfo});
         } else{
@@ -156,8 +158,8 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
        
     }
 
-    $scope.expired = function(){
-        var fileData = signaturePad.toDataURL('image/png');
+    $scope.expired = function(fileData){
+        //var fileData = signaturePad.toDataURL('image/png');
         var data = {"updated_by": $scope.userInfo.id, "id": $scope.fileId, 'files': fileData, 'last_log_id': $scope.registryInfo.file_details[$scope.registryInfo.file_details.length-1].id};
 
         ApiService.expired(data).then(function(response){

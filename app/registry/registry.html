@@ -33,7 +33,8 @@
                                 <td>{{row.created_on}}</td>
                                 <td class="bamini">{{row.file_no}}</td>
                                 <td  class="bamini">{{row.file_details[1].notes}}</td>
-                                <td>{{statusDetail[row.approved][row.status]}}</td>
+                                <td ng-if="!closed">{{statusDetail[row.approved][row.status]}}</td>
+                                <td ng-if="closed">{{statusDetail[2][row.status]}}</td>
                                 <td><a href='javascript:void(0)' ng-click="viewRow(row)">File</a></td>
                                 <td><a ng-if="row.order_copy" href='javascript:void(0)' ng-click="viewOrder(row)">Order</a></td>
                             </tr>

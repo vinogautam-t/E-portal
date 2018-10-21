@@ -77,11 +77,18 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
                 '-1' : 'Rejected pending in PR Table'
             },
             {
-                '-1' : 'Order Approved / Order copy correction in PR Table',
+                '-1' : 'Order Approved / Order copy correction in Section',
                 '-2' : 'Order Approved',
                 4: 'Moved to Record Romm',
                 1: 'Order Approved / Waiting for CSR Approval',
-                2: 'Order Approved / Waiting for CSR Approval'
+                2: 'Order Approved / Waiting for DR Approval'
+            },
+            {
+                '-1' : 'Move to Record Room / Hold back in section',
+                '-2' : 'Move to Record Room / Hold in section',
+                4: 'Moved to Record Romm',
+                1: 'Move to Record Room / Waiting for CSR Approval',
+                2: 'Order Approved / Waiting for DR Approval'
             }
         ];
 
@@ -360,7 +367,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
     $scope.userInfo = ApiService.getUserInfo();
     $scope.notesInfo = {'type': 'New'};
     $scope.addRecordNew = {};
-    $scope.orderCopy = {state: 1, data: '', placeholder: 'https://via.placeholder.com/250x200/?text=Your%20Sign'};
+    $scope.orderCopy = {state: 1, data: '', placeholder: 'img/placeholder.png'};
     $scope.orderCopyState = 1;
     $scope.ok = function (data) {
         $uibModalInstance.close(data);

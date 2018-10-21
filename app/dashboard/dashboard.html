@@ -71,7 +71,8 @@
                                 <td class="bamini">{{row.file_no}}</td>
                                 <td>{{row.created_on}}</td>
                                 <td class="bamini">{{row.file_details[1].notes}}</td>
-                                <td>{{row.file_expiry ? 'Moved to Record Room' : statusDetail[row.approved][row.status]}}</td>
+                                <td ng-if="!closed">{{statusDetail[row.approved][row.status]}}</td>
+                                <td ng-if="closed">{{statusDetail[2][row.status]}}</td>
                                 <td><a href='javascript:void(0)' ng-click="viewRow(row)">காண்க</a></td>
                             </tr>
                         </tbody>

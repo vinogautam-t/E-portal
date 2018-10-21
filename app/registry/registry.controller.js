@@ -31,11 +31,18 @@ ePortalApp.controller('registryController', ['$scope', '$window', '$http', '$tim
                 '-1' : 'Rejected pending in PR Table'
             },
             {
-                '-1' : 'Order Approved / Order copy correction in PR Table',
+                '-1' : 'Order Approved / Order copy correction in Section',
                 '-2' : 'Order Approved',
                 4: 'Moved to Record Romm',
                 1: 'Order Approved / Waiting for CSR Approval',
-                2: 'Order Approved / Waiting for CSR Approval'
+                2: 'Order Approved / Waiting for DR Approval'
+            },
+            {
+                '-1' : 'Move to Record Room / Hold back in section',
+                '-2' : 'Move to Record Room / Hold in section',
+                4: 'Moved to Record Romm',
+                1: 'Move to Record Room / Waiting for CSR Approval',
+                2: 'Order Approved / Waiting for DR Approval'
             }
         ];
         
