@@ -11,43 +11,43 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
             $state.go('user');
         }
         
-        setInterval(function(){
-            if(!!localStorage.getItem('userInfo')){    
-                ApiService.getFiles().then(function(response){
-                    if(response.data.status == 'success'){
-                        $scope.fileList = response.data.data;
-                        if($scope.fileList.new != undefined && $scope.fileList.new.length > 0){
-                            $scope.loadNewFile = false;
-                            $scope.fileList.new.map(function(row, inx){
-                                $scope.sectionList.map(function(s){
-                                    if(row.section == s.id){
-                                        row.sectionName = s.name;
-                                        if(inx == $scope.fileList.new.length -1){
-                                            $scope.loadNewFile = true;
-                                        }
-                                    }
-                                });
-                            });
-                        }
-                    }
-                }).catch(function(e){
-                    ApiService.stopLoader();
-                }); 
+        // setInterval(function(){
+        //     if(!!localStorage.getItem('userInfo')){    
+        //         ApiService.getFiles().then(function(response){
+        //             if(response.data.status == 'success'){
+        //                 $scope.fileList = response.data.data;
+        //                 if($scope.fileList.new != undefined && $scope.fileList.new.length > 0){
+        //                     $scope.loadNewFile = false;
+        //                     $scope.fileList.new.map(function(row, inx){
+        //                         $scope.sectionList.map(function(s){
+        //                             if(row.section == s.id){
+        //                                 row.sectionName = s.name;
+        //                                 if(inx == $scope.fileList.new.length -1){
+        //                                     $scope.loadNewFile = true;
+        //                                 }
+        //                             }
+        //                         });
+        //                     });
+        //                 }
+        //             }
+        //         }).catch(function(e){
+        //             ApiService.stopLoader();
+        //         }); 
                 
-                ApiService.getChart().then(function(response){
-                    if(response.status == 200){
-                        if(response.data.status == 'success'){
-                            $scope.charts = response.data.data;
-                            $timeout(function(){
-                                $('.charts-list').each(function(){
-                                    createPie($(this).find(".chart-legend"), $(this).find(".chart-pie"));
-                                });
-                            }, 2000);
-                        }
-                    }
-                });
-            }
-        }, 120000);
+        //         ApiService.getChart().then(function(response){
+        //             if(response.status == 200){
+        //                 if(response.data.status == 'success'){
+        //                     $scope.charts = response.data.data;
+        //                     $timeout(function(){
+        //                         $('.charts-list').each(function(){
+        //                             createPie($(this).find(".chart-legend"), $(this).find(".chart-pie"));
+        //                         });
+        //                     }, 2000);
+        //                 }
+        //             }
+        //         });
+        //     }
+        // }, 120000);
         
         $scope.employeeList = [];
         
