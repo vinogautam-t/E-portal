@@ -86,7 +86,7 @@ ePortalApp.controller('dashboardController', ['$scope', '$window', '$http', '$ti
               });
               if(data.state == 'addNote'){
                 $timeout(function(){
-                    branah.initialize("keyboard", "editor");
+                    //branah.initialize("keyboard", "editor");
                 }, 1500);
               }
           
@@ -301,6 +301,8 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
     $scope.userInfo = ApiService.getUserInfo();
     $scope.notesInfo = {'type': 'New'};
     $scope.addRecordNew = {};
+    $scope.orderCopy = {state: 1, data: ''};
+    $scope.orderCopyState = 1;
     $scope.ok = function (data) {
         $uibModalInstance.close(data);
     };
@@ -359,7 +361,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
     }
     
     $scope.uploadOrder = function(){
-        var data = {'id': $scope.info.rowData.id, 'updated_by': $scope.userInfo.id, 'files': $scope.previewData.map(function(a){return a.name})};
+        var data = {id: $scope.info.rowData.id, updated_by: $scope.userInfo.id, notes: $scope.orderCopy.data, files: $scope.orderCopy.canvas.toDataURL()};
         ApiService.startLoader();
         ApiService.uploadOrderCopy(data).then(function(response){
             ApiService.stopLoader();
@@ -445,7 +447,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
         $scope.showCarousel = true;
     }
 
-    $timeout(function(){
+    /*$timeout(function(){
         $('#editor').keyup(function(){
             $scope.$apply(function(){
                 $scope.notesInfo.notes = $('#editor').val();
@@ -457,7 +459,7 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
                 $scope.notesInfo.notes = $('#editor').val();
             });
         });
-    }, 1000);
+    }, 1000);*/
 
     $scope.addRecordUpload = function() {
         if($scope.previewData != undefined && $scope.previewData.length > 0){
@@ -477,6 +479,62 @@ ePortalApp.controller('notesModalInstanceCtrl', function ($uibModalInstance, $ht
         }
     }
     
+    $scope.checksignImage = function(){
+        ApiService.check_sign_file($scope.orderCopy.otp).then(function(res){
+            if(res.data.status == 'success'){
+                ApiService.startLoader();
+                var objDiv = document.getElementById("ordercopypreviewImg");
+                objDiv.scrollTop = objDiv.scrollHeight;
+                var signimg = new Image();
+                signimg.src = '../'+res.data.data;
+                // background.src = 'img/pdf.png';
+                ctx = $scope.orderCopy.canvas.getContext("2d");
+                // Make sure the image is loaded first otherwise nothing will draw.
+                signimg.onload = function(){
+                    ctx.drawImage(signimg,0,$scope.orderCopy.canvas.height-200,250, 200);
+                    ApiService.stopLoader();
+                }
+            } else {
+                $timeout(function(){
+                    $scope.checksignImage();
+                }, 2000);
+            }
+        });
+    };
+    
+    $scope.orderCopyPreview = function(){
+        ApiService.startLoader();
+        html2canvas(document.querySelector("#ordercopypreviewdata")).then(canvas => {
+            $scope.$apply(function(){
+                $scope.orderCopy.img=canvas.toDataURL();
+                $scope.orderCopy.state=2;
+                
+                $scope.orderCopy.canvas = document.createElement('canvas');
+                $scope.orderCopy.canvas.width = canvas.width;
+                $scope.orderCopy.canvas.height = canvas.height + 220;
+                    
+                ApiService.getotp().then(function(res){
+                    $scope.orderCopy.otp = res.data.data;
+                    $("#ordercopypreviewImgcanvas_container").html($scope.orderCopy.canvas);
+                    var background = new Image();
+                    background.src = $scope.orderCopy.img;
+                    // background.src = 'img/pdf.png';
+                    ctx = $scope.orderCopy.canvas.getContext("2d");
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(0,0,$scope.orderCopy.canvas.width, $scope.orderCopy.canvas.height);
+                    background.onload = function(){
+                        ctx.drawImage(background,0,0,canvas.width,canvas.height);   
+                    } 
+                    $scope.checksignImage();
+                    ApiService.stopLoader();
+                });
+                 
+            });
+            
+        }).catch(function (error) {
+            ApiService.stopLoader();
+        });  
+    };
 
     $scope.addNotes = function() {
         var obj = {'notes': $scope.notesInfo.notes, 'updated_by': $scope.userInfo.id, 'id': $scope.info.rowData.id};

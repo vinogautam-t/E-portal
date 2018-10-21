@@ -119,6 +119,16 @@ ePortalApp.factory('ApiService', function ($http, httpService, APIURL) {
         return httpService
         .post(APIURL+'?action=expired', data);
     }
+    
+    apiService.getotp = function(){
+        return httpService
+        .get(APIURL+'?action=get_otp');
+    }
+    
+    apiService.check_sign_file = function(data){
+        return httpService
+        .get(APIURL+'?action=check_file&otp='+data);
+    }
 
     return apiService;
 });

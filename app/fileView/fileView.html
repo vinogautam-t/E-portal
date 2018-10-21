@@ -1,84 +1,43 @@
-<div class='view-container'>
-    <div class="row">
-        <div class="col-sm-3">
-          <div class="notify">
-          <h3>Today</h3>
-          <div class="value-ct row">
-          <div class="col-sm-12">
-          <span class="no-of-re">10</span>
-          <div class="chart"><img src="/img/chart.png"></div>
-          </div>
-          <div class="col-sm-12">
-          <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
-          </div>
-          </div>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="notify">
-          <h3>Week</h3>
-          <div class="value-ct row">
-          <div class="col-sm-12">
-          <span class="no-of-re">10</span>
-          <div class="chart"><img src="/img/chart.png"></div>
-          </div>
-          <div class="col-sm-12">
-          <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
-          </div>
-          </div>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="notify">
-          <h3>Month</h3>
-          <div class="value-ct row">
-          <div class="col-sm-12">
-          <span class="no-of-re">10</span>
-          <div class="chart"><img src="/img/chart.png"></div>
-          </div>
-          <div class="col-sm-12">
-          <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
-          </div>
-          </div>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="notify">
-          <h3>Today</h3>
-          <div class="value-ct row">
-          <div class="col-sm-12">
-          <span class="no-of-re">10</span>
-          <div class="chart"><img src="/img/chart.png"></div>
-          </div>
-          <div class="col-sm-12">
-          <ul><li><span class="ne-fl"></span> New File</li><li><span class="in-prs"></span> In Process</li><li><span class="cplt"></span> Complited</li></ul>
-          </div>
-          </div>
-          </div>
-        </div>
-    </div>
-
+<div class='view-container file-read'>
+    
     <div class="row">
         <div class='printArea'>
             <div class='printArea-header'>
-                <h4 class='col-xs-8'>Total Pages</h4>
+                <h4 class='col-xs-8'>கோப்பு எண்:{{registryInfo.file_no}}</h4>
                 <i class='fa fa-print pull-right print'></i>
             </div>
-            <div class='printArea-body'>
+            <div class="text-center otp_section">
+                
+                <p class="text-center">Enter this OTP <b>{{orderCopy.otp}}</b> and sign in mobile</p>
+                <label style="vertical-align: 10px;" ng-style="{'text-decoration' : (showordercopy ? 'line-through' : '')}">File</label>
+                <label class="switch">
+                  <input ng-disabled="!registryInfo.order_copy" ng-model="showordercopy" type="checkbox" checked>
+                  <span class="slider round"></span>
+                </label>
+                <label style="vertical-align: 10px;" ng-style="{'text-decoration' : (!showordercopy ? 'line-through' : '')}">Order Copy</label>
+            </div>
+            <div ng-show="!showordercopy" class='printArea-body'>
                 <p ng-if='!showFiles' class='center'>No Preview Available</p>
-                {{active}}
                 <div ng-if='showFiles' uib-carousel active="previewData.length-1" interval="'none'" no-wrap="true">
                     <div uib-slide ng-repeat="slide in previewData track by $index" index='slide.index'>
-                        <img width='700' ng-src="{{slide.url}}" style="margin:auto;">
-                        <canvas id="canvas_container" width=700 height=900 ng-if="$index === previewData.length-1"></canvas>
-                        
+                        <img ng-if="!(!isOC && $index === previewData.length-1)" width='700' ng-src="{{slide.url}}" style="margin:auto;">
+                        <div ng-if="!isOC && $index === previewData.length-1" id="canvas_container_f"  ng-if="$index === previewData.length-1">
+                            <img width='700' ng-src="{{slide.url}}" style="margin:auto;">
+                            <img class="draggablee"  ng-src="{{orderCopy.sign? orderCopy.sign : orderCopy.placeholder}}">
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div ng-show="showordercopy">
+                <div id="canvas_container_oc" class="text-center">
+                    <img ng-src="{{'../uploads/'+registryInfo.order_copy}}">
+                    <img class="draggablee" ng-src="{{orderCopy.sign ? orderCopy.sign : orderCopy.placeholder}}">
                 </div>
             </div>
             <br>
             <br>
             
-            <div ng-if='showAction' class='center'>
+            <div ng-if='showAction && orderCopy.sign' class='center'>
                 <button class='btn btn-default' ng-click='process("approve")'>Approve</button>
                 <button class='btn' ng-click='process("decline")'>Decline</button>
             </div>

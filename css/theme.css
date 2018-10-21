@@ -688,3 +688,26 @@ table tr th{color:#5b845b;}
 .img-slider > div{ width: 256px; height: 277px; overflow: hidden;  padding: 7px;  border: 1px solid #ccc;}
 .img-slider img{ margin: auto; max-width: 100%; max-height: 100%;}
 .login-body input::placeholder { color:#ccc;}
+.upload-order-form .cke{width:90%; height:400px; margin:0 auto;font-family:Bamini;}
+.upload-order-form .cke .cke_contents{height:295px !important;}
+.modal-body.uploadOrderCopy{
+  width:900px;
+  height:500px;
+}
+#ordercopypreview{width:700px;opacity: 0;pointer-events:none}
+#ordercopypreviewdata{margin-bottom: 100px;}
+#ordercopypreviewImg {
+    width: 800px;
+    margin: auto;
+    right: 0;
+    position: fixed;
+    height: 410px;
+    left: 0;
+    overflow:auto;
+}
+.nav-tabs.nav-justified>li{width:auto !important;}
+#canvas_container_oc,#canvas_container_f{width:700px;margin:0 auto;background:#fff;position:relative;}
+.draggablee{
+  position:absolute;
+  bottom:0;
+}

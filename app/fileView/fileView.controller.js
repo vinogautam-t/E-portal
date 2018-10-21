@@ -6,25 +6,71 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
     $scope.active = 0;
     $scope.fileId = $stateParams.fileId;
     $scope.showFiles = false;
+    $scope.showordercopy = false;
+    $scope.orderCopy = {placeholder: 'https://via.placeholder.com/250x200/?text=Your%20Sign'};
     $scope.previewData =  [];
     var signaturePad;
     $scope.registryInfo = {};
+    $scope.isOC = false;
+    
+    $scope.checksignImage = function(){
+        ApiService.check_sign_file($scope.orderCopy.otp).then(function(res){
+            if(res.data.status == 'success'){
+                ApiService.startLoader();
+                window.scrollTo(0,window.outerHeight)
+                $scope.orderCopy.sign = '../'+res.data.data;
+                ApiService.stopLoader();
+                /*var signimg = new Image();
+                signimg.src = '../'+res.data.data;
+                
+                ctx = $scope.orderCopy.canvas.getContext("2d");
+                signimg.onload = function(){
+                    ctx.drawImage(signimg,($scope.userInfo.userrole != 'pr' ? 200 : 400),$scope.orderCopy.canvas.height-200,250, 200);
+                    
+                    
+                }*/
+                
+                
+            } else {
+                $timeout(function(){
+                    $scope.checksignImage();
+                }, 2000);
+            }
+        });
+    };
+    
+    
     $scope.initSignaturePad = function(){
         $timeout(function(){
-            var canvas = document.getElementById('canvas_container');
             var background = new Image();
-            background.src = $scope.previewData[$scope.previewData.length-1].url;
-            // background.src = 'img/pdf.png';
-            ctx = canvas.getContext("2d");
-            // Make sure the image is loaded first otherwise nothing will draw.
+            
+            if($scope.isOC){
+                $scope.showordercopy = true;
+                background.src = '../uploads/'+$scope.registryInfo.order_copy;
+            } else {
+                background.src = $scope.previewData[$scope.previewData.length-1].url;
+            }
+            
             background.onload = function(){
-                ctx.drawImage(background,0,0,700,900);   
-            }  
-            signaturePad = new SignaturePad(canvas, {
-                penColor: 'green',
-                backgroundColor: 'rgb(255, 255, 255)' // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
-            });
+                /*$scope.orderCopy.canvas = document.createElement('canvas');
+                $scope.orderCopy.canvas.width = background.width;
+                $scope.orderCopy.canvas.height = background.height;
                 
+                if($scope.isOC){
+                    $("#canvas_container_oc").html($scope.orderCopy.canvas);
+                    
+                } else {
+                    $("#canvas_container_f").html($scope.orderCopy.canvas);
+                }
+                
+                ctx = $scope.orderCopy.canvas.getContext("2d");
+                
+                ctx.drawImage(background,0,0,background.width,background.height);*/
+                
+                $scope.checksignImage();
+            }  
+            
+            $('.draggablee').draggable({ containment: "parent" });
         }, 1000);
     }
 
@@ -32,7 +78,10 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
     $scope.getInfo = function(){
         ApiService.startLoader();
         ApiService.getFileInfo($scope.fileId).then(function(response){
-            ApiService.stopLoader();
+            ApiService.getotp().then(function(res){
+                $scope.orderCopy.otp = res.data.data;
+                ApiService.stopLoader();
+            });
             if(response.data != undefined && response.data.status == 'success'){
                 
                 if(response.data.data != undefined && response.data.data.file_details != undefined && response.data.data.file_details.length > 0){
@@ -61,6 +110,7 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
                         }
                     });
                     $scope.showFiles = true;
+                    $scope.isOC = $scope.registryInfo.order_copy && $scope.registryInfo.closed == 0;
                     $scope.initSignaturePad();
                 }
             }else{
@@ -119,13 +169,22 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
     }
 
     $scope.proceed = function(action){
-        var fileData = signaturePad.toDataURL('image/png');
-        if(fileData!=undefined){
-            var data = {"updated_by": $scope.userInfo.id, "id": $scope.fileId, 'files': fileData, 'last_log_id': $scope.registryInfo.file_details[$scope.registryInfo.file_details.length-1].id};
-        } else{
-            var data = {"updated_by": $scope.userInfo.id, "id": $scope.fileId};
-        }
         ApiService.startLoader();
+        if($scope.isOC){
+            html2canvas(document.querySelector("#canvas_container_oc")).then(canvas => {
+                $scope.proceed_action(canvas.toDataURL(), action);
+            });
+        } else {
+            html2canvas(document.querySelector("#canvas_container_oc")).then(canvas => {
+                $scope.proceed_action(canvas.toDataURL(), action);
+            });
+        }
+    }
+    
+    
+    $scope.proceed_action = function(fileData, action){
+        var data = {isOC: $scope.isOC, oc: $scope.registryInfo.order_copy ,"updated_by": $scope.userInfo.id, "id": $scope.fileId, 'files': fileData, 'last_log_id': $scope.registryInfo.file_details[$scope.registryInfo.file_details.length-1].id};
+        
         ApiService.fileProcess(data, action, $scope.userInfo.userrole).then(function(response){
             ApiService.stopLoader();
             if(response.status == 'success'){
@@ -138,7 +197,7 @@ function ($scope, $window, $http, $timeout, $rootScope, $state, $stateParams, $u
             ApiService.stopLoader();
             toastr.warning("Record "+ action + " failed.");
         });
-    }
+    };
 
 }
 ]);

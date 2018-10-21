@@ -31,6 +31,10 @@
     border-radius: 50px;
   }
   
+  .file-read .slider{
+    background-color: #5B845B;
+  }
+  
   .slider:before {
     position: absolute;
     content: "";
@@ -45,11 +49,11 @@
   }
   
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #5B845B;
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #5B845B;
   }
   
   input:checked + .slider:before {

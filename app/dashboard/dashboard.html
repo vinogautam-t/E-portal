@@ -41,9 +41,9 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in csrFileList['notification'] track by row.id">
-                                <td>{{row.file_no}}</td>
+                                <td class="bamini">{{row.file_no}}</td>
                                 <td>{{row.created_on}}</td>
-                                <td>{{row.file_details[1].notes}}</td>
+                                <td class="bamini">{{row.file_details[1].notes}}</td>
                                 <td>Yet Date No action on this file</td>
                             </tr>
                         </tbody>
@@ -68,9 +68,9 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in csrFileList['section'][s]['data'] track by row.id">
-                                <td>{{row.file_no}}</td>
+                                <td class="bamini">{{row.file_no}}</td>
                                 <td>{{row.created_on}}</td>
-                                <td>{{row.file_details[1].notes}}</td>
+                                <td class="bamini">{{row.file_details[1].notes}}</td>
                                 <td>{{row.file_expiry ? 'Moved to Record Room' : statusDetail[row.approved][row.status]}}</td>
                                 <td><a href='javascript:void(0)' ng-click="viewRow(row)">காண்க</a></td>
                             </tr>
@@ -102,9 +102,9 @@
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat='list in fileList.new'>
-                                        <td>{{list.file_no}}</td>
+                                        <td class="bamini">{{list.file_no}}</td>
                                         <td>{{ list.created_on}}</td>
-                                        <td>{{list.title}}</td>
+                                        <td class="bamini">{{list.title}}</td>
                                         <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="img/file-doc.png"></a></td>
                                         <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
                                     </tr>
@@ -130,9 +130,9 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat='list in fileList.approved'>
-                                            <td>{{list.file_no}}</td>
+                                            <td class="bamini">{{list.file_no}}</td>
                                             <td>{{ list.created_on}}</td>
-                                            <td>{{list.title}}</td>
+                                            <td class="bamini">{{list.title}}</td>
                                             <td>{{list.status}}</td>
                                             <td class="text-center d-icon"><i class='fa fa-upload upload-order' ng-click='uploadOrder(list)'></i></td>
                                             <td><a href='javascript:void(0)' ng-click="viewRow(list)">காண்க</a></td>
@@ -159,9 +159,9 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat='list in fileList.pending'>
-                                        <td>{{list.file_no}}</td>
+                                        <td class="bamini">{{list.file_no}}</td>
                                         <td>{{ list.created_on}}</td>
-                                        <td>{{list.title}}</td>
+                                        <td class="bamini">{{list.title}}</td>
                                         <td>{{list.status}}</td>
                                         <td ng-if='list.approved == 0' class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
                                         <td ng-if='list.approved == 1' class="text-center d-icon"><i class='fa fa-upload upload-order' ng-click='uploadOrder(list)'></i></td>
@@ -170,6 +170,33 @@
                                         <tr ng-if='fileList.pending.length < 1'>
                                         <td colspan='6' style='text-align: center;'>No Records to display...</td>
                                         </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </uib-tab>
+                            <uib-tab index="3" heading="முடிந்த கோப்புகள்">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>கோப்பு எண்</th>
+                                            <th>தேதி</th>
+                                            <th>விளக்கம்</th>
+                                            <th class="text-center">கோப்பு ஆவணம்</th>
+                                            <th class="text-center">கோப்பு அறைக்கு  அனுப்ப </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat='list in fileList.closed'>
+                                        <td class="bamini">{{list.file_no}}</td>
+                                        <td>{{ list.created_on}}</td>
+                                        <td class="bamini">{{list.title}}</td>
+                                        <td class="text-center d-icon"><a href="javascript:void(0)" ><img src="img/file-doc.png"></a></td>
+                                        <td class="text-center d-icon"><a href="javascript:void(0)" ng-click='addNotes(list)'><img src="img/create.png"></a></td>
+                                    </tr>
+                                    <tr ng-if='fileList.new.length < 1'>
+                                        <td colspan='5' style='text-align: center;'>No Records to display...</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -256,7 +283,7 @@
                       <div class="row">
                           <label class="lab-tx col-sm-4">புதிய கோப்பு எண் :</label>
                           <div class="col-sm-6">
-                          <input type="text" autocomplete="off" required name='fileId' ng-model='fileUpload.file_no' class="form-control">
+                          <input type="text" autocomplete="off" required name='fileId' ng-model='fileUpload.file_no' class="form-control bamini">
                           </div>
                       </div>
                       
@@ -270,7 +297,7 @@
                       <div class="row">
                           <label class="lab-tx col-sm-4">விளக்கம் :</label>
                           <div class="col-sm-6">
-                          <input type="text" autocomplete="off" required name='desc' ng-model='fileUpload.title' class="form-control">
+                          <input type="text" autocomplete="off" required name='desc' ng-model='fileUpload.title' class="form-control bamini">
                           </div>
                       </div>
                       
@@ -320,9 +347,9 @@
     <div class="modal-header">
         <h3 class="modal-title" id="modal-title">{{info.title}}</h3>
     </div>
-    <div class="modal-body" id="modal-body">
+    <div class="modal-body {{info.state}}" id="modal-body">
         
-        <form class='form-group' name='notesAddForm' ng-if='info.state == "addNote"'>
+        <form class='form-group ' name='notesAddForm' ng-if='info.state == "addNote"'>
             <h4>புதிய தாள்</h4>
             <div class="col-sm-3 col-xs-12">
                 <label class="radio-btn">புதிய
@@ -337,7 +364,7 @@
                 </label>
             </div>
             <div class="col-sm-3 col-xs-12" ng-if='notesInfo.type == "Clipping"'>
-                <input type="text" autocomplete="off" placeholder='File No' ng-model='notesInfo.fileNo' name='fileNo' class="form-control" required>
+                <input type="text" autocomplete="off" placeholder='File No' ng-model='notesInfo.fileNo' name='fileNo' class="form-control bamini" required>
             </div>
             <br>
             <div id="tamil_container" ng-if='notesInfo.type != "Clipping"'>
@@ -346,7 +373,7 @@
                 <p>{{notesInfo.notes}}</p>
               </div>
             </div>
-            <textarea ng-if='notesInfo.type != "Clipping"' id='editor' class='notesTextarea' ng-model='notesInfo.notes' required></textarea>
+            <textarea ng-if='notesInfo.type != "Clipping"' id='editor' class='notesTextarea bamini' ng-model='notesInfo.notes' required></textarea>
             <div id='keyboard' ng-if='notesInfo.type != "Clipping"'></div>
             <div class=''>
                 <button ng-if='notesInfo.type == "Clipping"' type="button" class="btn btn-default pull-right" ng-disabled='!notesInfo.fileNo' ng-click='addClippingNotes()'>Submit</button>
@@ -355,7 +382,26 @@
         </form>
 
         <form class='form-group upload-order-form' name='uploadOrderForm' ng-if='info.state == "uploadOrderCopy"'>
-            <div class='row'>
+            <div class='row' ng-if="orderCopy.state == 1">
+                <textarea ck-editor ng-model="orderCopy.data"></textarea>
+                <button type="button" class="btn btn-default pull-right"  ng-click='orderCopyPreview();'>அடுத்து </button>
+            </div>
+            
+            <div id="ordercopypreview" class="clearfix" ng-if="orderCopy.state == 1">
+                <div id="ordercopypreviewdata" ng-bind-html="orderCopy.data | unsafe"></div>
+            </div>
+            
+            
+            <div id="ordercopypreviewImg" class="clearfix" ng-if="orderCopy.state == 2">
+                <p>Enter this OTP <b>{{orderCopy.otp}}</b> and sign in mobile</p>
+                <div id="ordercopypreviewImgcanvas_container"></div>
+                <div class="clearfix">
+                    <button type="button" class="btn btn-default pull-left" ng-click='orderCopy.state=1'>மீண்டும் எழுத</button>
+                    <button type="button" class="btn btn-default pull-right"  ng-click='uploadOrder()'>சேமி</button>  
+                </div>
+            </div>
+            
+            <div class='row ng-hide'>
                 <div class='col-sm-8'>
                     <label class="lab-tx col-sm-4">ஸ்கேன் நகலை பதிவேற்றவும்:</label>
                     <div class="col-sm-6">
@@ -378,9 +424,6 @@
                 <div class='clearfix'></div>
             </div>
             <br>
-            <div class=''>
-                <button type="button" class="btn btn-default pull-right" ng-disabled='!showCarousel' ng-click='uploadOrder()'>சேமி</button>
-            </div>
             <div class='clearfix'></div>
         </form>
 
@@ -390,7 +433,7 @@
                     <div class="row">
                         <label class="lab-tx col-sm-4">புதிய கோப்பு எண்:</label>
                         <div class="col-sm-6">
-                            <input type="text" autocomplete="off" required name='fileId' ng-model='addRecordNew.file_no' class="form-control">
+                            <input type="text" autocomplete="off" required name='fileId' ng-model='addRecordNew.file_no' class="form-control bamini">
                         </div>
                     </div>
                     
@@ -404,7 +447,7 @@
                     <div class="row">
                         <label class="lab-tx col-sm-4">விளக்கம்  :</label>
                         <div class="col-sm-6">
-                            <input type="text" autocomplete="off" required name='desc' ng-model='addRecordNew.title' class="form-control">
+                            <input type="text" autocomplete="off" required name='desc' ng-model='addRecordNew.title' class="form-control bamini">
                         </div>
                     </div>
 
